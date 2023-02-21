@@ -1,85 +1,205 @@
 <template>
-  <div class="item">
-    <i>
-      <slot name="icon"></slot>
-    </i>
-    <div class="details">
-      <h3>
-        <slot name="heading"></slot>
-      </h3>
-      <slot></slot>
+  <div class="circle">
+    <div class="left">
+      <div class="leftcircle" ref="left"></div>
     </div>
+    <div class="right">
+      <div class="rightcircle" ref="test"></div>
+    </div>
+    <div class="circle-text">{{ test }} / 5</div>
+  </div>
+  <button @click="test2()">text</button>
+  <br />
+  <div class="progress mt-5">
+    <div class="progress-inside" ref="progress"></div>
+    <span class="step step-1" ref="step1">1</span>
+    <span class="step step-2">2</span>
+    <span class="step step-3">3</span>
+    <span class="step step-4">4</span>
+    <span class="step step-5">5</span>
   </div>
 </template>
 
-<style scoped>
-.item {
-  margin-top: 2rem;
+<script>
+export default {
+  data() {
+    return {
+      test: 0,
+    };
+  },
+  methods: {
+    test2() {
+      this.test++;
+      if (this.test == 1) {
+        this.$refs.test.classList.add("to20");
+        this.$refs.progress.classList.add("to20vw");
+        setTimeout(() => {
+          this.$refs.step1.classList.add("bg-danger");
+        }, 800);
+      } else if (this.test == 2) {
+        this.$refs.test.classList.add("to40");
+      } else if (this.test == 3) {
+        this.$refs.test.classList.add("to60");
+        this.$refs.left.classList.add("leftTo60");
+      }
+    },
+  },
+};
+</script>
+
+<style lang="scss" scoped>
+$circle-width: 200px;
+$circle-height: 200px;
+$circle-color: green;
+$circle-border-width: 20px;
+$child-circle-width: $circle-width / 2;
+
+.progress {
+  border: 1px solid transparent;
+  height: 0;
+  position: relative;
+  overflow: visible;
+  width: 100vw;
+}
+.progress-inside {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+.step {
+  position: absolute;
+  top: 50%;
+  font-size: 2rem;
+  transform: translate(-50%, -50%);
+  width: 100px;
+  height: 100px;
+  border: 1px solid transparent;
+  background-color: gray;
+  border-radius: 50%;
   display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
 }
-
-.details {
-  flex: 1;
-  margin-left: 1rem;
+.step-1 {
+  left: 10%;
 }
-
-i {
+.step-2 {
+  left: 30%;
+}
+.step-3 {
+  left: 50%;
+}
+.step-4 {
+  left: 70%;
+}
+.step-5 {
+  left: 90%;
+}
+.circle-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.circle {
+  width: $circle-width;
+  height: $circle-height;
+  position: relative;
   display: flex;
-  place-items: center;
-  place-content: center;
-  width: 32px;
-  height: 32px;
-  color: var(--color-text);
+  justify-content: center;
+  align-items: center;
 }
-
-h3 {
-  font-size: 1.2rem;
-  font-weight: 500;
-  margin-bottom: 0.4rem;
-  color: var(--color-heading);
+.right {
+  position: relative;
+  width: $child-circle-width;
+  height: $circle-height;
+  overflow: hidden;
 }
-
-@media (min-width: 1024px) {
-  .item {
-    margin-top: 0;
-    padding: 0.4rem 0 1rem calc(var(--section-gap) / 2);
+.left {
+  position: relative;
+  width: $child-circle-width;
+  height: $circle-height;
+  overflow: hidden;
+}
+.rightcircle {
+  width: $circle-width;
+  height: $circle-height;
+  border-radius: 50%;
+  position: absolute;
+  top: 0;
+  right: 0;
+  border: $circle-border-width solid transparent;
+  transform: rotate(-135deg); /* 旋转45度 */
+  border-top: $circle-border-width solid $circle-color;
+  border-right: $circle-border-width solid $circle-color;
+}
+.leftcircle {
+  width: $circle-width;
+  height: $circle-height;
+  border-radius: 50%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  border: $circle-border-width solid transparent;
+  transform: rotate(-135deg); /* 旋转45度 */
+  border-bottom: $circle-border-width solid $circle-color;
+  border-left: $circle-border-width solid $circle-color;
+}
+.to20 {
+  animation: to20 0.5s linear 0s forwards;
+}
+.to40 {
+  animation: to40 0.5s linear 0s forwards;
+}
+.to60 {
+  animation: to60 0.5s linear 0s forwards;
+}
+.leftTo60 {
+  animation: leftTo60 0.5s linear 0.5s forwards;
+}
+.to20vw {
+  border: 5px solid red;
+  animation: to20vw 1s linear 0s forwards;
+}
+@keyframes to20vw {
+  from {
+    width: 0vw;
   }
-
-  i {
-    top: calc(50% - 25px);
-    left: -26px;
-    position: absolute;
-    border: 1px solid var(--color-border);
-    background: var(--color-background);
-    border-radius: 8px;
-    width: 50px;
-    height: 50px;
+  to {
+    width: 20vw;
   }
-
-  .item:before {
-    content: " ";
-    border-left: 1px solid var(--color-border);
-    position: absolute;
-    left: 0;
-    bottom: calc(50% + 25px);
-    height: calc(50% - 25px);
+}
+@keyframes to20 {
+  from {
+    transform: rotate(-135deg); /* 旋转45度 */
   }
-
-  .item:after {
-    content: " ";
-    border-left: 1px solid var(--color-border);
-    position: absolute;
-    left: 0;
-    top: calc(50% + 25px);
-    height: calc(50% - 25px);
+  to {
+    transform: rotate(-63deg); /* 旋转45度 */
   }
-
-  .item:first-of-type:before {
-    display: none;
+}
+@keyframes to40 {
+  from {
+    transform: rotate(-63deg); /* 旋转45度 */
   }
-
-  .item:last-of-type:after {
-    display: none;
+  to {
+    transform: rotate(9deg); /* 旋转45度 */
+  }
+}
+@keyframes to60 {
+  from {
+    transform: rotate(9deg); /* 旋转45度 */
+  }
+  to {
+    transform: rotate(45deg); /* 旋转45度 */
+  }
+}
+@keyframes leftTo60 {
+  from {
+    transform: rotate(-135deg); /* 旋转45度 */
+  }
+  to {
+    transform: rotate(-99deg); /* 旋转45度 */
   }
 }
 </style>

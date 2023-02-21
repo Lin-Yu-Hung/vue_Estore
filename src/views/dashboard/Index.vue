@@ -54,7 +54,13 @@
       </div>
     </div>
   </nav>
+  <test></test>
 </template>
 <script>
-export default {};
+import test from "@/components/WelcomeItem.vue";
+export default {
+  components: {
+    test,
+  },
+};
 </script>
