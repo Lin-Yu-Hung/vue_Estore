@@ -1,0 +1,13 @@
+$navbar-height: 70px;
+
+.dashboard-content-Layout {
+    margin-top: $navbar-height;
+}
+
+.navbar {
+    height: $navbar-height;
+
+    @include md {
+        padding-right: 0;
+    }
+}

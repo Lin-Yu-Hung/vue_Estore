@@ -1,6 +1,12 @@
 <template>
   <RouterView />
+  <Loading />
 </template>
 <script>
-export default {};
+import Loading from "./components/Loading.vue";
+export default {
+  components: {
+    Loading,
+  },
+};
 </script>

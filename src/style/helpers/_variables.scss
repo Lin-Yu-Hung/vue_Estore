@@ -286,7 +286,7 @@ $cyans: (
 // fusv-enable
 
 // scss-docs-start theme-color-variables
-$primary: black !default;
+$primary: $blue !default;
 $secondary: $gray-600 !default;
 $success: $green !default;
 $info: $cyan !default;
@@ -1089,7 +1089,8 @@ $nav-pills-link-active-bg: $component-active-bg !default;
 
 // scss-docs-start navbar-variables
 $navbar-padding-y: $spacer * .5 !default;
-$navbar-padding-x: null !default;
+$navbar-padding-x: 8% !default;
+
 
 $navbar-nav-link-padding-x: .5rem !default;
 
