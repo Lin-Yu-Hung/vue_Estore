@@ -24,7 +24,7 @@
         <input type="checkbox" class="form-check-input" id="exampleCheck1" />
         <label class="form-check-label" for="exampleCheck1">記住我</label>
       </div>
-      <button type="submit" class="btn btn-primary" @click="login()">
+      <button type="submit" class="btn btn-primary" @click.prevent="login()">
         送出
       </button>
     </form>
@@ -50,13 +50,14 @@ export default {
       loading.showLoading();
       login_api(user.value)
         .then((res) => {
-          loading.hideLoading();
           setCookie("token", res.data.token);
+          console.log("push");
           if (route.query.redirect) {
             router.push(route.query.redirect); // 跳轉先前被踢出來的頁面
           } else {
             router.push("/dashboard/productList");
           }
+          loading.hideLoading();
         })
         .catch((err) => {
           console.log(err);

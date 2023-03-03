@@ -18,7 +18,7 @@ echo > .nojekyll
 git init
 git checkout -B main
 git add -A
-git commit -m '新增dashboard'
+git commit -m '新增導覽列以及登入驗證功能'
 
 # if you are deploying to https://4080e068.github.io
 # git push -f git@github.com:4080e068/4080e068.github.io.git main

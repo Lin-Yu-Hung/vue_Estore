@@ -27,6 +27,7 @@ const router = createRouter({
   ],
 });
 router.beforeEach((to,) => {
+  console.log('beforeEach');
   if (to.meta.authRequired) {
     const token = getCookie('token')
     if (!token) {
