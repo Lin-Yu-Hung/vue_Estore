@@ -1,59 +1,23 @@
-name: ReleaseNotice
+name: Push to master
+
 on:
-  release:
-    types: [published]
-  workflow_dispatch:
+  push:
+    branches:
+      - master
+
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
-      # To check the github context
-      - name: Dump Github context
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # 在此添加構建、測試等步驟
+
+      - name: Send Slack notification
+        uses: rtCamp/action-slack-notify@v2.0
         env:
-          GITHUB_CONTEXT: ${{ toJSON(github) }}
-        run: echo "$GITHUB_CONTEXT"
-      - name: Slack Notification on SUCCESS
-        if: success()
-        uses: tokorom/action-slack-incoming-webhook@main
-        env:
-          INCOMING_WEBHOOK_URL: "https://hooks.slack.com/services/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"
+          SLACK_WEBHOOK: "https://hooks.slack.com/services/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"
         with:
-          text: A release is published.
-          blocks: |
-            [
-              {
-                "type": "header",
-                "text": {
-                  "type": "plain_text",
-                  "text": "${{ github.event.release.tag_name}} is published!"
-                }
-              },
-              {
-                "type": "section",
-                "text": {
-                  "type": "mrkdwn",
-                  "text": "*Author:*\n${{ github.actor }}"
-                }
-              },
-               {
-                "type": "section",
-                "text": {
-                  "type": "mrkdwn",
-                  "text": "*Information:*"
-                }
-              },
-              {
-                "type": "section",
-                "text": {
-                  "type": "mrkdwn",
-                  "text": ${{ toJSON(github.event.release.body) }}
-                }
-              },
-              {
-                "type": "section",
-                "text": {
-                  "type": "mrkdwn",
-                  "text": "${{ github.event.release.html_url }}"
-                }
-              }
-            ]
+          args: '{"text": "Code pushed to master!"}'
