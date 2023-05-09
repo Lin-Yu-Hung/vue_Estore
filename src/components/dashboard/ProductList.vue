@@ -1,5 +1,13 @@
 <template>
-  <button type="button" class="btn btn-dark py-2 px-3">新增商品</button>
+  <button
+    type="button"
+    class="btn btn-dark py-2 px-3"
+    data-bs-toggle="modal"
+    data-bs-target="#setProductModal"
+    @click="setStatus = 'add'"
+  >
+    新增商品
+  </button>
   <div class="productList">
     <table class="table table-hover">
       <thead>
@@ -10,6 +18,7 @@
           <th scope="col">商品原價</th>
           <th scope="col">商品價格</th>
           <th scope="col">是否啟用</th>
+          <th scope="col">編輯商品</th>
         </tr>
       </thead>
       <tbody>
@@ -32,65 +41,16 @@
               />
             </div>
           </td>
-        </tr>
-        <tr v-for="product in productList" :key="product.id">
-          <td>{{ product.category }}</td>
-          <td class="imageItem">
-            <img :src="product.imageUrl" :alt="product.title" />
-          </td>
-          <td>{{ product.title }}</td>
-          <td>{{ product.origin_price.toLocaleString() }}</td>
-          <td>{{ product.price.toLocaleString() }}</td>
           <td>
-            <div class="form-check form-switch switch-btn">
-              <input
-                class="form-check-input"
-                type="checkbox"
-                role="switch"
-                id="flexSwitchCheckDefault"
-                :checked="product.is_enabled == 1"
-              />
-            </div>
-          </td>
-        </tr>
-        <tr v-for="product in productList" :key="product.id">
-          <td>{{ product.category }}</td>
-          <td class="imageItem">
-            <img :src="product.imageUrl" :alt="product.title" />
-          </td>
-          <td>{{ product.title }}</td>
-          <td>{{ product.origin_price.toLocaleString() }}</td>
-          <td>{{ product.price.toLocaleString() }}</td>
-          <td>
-            <div class="form-check form-switch switch-btn">
-              <input
-                class="form-check-input"
-                type="checkbox"
-                role="switch"
-                id="flexSwitchCheckDefault"
-                :checked="product.is_enabled == 1"
-              />
-            </div>
-          </td>
-        </tr>
-        <tr v-for="product in productList" :key="product.id">
-          <td>{{ product.category }}</td>
-          <td class="imageItem">
-            <img :src="product.imageUrl" :alt="product.title" />
-          </td>
-          <td>{{ product.title }}</td>
-          <td>{{ product.origin_price.toLocaleString() }}</td>
-          <td>{{ product.price.toLocaleString() }}</td>
-          <td>
-            <div class="form-check form-switch switch-btn">
-              <input
-                class="form-check-input"
-                type="checkbox"
-                role="switch"
-                id="flexSwitchCheckDefault"
-                :checked="product.is_enabled == 1"
-              />
-            </div>
+            <button
+              type="button"
+              class="btn btn-outline-secondary py-2 px-3"
+              data-bs-toggle="modal"
+              data-bs-target="#setProductModal"
+              @click="setStatus = 'edit'"
+            >
+              編輯商品
+            </button>
           </td>
         </tr>
       </tbody>
@@ -116,14 +76,18 @@
       </ul>
     </nav>
   </div>
+  <setProductModal :setStatus="setStatus" />
 </template>
 <script>
 import { getProductAll } from "@/api/api";
 import { ref } from "vue";
 import loadingStore from "@/stores/loading";
+import SetProductModal from "../modal/SetProductModal.vue";
 
 export default {
+  components: { SetProductModal },
   setup() {
+    const setStatus = ref("add");
     const loading = loadingStore();
     loading.showLoading();
     const productList = ref();
@@ -138,6 +102,7 @@ export default {
       });
     return {
       productList,
+      setStatus,
     };
   },
 };
