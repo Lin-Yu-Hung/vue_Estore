@@ -28,6 +28,8 @@
 import { getProductAll } from "@/api/api";
 export default {
   setup() {
+    // const db = firebase.firestore();
+    // console.log(db);
     getProductAll()
       .then((res) => console.log(res))
       .catch((err) => console.log(err));
