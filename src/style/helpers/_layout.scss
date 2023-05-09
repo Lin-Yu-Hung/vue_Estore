@@ -1,7 +1,9 @@
 $navbar-height: 70px;
 
 .dashboard-content-Layout {
-    margin-top: $navbar-height;
+    user-select: none;
+    margin-top: $navbar-height + 5;
+    padding: 1rem;
 }
 
 .navbar {
@@ -10,4 +12,14 @@ $navbar-height: 70px;
     @include md {
         padding-right: 0;
     }
+}
+
+.d-center {
+    display: flex;
+    justify-content: center;
+}
+
+.d-end {
+    display: flex;
+    justify-content: end;
 }

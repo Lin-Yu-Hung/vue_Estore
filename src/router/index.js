@@ -5,19 +5,34 @@ const router = createRouter({
   history: createWebHashHistory(import.meta.env.BASE_URL),
   routes: [
     {
+      path: "/",
+      name: "home",
+      component: () => import("@/views/login.vue"),
+      beforeEnter: (to, from, next) => {
+        const token = getCookie("token");
+        if (!token) {
+          next("/login");
+        } else {
+          next("/dashboard/productList");
+        }
+      },
+    },
+    {
       path: "/login",
       name: "login",
-      component: () => import('@/views/login.vue'),
+      component: () => import("@/views/login.vue"),
     },
     {
       path: "/dashboard",
       name: "dashboard",
-      meta: { authRequired: true, },
-      component: () => import('@/views/dashboard/Index.vue'),
-      children: [{
-        path: 'productList',
-        component: () => import('@/components/dashboard/ProductList.vue')
-      }]
+      meta: { authRequired: true },
+      component: () => import("@/views/dashboard/Index.vue"),
+      children: [
+        {
+          path: "productList",
+          component: () => import("@/components/dashboard/ProductList.vue"),
+        },
+      ],
     },
     {
       path: "/about",
@@ -26,13 +41,12 @@ const router = createRouter({
     },
   ],
 });
-router.beforeEach((to,) => {
-  console.log('beforeEach');
+router.beforeEach((to) => {
   if (to.meta.authRequired) {
-    const token = getCookie('token')
+    const token = getCookie("token");
     if (!token) {
-      return { name: 'login', query: { redirect: to.fullPath } }
+      return { name: "login", query: { redirect: to.fullPath } };
     }
   }
-})
+});
 export default router;
