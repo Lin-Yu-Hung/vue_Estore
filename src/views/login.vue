@@ -51,7 +51,6 @@ export default {
       login_api(user.value)
         .then((res) => {
           setCookie("token", res.data.token);
-          console.log("push");
           if (route.query.redirect) {
             router.push(route.query.redirect); // 跳轉先前被踢出來的頁面
           } else {

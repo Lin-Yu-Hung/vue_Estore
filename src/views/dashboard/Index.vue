@@ -34,7 +34,7 @@
               <router-link
                 class="nav-link active"
                 aria-current="page"
-                to="dashboard/productList"
+                to="productList"
                 >產品設定</router-link
               >
             </li>
@@ -42,7 +42,12 @@
               <a class="nav-link" href="#">購物車設定</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">登出</a>
+              <router-link
+                class="nav-link"
+                to="/login"
+                @click="setCookie('token', '')"
+                >登出</router-link
+              >
             </li>
             <!-- <div class="dropdown-hover">
               <li class="nav-item dropdown">
@@ -77,7 +82,14 @@
   </div>
 </template>
 <script>
-export default {};
+import { setCookie } from "@/methods/cookie.js";
+export default {
+  data() {
+    return {
+      setCookie,
+    };
+  },
+};
 </script>
 
 <style lang="scss"></style>
