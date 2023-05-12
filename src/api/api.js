@@ -24,4 +24,5 @@ api.interceptors.request.use((config) => {
 });
 
 export const login_api = (params) => login.post("/admin/signin", params);
-export const getProductAll = () => api.get("/admin/products/all");
+export const apiGetProductAll = () => api.get("/admin/products/all");
+export const createProduct = (params) => api.post("/admin/product", params);

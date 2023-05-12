@@ -155,20 +155,74 @@
           >
             取消
           </button>
-          <button type="button" class="btn btn-primary">確認</button>
+          <button type="button" class="btn btn-primary" @click="setProduct">
+            確認
+          </button>
         </div>
       </div>
     </div>
   </div>
 </template>
 <script>
+import { createProduct } from "@/api/api";
+import loadingStore from "@/stores/loading";
+import { onMounted } from "vue";
+import { bsModal } from "@/methods/bootstrap.js";
+
 export default {
   props: {
     setStatus: {
       type: String,
     },
   },
-  setup() {},
+  emits: ["updateData"],
+  setup(props, context) {
+    let modal = "";
+    const { emit } = context; // 透過解構的方式取的context裡面的emit方法
+    const loading = loadingStore();
+    const setProduct = () => {
+      loading.showLoading();
+      if (props.setStatus == "add") {
+        const params = {
+          data: {
+            title: "[賣]動物園造型衣服5",
+            category: "衣服5",
+            origin_price: 100,
+            price: 300,
+            unit: "個",
+            description: "Sit down please 名設計師設計",
+            content: "這是內容",
+            is_enabled: 1,
+            imageUrl: "主圖網址",
+            imagesUrl: [
+              "圖片網址一",
+              "圖片網址二",
+              "圖片網址三",
+              "圖片網址四",
+              "圖片網址五",
+            ],
+          },
+        };
+        createProduct(params)
+          .then((res) => {
+            console.log(res);
+            modal.hide();
+            emit("updateData");
+          })
+          .catch((err) => {
+            console.log(err);
+            loading.hideLoading();
+          });
+      } else {
+      }
+    };
+    onMounted(() => {
+      modal = bsModal("setProductModal");
+    });
+    return {
+      setProduct,
+    };
+  },
 };
 </script>
 <style lang=""></style>

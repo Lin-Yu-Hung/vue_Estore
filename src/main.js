@@ -1,6 +1,12 @@
 import { createApp } from "vue";
 import { createPinia } from "pinia";
-
+import { library } from "@fortawesome/fontawesome-svg-core";
+import {
+  faHatWizard,
+  faTrashCan,
+  faPenToSquare,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import App from "./App.vue";
 import router from "./router";
 import * as bootstrap from "bootstrap";
@@ -13,6 +19,14 @@ import {
   addArrayItem,
   delArrayItem,
 } from "@/methods/firebase.js";
+// 加入所需ICON
+library.add(faHatWizard, faTrashCan, faPenToSquare);
+
+const app = createApp(App);
+app.component("font-awesome-icon", FontAwesomeIcon);
+app.use(createPinia());
+app.use(router);
+app.mount("#app");
 // addArrayItem("Lin_Yu_Hung", "user", "blog", {
 //   title: "新增的部落格名稱",
 //   content: "test",
@@ -30,9 +44,3 @@ import {
 // console.log(data);
 // const allData = await getAllData("city");
 // console.log(allData);
-const app = createApp(App);
-
-app.use(createPinia());
-app.use(router);
-
-app.mount("#app");

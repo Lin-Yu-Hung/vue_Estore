@@ -42,15 +42,23 @@
             </div>
           </td>
           <td>
-            <button
-              type="button"
-              class="btn btn-outline-secondary py-2 px-3"
-              data-bs-toggle="modal"
-              data-bs-target="#setProductModal"
-              @click="setStatus = 'edit'"
-            >
-              編輯商品
-            </button>
+            <div class="d-flex justify-content-center">
+              <button
+                type="button"
+                class="btn btn-outline-secondary py-2 px-3 mx-1"
+                data-bs-toggle="modal"
+                data-bs-target="#setProductModal"
+                @click="setStatus = 'edit'"
+              >
+                <font-awesome-icon icon="fa-pen-to-square" />編輯
+              </button>
+              <button
+                type="button"
+                class="btn btn-outline-danger py-2 px-3 mx-1"
+              >
+                <font-awesome-icon icon="fa-trash-can" />刪除
+              </button>
+            </div>
           </td>
         </tr>
       </tbody>
@@ -76,10 +84,10 @@
       </ul>
     </nav>
   </div>
-  <setProductModal :setStatus="setStatus" />
+  <setProductModal :setStatus="setStatus" @updateData="getProductAll" />
 </template>
 <script>
-import { getProductAll } from "@/api/api";
+import { apiGetProductAll } from "@/api/api";
 import { ref } from "vue";
 import loadingStore from "@/stores/loading";
 import SetProductModal from "../modal/SetProductModal.vue";
@@ -89,20 +97,23 @@ export default {
   setup() {
     const setStatus = ref("add");
     const loading = loadingStore();
-    loading.showLoading();
     const productList = ref();
-    getProductAll()
-      .then((res) => {
-        console.log(res);
+    const getProductAll = async () => {
+      loading.showLoading();
+      try {
+        const res = await apiGetProductAll();
         productList.value = res.data.products;
-      })
-      .catch((err) => console.log(err))
-      .finally(() => {
+      } catch {
+        console.log(err);
+      } finally {
         loading.hideLoading();
-      });
+      }
+    };
+    getProductAll();
     return {
       productList,
       setStatus,
+      getProductAll,
     };
   },
 };
@@ -136,6 +147,7 @@ table {
       position: sticky;
       top: 0;
       background-color: white;
+      z-index: 100;
     }
   }
 }
