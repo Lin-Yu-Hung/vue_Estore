@@ -55,6 +55,7 @@
               <button
                 type="button"
                 class="btn btn-outline-danger py-2 px-3 mx-1"
+                @click="deleteProduct(product)"
               >
                 <font-awesome-icon icon="fa-trash-can" />刪除
               </button>
@@ -87,11 +88,11 @@
   <setProductModal :setStatus="setStatus" @updateData="getProductAll" />
 </template>
 <script>
-import { apiGetProductAll } from "@/api/api";
+import { apiGetProductAll, apiDeleteProduct } from "@/api/api";
 import { ref } from "vue";
 import loadingStore from "@/stores/loading";
 import SetProductModal from "../modal/SetProductModal.vue";
-
+import { deleteProductAlert } from "@/methods/sweetAlert.js";
 export default {
   components: { SetProductModal },
   setup() {
@@ -103,17 +104,34 @@ export default {
       try {
         const res = await apiGetProductAll();
         productList.value = res.data.products;
-      } catch {
+      } catch (err) {
         console.log(err);
       } finally {
         loading.hideLoading();
       }
     };
+    const deleteProduct = async (product) => {
+      const result = await deleteProductAlert(product.title);
+      if (!result) return;
+      loading.showLoading();
+      try {
+        const res = await apiDeleteProduct(product.id);
+        if (res.data.success) {
+          console.log(`刪除${product.title}商品!`);
+          getProductAll();
+        }
+      } catch (err) {
+        console.log(err);
+        loading.hideLoading();
+      }
+    };
+
     getProductAll();
     return {
       productList,
       setStatus,
       getProductAll,
+      deleteProduct,
     };
   },
 };
