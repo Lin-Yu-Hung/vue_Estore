@@ -1,13 +1,12 @@
 li {
-    list-style: none;
+  list-style: none;
 }
-
-.dropdown-hover {
-    .dropdown {
-        &:hover {
-            .dropdown-menu {
-                display: block;
-            }
-        }
-    }
+.d-none {
+  display: none;
+}
+.d-block {
+  display: block;
+}
+.d-inline {
+  display: inline;
 }

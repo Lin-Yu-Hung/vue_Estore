@@ -9,63 +9,63 @@
     新增商品
   </button>
   <div class="productList">
-    <div class="table-responsive">
-      <table class="table table-hover">
-        <thead>
-          <tr>
-            <th scope="col">商品分類</th>
-            <th scope="col">商品圖片</th>
-            <th scope="col">商品名稱</th>
-            <th scope="col">商品原價</th>
-            <th scope="col">商品價格</th>
-            <th scope="col">是否啟用</th>
-            <th scope="col">編輯商品</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="product in showData" :key="product.id">
-            <td>{{ product.category }}</td>
-            <td class="imageItem">
-              <img :src="product.imageUrl1" :alt="product.title" />
-            </td>
-            <td>{{ product.title }}</td>
-            <td>{{ product.origin_price.toLocaleString() }}</td>
-            <td>{{ product.price.toLocaleString() }}</td>
-            <td>
-              <div class="form-check form-switch switch-btn">
-                <input
-                  class="form-check-input"
-                  type="checkbox"
-                  role="switch"
-                  id="flexSwitchCheckDefault"
-                  :checked="product.is_enabled == 1"
-                />
-              </div>
-            </td>
-            <td>
-              <div class="d-flex justify-content-center">
-                <button
-                  type="button"
-                  class="btn btn-outline-secondary py-2 px-3 mx-1"
-                  data-bs-toggle="modal"
-                  data-bs-target="#setProductModal"
-                  @click="setStatus = 'edit'"
-                >
-                  <font-awesome-icon icon="fa-pen-to-square" />編輯
-                </button>
-                <button
-                  type="button"
-                  class="btn btn-outline-danger py-2 px-3 mx-1"
-                  @click="deleteProduct(product)"
-                >
-                  <font-awesome-icon icon="fa-trash-can" />刪除
-                </button>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th scope="col" class="mobile-hide">商品分類</th>
+          <th scope="col" class="mobile-hide">商品圖片</th>
+          <th scope="col">商品名稱</th>
+          <th scope="col" class="mobile-hide">商品原價</th>
+          <th scope="col">商品價格</th>
+          <th scope="col">是否啟用</th>
+          <th scope="col">編輯商品</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="product in showData" :key="product.id">
+          <td class="mobile-hide">{{ product.category }}</td>
+          <td class="imageItem mobile-hide">
+            <img :src="product.imageUrl1" :alt="product.title" />
+          </td>
+          <td>{{ product.title }}</td>
+          <td class="mobile-hide">
+            {{ product.origin_price.toLocaleString() }}
+          </td>
+          <td>{{ product.price.toLocaleString() }}</td>
+          <td>
+            <div class="form-check form-switch switch-btn">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                role="switch"
+                id="flexSwitchCheckDefault"
+                :checked="product.is_enabled == 1"
+              />
+            </div>
+          </td>
+          <td>
+            <div class="d-flex justify-content-center">
+              <button
+                type="button"
+                class="btn btn-outline-secondary py-2 px-3 mx-1"
+                data-bs-toggle="modal"
+                data-bs-target="#setProductModal"
+                @click="setStatus = 'edit'"
+              >
+                <font-awesome-icon icon="fa-pen-to-square" />編輯
+              </button>
+              <button
+                type="button"
+                class="btn btn-outline-danger py-2 px-3 mx-1"
+                @click="deleteProduct(product)"
+              >
+                <font-awesome-icon icon="fa-trash-can" />刪除
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 
   <div class="d-end">
@@ -114,7 +114,7 @@ import { deleteProductAlert } from "@/methods/sweetAlert.js";
 export default {
   components: { SetProductModal },
   setup() {
-    const maxDataLen = ref(2);
+    const maxDataLen = ref(10);
     const nowPage = ref(1);
     const setStatus = ref("add");
     const loading = loadingStore();
@@ -185,6 +185,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.page-item {
+  cursor: pointer;
+}
 .productList {
   max-height: 70vh;
   overflow: auto;
@@ -206,14 +209,18 @@ table {
     vertical-align: middle;
     text-align: center;
     white-space: nowrap;
+    font-weight: normal;
   }
   thead {
-    th {
-      font-size: 1.25rem;
+    tr {
       position: sticky;
       top: 0;
-      background-color: white;
       z-index: 100;
+      background-color: #efeff0;
+    }
+    th {
+      font-size: 1.25rem;
+      padding: 1rem 0.5rem;
     }
   }
 }
