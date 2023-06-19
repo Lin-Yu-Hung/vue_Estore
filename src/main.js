@@ -20,6 +20,8 @@ import {
   delArrayItem,
 } from "@/methods/firebase.js";
 // 加入所需ICON
+
+
 library.add(faHatWizard, faTrashCan, faPenToSquare);
 
 const app = createApp(App);
