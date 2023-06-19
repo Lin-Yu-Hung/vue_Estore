@@ -18,7 +18,7 @@ echo > .nojekyll
 git init
 git checkout -B main
 git add -A
-git commit -m '新增手機板隱藏部分內容功能'
+git commit -m '新增根據路由修改html title名稱程式碼'
 
 # if you are deploying to https://4080e068.github.io
 git push -f git@github.com:4080e068/4080e068.github.io.git main
