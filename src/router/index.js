@@ -49,7 +49,7 @@ const router = createRouter({
 });
 router.beforeEach((to) => {
   // 設定HTML title
-  window.document.title = to.meta.title ? to.meta.title : "E_store"
+  window.document.title = to.meta.title ? to.meta.title : "E_store";
   if (to.meta.authRequired) {
     const token = getCookie("token");
     if (!token) {
