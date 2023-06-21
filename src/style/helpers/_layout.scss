@@ -1,25 +1,55 @@
 $navbar-height: 70px;
+.dashboard-menu {
+  background-color: #212529;
+  width: 0px;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  @include lg {
+    width: 250px;
+  }
+}
 
-.dashboard-content-Layout {
-    user-select: none;
-    margin-top: $navbar-height + 5;
-    padding: 1rem;
+.dashboard-content-layout {
+  width: 100vw;
+  margin-left: 0px;
+  @include lg {
+    margin-left: 250px;
+    width: calc(100vw - 250px);
+  }
+}
+
+.dashboard-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  user-select: none;
+  min-height: calc(100vh - $navbar-height);
+  max-height: calc(100vh - $navbar-height);
+  overflow: auto;
+  footer {
+    min-height: 80px;
+    background-color: rgb(239, 239, 240);
+  }
+  //   padding-right: 0rem;
+  //   padding-left: 0rem;
 }
 
 .navbar {
-    height: $navbar-height;
-
-    @include md {
-        padding-right: 0;
-    }
+  height: $navbar-height;
+  padding-left: 8%;
+  @include lg {
+    padding-left: 0;
+  }
 }
 
 .d-center {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
 }
 
 .d-end {
-    display: flex;
-    justify-content: end;
+  display: flex;
+  justify-content: end;
 }

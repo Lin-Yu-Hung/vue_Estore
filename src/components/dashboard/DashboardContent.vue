@@ -1,0 +1,95 @@
+<template>
+  <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Estore</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="offcanvas"
+        data-bs-target="#offcanvasDarkNavbar"
+        aria-controls="offcanvasDarkNavbar"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div
+        class="offcanvas offcanvas-end text-bg-dark"
+        tabindex="-1"
+        id="offcanvasDarkNavbar"
+        aria-labelledby="offcanvasDarkNavbarLabel"
+      >
+        <div class="offcanvas-header">
+          <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">test</h5>
+          <button
+            type="button"
+            class="btn-close btn-close-white"
+            data-bs-dismiss="offcanvas"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="offcanvas-body align-items-center">
+          <ul class="navbar-nav flex-grow-1 pe-3 justify-content-end">
+            <li class="nav-item md-up-hide">
+              <router-link
+                class="nav-link active"
+                aria-current="page"
+                to="productList"
+                >產品設定</router-link
+              >
+            </li>
+            <li class="nav-item md-up-hide">
+              <a class="nav-link" href="#">購物車設定</a>
+            </li>
+            <li class="nav-item">
+              <router-link
+                class="nav-link"
+                to="/login"
+                @click="setCookie('token', '')"
+                >登出</router-link
+              >
+            </li>
+            <!-- test -->
+            <!-- <div class="dropdown-hover">
+                <li class="nav-item dropdown">
+                  <a
+                    class="nav-link dropdown-toggle"
+                    href="#"
+                    role="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    Dropdown
+                  </a>
+                  <ul class="dropdown-menu dropdown-menu-dark">
+                    <li><a class="dropdown-item" href="#">Action</a></li>
+                    <li><a class="dropdown-item" href="#">Another action</a></li>
+                    <li>
+                      <hr class="dropdown-divider" />
+                    </li>
+                    <li>
+                      <a class="dropdown-item" href="#">Something else here</a>
+                    </li>
+                  </ul>
+                </li>
+              </div> -->
+          </ul>
+        </div>
+      </div>
+    </div>
+  </nav>
+  <div class="dashboard-content">
+    <div>
+      <router-view />
+    </div>
+    <footer>footer</footer>
+  </div>
+</template>
+<script>
+import { setCookie } from "@/methods/cookie.js";
+export default {
+  data() {
+    return {
+      setCookie,
+    };
+  },
+};
+</script>

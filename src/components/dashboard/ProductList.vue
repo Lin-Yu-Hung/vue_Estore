@@ -1,7 +1,7 @@
 <template>
   <button
     type="button"
-    class="btn btn-dark py-2 px-3"
+    class="btn btn-dark py-2 px-3 m-2"
     data-bs-toggle="modal"
     data-bs-target="#setProductModal"
     @click="setStatus = 'add'"
@@ -67,7 +67,6 @@
       </tbody>
     </table>
   </div>
-
   <div class="d-end">
     <nav aria-label="Page navigation example ">
       <ul class="pagination">
@@ -102,6 +101,7 @@
       </ul>
     </nav>
   </div>
+
   <setProductModal :setStatus="setStatus" @updateData="getProductAll" />
 </template>
 <script>
@@ -144,8 +144,10 @@ export default {
       loading.showLoading();
       try {
         const res = await apiGetProductAll();
+        console.log(res);
         productList.value = Object.values(res.data.products);
       } catch (err) {
+        // 驗證失敗
         console.log(err);
       }
       loading.hideLoading();
@@ -189,7 +191,7 @@ export default {
   cursor: pointer;
 }
 .productList {
-  max-height: 70vh;
+  max-width: 100vw;
   overflow: auto;
   margin: 0.5rem 0;
 }
