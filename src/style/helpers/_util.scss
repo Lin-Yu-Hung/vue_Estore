@@ -35,3 +35,13 @@ li {
     display: none;
   }
 }
+.md-down-hide {
+  @media (max-width: 768px) {
+    display: none;
+  }
+}
+.lg-down-hide {
+  @media (max-width: 992px) {
+    display: none;
+  }
+}

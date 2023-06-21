@@ -1,4 +1,6 @@
 $navbar-height: 70px;
+$menu-width: 250px;
+
 .dashboard-menu {
   background-color: #212529;
   width: 0px;
@@ -6,17 +8,21 @@ $navbar-height: 70px;
   position: fixed;
   top: 0;
   left: 0;
+  transition: width 0.2s;
   @include lg {
-    width: 250px;
+    width: $menu-width;
   }
 }
-
+// .hide-dashboard-menu {
+//   width: 0px;
+//   transition: width 0.2s;
+// }
 .dashboard-content-layout {
   width: 100vw;
   margin-left: 0px;
   @include lg {
-    margin-left: 250px;
-    width: calc(100vw - 250px);
+    margin-left: $menu-width;
+    width: calc(100vw - $menu-width);
   }
 }
 
@@ -32,16 +38,15 @@ $navbar-height: 70px;
     min-height: 80px;
     background-color: rgb(239, 239, 240);
   }
-  //   padding-right: 0rem;
-  //   padding-left: 0rem;
 }
 
 .navbar {
   height: $navbar-height;
-  padding-left: 8%;
-  @include lg {
-    padding-left: 0;
-  }
+  padding-left: 0;
+  // padding-left: 8%;
+  // @include lg {
+  //   padding-left: 0;
+  // }
 }
 
 .d-center {

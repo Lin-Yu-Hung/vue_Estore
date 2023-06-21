@@ -1,7 +1,15 @@
 <template>
   <nav class="navbar navbar-expand-md navbar-dark bg-dark">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">Estore</a>
+      <div class="navbar-brand">
+        <font-awesome-icon
+          class="lg-down-hide"
+          :icon="menuStatus ? 'fa-arrow-left' : 'fa-arrow-right'"
+          role="button"
+          @click="setMenuStatus"
+        />
+      </div>
+
       <button
         class="navbar-toggler"
         type="button"
@@ -85,10 +93,23 @@
 </template>
 <script>
 import { setCookie } from "@/methods/cookie.js";
+import menuStore from "@/stores/menu";
+import { storeToRefs } from "pinia";
+
 export default {
-  data() {
+  emits: ["changeMenuStatus"],
+  setup(props, context) {
+    const menu = menuStore();
+    const { emit } = context;
+    const { menuStatus } = storeToRefs(menu);
+    const setMenuStatus = () => {
+      menu.toggleMenu();
+      emit("changeMenuStatus");
+    };
     return {
       setCookie,
+      setMenuStatus,
+      menuStatus,
     };
   },
 };

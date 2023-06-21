@@ -14,9 +14,11 @@ import {
   faTrashCan,
   faPenToSquare,
   faCloudUpload,
-  faFileExport
+  faFileExport,
+  faArrowLeft,
+  faArrowRight,
 } from "@fortawesome/free-solid-svg-icons";
-library.add(faHatWizard, faTrashCan, faPenToSquare, faCloudUpload, faFileExport); // 加入所需ICON
+library.add(faHatWizard, faTrashCan, faPenToSquare, faCloudUpload, faFileExport, faArrowLeft, faArrowRight); // 加入所需ICON
 
 // vee-validate
 import { defineRule, configure } from "vee-validate";
