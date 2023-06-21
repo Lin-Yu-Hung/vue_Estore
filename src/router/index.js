@@ -20,12 +20,18 @@ const router = createRouter({
     {
       path: "/login",
       name: "login",
+      meta: {
+        title: "登入Estore",
+      },
       component: () => import("@/views/login.vue"),
     },
     {
       path: "/dashboard",
       name: "dashboard",
-      meta: { authRequired: true },
+      meta: {
+        authRequired: true,
+        title: "後台管理",
+      },
       component: () => import("@/views/dashboard/Index.vue"),
       children: [
         {
@@ -42,6 +48,8 @@ const router = createRouter({
   ],
 });
 router.beforeEach((to) => {
+  // 設定HTML title
+  window.document.title = to.meta.title ? to.meta.title : "E_store";
   if (to.meta.authRequired) {
     const token = getCookie("token");
     if (!token) {
