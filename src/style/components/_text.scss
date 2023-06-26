@@ -1,0 +1,12 @@
+a {
+  text-decoration: none;
+}
+.menu-link {
+  color: gray;
+  &:hover {
+    color: white;
+  }
+}
+.router-link-active {
+  color: white;
+}

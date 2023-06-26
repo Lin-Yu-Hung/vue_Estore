@@ -1,6 +1,8 @@
 <template>
   <div class="d-flex w-100">
-    <div class="dashboard-menu" id="dashboard-menu"></div>
+    <div class="dashboard-menu" id="dashboard-menu">
+      <Menu />
+    </div>
     <div class="dashboard-content-layout" id="dashboard-content-layout">
       <DashboardContent @changeMenuStatus="changeMenuStatus" />
     </div>
@@ -8,12 +10,15 @@
 </template>
 <script>
 import DashboardContent from "@/components/dashboard/DashboardContent.vue";
+import Menu from "@/components/dashboard/Menu.vue";
 import menuStore from "@/stores/menu";
 import { storeToRefs } from "pinia";
 import { onMounted } from "vue";
+
 export default {
   components: {
     DashboardContent,
+    Menu,
   },
   setup() {
     const menu = menuStore();

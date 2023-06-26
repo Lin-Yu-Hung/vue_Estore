@@ -52,8 +52,8 @@
                 class="nav-link"
                 to="/login"
                 @click="setCookie('token', '')"
-                >登出</router-link
-              >
+                >登出<font-awesome-icon icon="fa-sign-out-alt" class="ms-2"
+              /></router-link>
             </li>
             <!-- test -->
             <!-- <div class="dropdown-hover">

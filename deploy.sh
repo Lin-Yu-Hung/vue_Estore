@@ -24,6 +24,6 @@ git commit -m '新增根據路由修改html title名稱程式碼'
 git push -f https://github.com/4080E68/vue_Estore.git main
 
 # if you are deploying to https://4080e068.github.io/vite
-git push -f https://github.com/4080E68/vue_Estore.git
+# git push -f https://github.com/4080E68/vue_Estore.git
 
 cd -
