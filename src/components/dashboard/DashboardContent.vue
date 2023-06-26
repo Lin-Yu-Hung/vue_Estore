@@ -102,10 +102,11 @@ export default {
     const menu = menuStore();
     const { emit } = context;
     const { menuStatus } = storeToRefs(menu);
+
     const setMenuStatus = () => {
-      menu.toggleMenu();
       emit("changeMenuStatus");
     };
+
     return {
       setCookie,
       setMenuStatus,

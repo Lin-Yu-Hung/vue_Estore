@@ -19,18 +19,6 @@ export default {
     const menu = menuStore();
     const { menuStatus } = storeToRefs(menu);
 
-    const changeMenuStatus = () => {
-      const menuElement = document.getElementById("dashboard-menu");
-      const content = document.getElementById("dashboard-content-layout");
-      if (menuStatus.value) {
-        const screenWidth = window.innerWidth;
-        menuElement.style.width = "250px";
-        content.style.marginLeft = "250px";
-        content.style.width = `${screenWidth - 250}px`;
-      } else {
-        hideMenu();
-      }
-    };
     const hideMenu = () => {
       const menuElement = document.getElementById("dashboard-menu");
       const content = document.getElementById("dashboard-content-layout");
@@ -39,22 +27,32 @@ export default {
       content.style.width = "100%";
       menu.hideMenu();
     };
+    const showMenu = () => {
+      const content = document.getElementById("dashboard-content-layout");
+      const screenWidth = window.innerWidth;
+      content.style.marginLeft = "250px";
+      content.style.width = `${screenWidth - 250}px`;
+      if (!menuStatus.value) {
+        const menuElement = document.getElementById("dashboard-menu");
+        menuElement.style.width = "250px";
+        menu.showMenu();
+      }
+    };
+
+    const changeMenuStatus = () => (menuStatus.value ? hideMenu() : showMenu());
+
     onMounted(() => {
       window.addEventListener("resize", () => {
         let screenWidth = window.innerWidth;
+
         if (screenWidth > window.screen.width) {
+          // 處理平板與手機翻轉時取得寬度錯誤
           screenWidth = window.screen.width;
         }
-        if (screenWidth < 992) {
+        if (screenWidth < 992 && menuStatus.value) {
           hideMenu();
-        } else {
-          const content = document.getElementById("dashboard-content-layout");
-          if (menuStatus.value) {
-            // 顯示Menu列表
-            content.style.width = `${screenWidth - 250}px`;
-          } else {
-            content.style.width = "100%";
-          }
+        } else if (screenWidth > 992) {
+          showMenu();
         }
       });
     });
