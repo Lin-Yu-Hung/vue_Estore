@@ -15,15 +15,11 @@ export const getCookie = (cookieName) => {
   const targetCookie = document.cookie.replace(
     new RegExp(
       "(?:(?:^|.*;)\\s*" +
-        encodeURIComponent(cookieName) +
-        "\\s*\\=\\s*([^;]*).*$)|^.*$"
+      encodeURIComponent(cookieName) +
+      "\\s*\\=\\s*([^;]*).*$)|^.*$"
     ),
     "$1"
   );
   return targetCookie;
 };
 
-// export const deleteCookie = (cookieName) => {
-//   document.cookie =
-//     cookieName + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-// };
