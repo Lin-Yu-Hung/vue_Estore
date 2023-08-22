@@ -110,6 +110,7 @@ import { ref, computed } from "vue";
 import loadingStore from "@/stores/loading";
 import SetProductModal from "../modal/SetProductModal.vue";
 import { deleteProductAlert } from "@/methods/sweetAlert.js";
+import { useRouter } from "vue-router";
 
 export default {
   components: { SetProductModal },
@@ -119,7 +120,7 @@ export default {
     const setStatus = ref("add");
     const loading = loadingStore();
     const productList = ref();
-
+    const router = useRouter();
     const pageCount = computed(() => {
       if (productList.value) {
         return Math.ceil(
@@ -148,6 +149,7 @@ export default {
         productList.value = Object.values(res.data.products);
       } catch (err) {
         // 驗證失敗
+        router.push("/login");
         console.log(err);
       }
       loading.hideLoading();
