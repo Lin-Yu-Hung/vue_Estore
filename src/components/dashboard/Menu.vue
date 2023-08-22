@@ -1,5 +1,7 @@
 <template>
-  <img src="@/assets/images/maple-story-logo.webp" class="menu-logo" alt="" />
+  <div class="px-2">
+    <img src="@/assets/images/e-store-logo.png" class="menu-logo" alt="" />
+  </div>
   <ul class="menuList">
     <li>
       <router-link class="menu-link" to="productList"
@@ -27,7 +29,9 @@ export default {};
 
 <style lang="scss" scoped>
 .menuList {
-  margin: 1rem 0;
+  padding-top: 1rem;
+  margin-top: 0.5rem;
+  border-top: 1px solid white;
 
   li {
     padding: 0.5rem 0rem;

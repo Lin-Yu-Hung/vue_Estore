@@ -1,12 +1,17 @@
 <template>
-  <nav class="navbar navbar-expand-md navbar-dark bg-dark pe-2">
+  <nav class="navbar navbar-expand-md navbar-dark bg-dark px-2 pt-1">
     <div class="container-fluid">
-      <div class="navbar-brand">
+      <div class="navbar-brand p-0">
         <font-awesome-icon
           class="lg-down-hide"
           :icon="menuStatus ? 'fa-arrow-left' : 'fa-arrow-right'"
           role="button"
           @click="setMenuStatus"
+        />
+        <img
+          src="@/assets/images/e-store-logo.png"
+          class="menu-logo-mobile lg-up-hide"
+          alt="logo"
         />
       </div>
 
@@ -25,8 +30,7 @@
         id="offcanvasDarkNavbar"
         aria-labelledby="offcanvasDarkNavbarLabel"
       >
-        <div class="offcanvas-header">
-          <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">test</h5>
+        <div class="md-up-hide d-end p-2">
           <button
             type="button"
             class="btn-close btn-close-white"
@@ -34,52 +38,49 @@
             aria-label="Close"
           ></button>
         </div>
-        <div class="offcanvas-body align-items-center">
-          <ul class="navbar-nav flex-grow-1 pe-3 justify-content-end">
-            <li class="nav-item md-up-hide">
-              <router-link
-                class="nav-link active"
-                aria-current="page"
-                to="productList"
-                >產品設定</router-link
-              >
-            </li>
-            <li class="nav-item md-up-hide">
-              <a class="nav-link" href="#">購物車設定</a>
-            </li>
+
+        <div class="offcanvas-header justify-content-center">
+          <img
+            src="@/assets/images/e-store-logo.png"
+            class="menu-logo-medium"
+            alt="logo"
+          />
+          <!-- <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">test</h5> -->
+        </div>
+        <div
+          class="offcanvas-body d-column align-items-center align-items-md-end"
+        >
+          <ul class="navbar-nav flex-grow-1 md-up-hide">
             <li class="nav-item">
               <router-link
-                class="nav-link"
-                to="/login"
-                @click="setCookie('token', '')"
-                >登出<font-awesome-icon icon="fa-sign-out-alt" class="ms-2"
-              /></router-link>
+                class="menu-link"
+                aria-current="page"
+                to="productList"
+              >
+                <font-awesome-icon
+                  icon="fa-list"
+                  role="button"
+                />產品設定</router-link
+              >
             </li>
-            <!-- test -->
-            <!-- <div class="dropdown-hover">
-                <li class="nav-item dropdown">
-                  <a
-                    class="nav-link dropdown-toggle"
-                    href="#"
-                    role="button"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                  >
-                    Dropdown
-                  </a>
-                  <ul class="dropdown-menu dropdown-menu-dark">
-                    <li><a class="dropdown-item" href="#">Action</a></li>
-                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                    <li>
-                      <hr class="dropdown-divider" />
-                    </li>
-                    <li>
-                      <a class="dropdown-item" href="#">Something else here</a>
-                    </li>
-                  </ul>
-                </li>
-              </div> -->
+            <li class="nav-item">
+              <router-link class="menu-link" to="orderManage"
+                ><font-awesome-icon
+                  icon="fa-cart-shopping"
+                  role="button"
+                />購物車</router-link
+              >
+            </li>
+            <li class="nav-item mt-auto"></li>
           </ul>
+          <div class="d-center">
+            <router-link
+              class="menu-link"
+              to="/login"
+              @click="setCookie('token', '')"
+              >登出<font-awesome-icon icon="fa-sign-out-alt" class="ms-2"
+            /></router-link>
+          </div>
         </div>
       </div>
     </div>
@@ -115,3 +116,15 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.offcanvas-body {
+  align-items: center;
+  ul {
+    li {
+      font-size: 1.05rem;
+      padding: 0.5rem 0;
+    }
+  }
+}
+</style>
