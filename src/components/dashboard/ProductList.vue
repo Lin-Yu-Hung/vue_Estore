@@ -44,10 +44,10 @@
             </div>
           </td>
           <td>
-            <div class="d-flex justify-content-center">
+            <div class="d-flex justify-content-center flex-wrap">
               <button
                 type="button"
-                class="btn btn-outline-secondary py-2 px-3 mx-1"
+                class="btn btn-outline-secondary py-1 px-2 m-1 fs-base"
                 data-bs-toggle="modal"
                 data-bs-target="#setProductModal"
                 @click="setStatus = 'edit'"
@@ -56,7 +56,7 @@
               </button>
               <button
                 type="button"
-                class="btn btn-outline-danger py-2 px-3 mx-1"
+                class="btn btn-outline-danger py-1 px-2 m-1 fs-base"
                 @click="deleteProduct(product)"
               >
                 <font-awesome-icon icon="fa-trash-can" />刪除
@@ -67,7 +67,7 @@
       </tbody>
     </table>
   </div>
-  <div class="d-end">
+  <div class="d-end me-3">
     <nav aria-label="Page navigation example ">
       <ul class="pagination">
         <li class="page-item">
@@ -193,6 +193,7 @@ export default {
   cursor: pointer;
 }
 .productList {
+  min-height: 72vh;
   max-width: 100vw;
   overflow: auto;
   margin: 0.5rem 0;
@@ -206,7 +207,6 @@ export default {
   }
 }
 table {
-  user-select: none;
   margin-top: 1rem;
   td,
   th {
@@ -214,6 +214,9 @@ table {
     text-align: center;
     white-space: nowrap;
     font-weight: normal;
+  }
+  input[role="switch"] {
+    cursor: pointer;
   }
   thead {
     tr {

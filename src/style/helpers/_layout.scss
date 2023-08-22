@@ -20,6 +20,7 @@ $menu-width: 250px;
 .dashboard-content-layout {
   width: 100vw;
   margin-left: 0px;
+  transition: 0.2s;
   @include lg {
     margin-left: $menu-width;
     width: calc(100vw - $menu-width);

@@ -38,6 +38,10 @@ const router = createRouter({
           path: "productList",
           component: () => import("@/components/dashboard/ProductList.vue"),
         },
+        {
+          path: "orderManage",
+          component: () => import("@/components/dashboard/CartSetting.vue"),
+        },
       ],
     },
     {

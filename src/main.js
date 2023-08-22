@@ -6,24 +6,6 @@ import router from "./router";
 // css
 import * as bootstrap from "bootstrap";
 import "./style/all.scss";
-
-// icon套件
-import { library } from "@fortawesome/fontawesome-svg-core";
-import {
-  faHatWizard,
-  faTrashCan,
-  faPenToSquare,
-  faCloudUpload,
-  faFileExport,
-  faArrowLeft,
-  faArrowRight,
-  faSignOut,
-  faSignOutAlt
-} from "@fortawesome/free-solid-svg-icons";
-library.add(faHatWizard, faTrashCan, faPenToSquare,
-  faCloudUpload, faFileExport, faArrowLeft,
-  faArrowRight, faSignOut, faSignOutAlt); // 加入所需ICON
-
 // vee-validate
 import { defineRule, configure } from "vee-validate";
 import {
@@ -36,6 +18,8 @@ import {
 } from "@vee-validate/rules";
 import { localize, setLocale } from "@vee-validate/i18n"; // 匯入繁體中文語系檔案
 import zhTW from '@vee-validate/i18n/dist/locale/zh_TW.json'
+import "@/methods/icon.js"
+
 defineRule("required", required);
 defineRule("email", email);
 defineRule("length", length);

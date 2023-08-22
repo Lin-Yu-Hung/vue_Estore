@@ -27,16 +27,20 @@ export default {
     const hideMenu = () => {
       const menuElement = document.getElementById("dashboard-menu");
       const content = document.getElementById("dashboard-content-layout");
+      const menuList = document.querySelector(".menuList");
       menuElement.style.width = 0;
       content.style.marginLeft = 0;
       content.style.width = "100%";
+      menuList.style.display = "none";
       menu.hideMenu();
     };
     const showMenu = () => {
       const content = document.getElementById("dashboard-content-layout");
       const screenWidth = window.innerWidth;
+      const menuList = document.querySelector(".menuList");
       content.style.marginLeft = "250px";
       content.style.width = `${screenWidth - 250}px`;
+      menuList.style.display = "block";
       if (!menuStatus.value) {
         const menuElement = document.getElementById("dashboard-menu");
         menuElement.style.width = "250px";
@@ -49,7 +53,6 @@ export default {
     onMounted(() => {
       window.addEventListener("resize", () => {
         let screenWidth = window.innerWidth;
-
         if (screenWidth > window.screen.width) {
           // 處理平板與手機翻轉時取得寬度錯誤
           screenWidth = window.screen.width;
