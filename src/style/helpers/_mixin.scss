@@ -27,3 +27,8 @@
     @content;
   }
 }
+
+@mixin fixedWidth($width) {
+  min-width: $width;
+  width: $width;
+}

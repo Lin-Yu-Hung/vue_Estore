@@ -12,17 +12,20 @@
     <table class="table table-hover">
       <thead>
         <tr>
+          <th scope="col">狀態</th>
           <th scope="col" class="mobile-hide">商品分類</th>
           <th scope="col" class="mobile-hide">商品圖片</th>
           <th scope="col">商品名稱</th>
           <th scope="col" class="mobile-hide">商品原價</th>
           <th scope="col">商品價格</th>
-          <th scope="col">是否啟用</th>
           <th scope="col">編輯商品</th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="product in showData" :key="product.id">
+          <td style="min-width: 100px; width: 100px">
+            <p class="status-success">啟用</p>
+          </td>
           <td class="mobile-hide">{{ product.category }}</td>
           <td class="imageItem mobile-hide">
             <img :src="product.imageUrl1" :alt="product.title" />
@@ -32,17 +35,7 @@
             {{ product.origin_price.toLocaleString() }}
           </td>
           <td>{{ product.price.toLocaleString() }}</td>
-          <td>
-            <div class="form-check form-switch switch-btn">
-              <input
-                class="form-check-input"
-                type="checkbox"
-                role="switch"
-                id="flexSwitchCheckDefault"
-                :checked="product.is_enabled == 1"
-              />
-            </div>
-          </td>
+
           <td>
             <div class="d-flex justify-content-center flex-wrap">
               <button
@@ -226,7 +219,6 @@ table {
       background-color: #efeff0;
     }
     th {
-      font-size: 1.25rem;
       padding: 1rem 0.5rem;
     }
   }

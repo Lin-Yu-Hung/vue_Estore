@@ -54,3 +54,7 @@ li {
     display: none !important;
   }
 }
+// 固定寬度
+.fixed-width-100 {
+  @include fixedWidth(100px);
+}
