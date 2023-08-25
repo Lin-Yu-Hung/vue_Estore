@@ -1,7 +1,7 @@
 import {
     faHatWizard,
     faTrashCan,
-    faPenToSquare,
+    faPencil,
     faCloudUpload,
     faFileExport,
     faArrowLeft,
@@ -9,7 +9,10 @@ import {
     faSignOut,
     faSignOutAlt,
     faList,
-    faCartShopping
+    faCartShopping,
+    faEdit,
+    faUserEdit,
+    faFileEdit,
 } from "@fortawesome/free-solid-svg-icons";
 
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -17,7 +20,9 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 library.add(
     faHatWizard,
     faTrashCan,
-    faPenToSquare,
+    faPencil,
+    faEdit,
+    faUserEdit,
     faCloudUpload,
     faFileExport,
     faArrowLeft,
@@ -25,5 +30,6 @@ library.add(
     faSignOut,
     faSignOutAlt,
     faList,
-    faCartShopping
+    faCartShopping,
+    faFileEdit
 ); 

@@ -14,22 +14,23 @@
         <tr>
           <th scope="col">狀態</th>
           <th scope="col" class="mobile-hide">商品分類</th>
-          <th scope="col" class="mobile-hide">商品圖片</th>
+          <!-- <th scope="col" class="mobile-hide">商品圖片</th> -->
           <th scope="col">商品名稱</th>
           <th scope="col" class="mobile-hide">商品原價</th>
           <th scope="col">商品價格</th>
-          <th scope="col">編輯商品</th>
+          <th scope="col">操作</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="product in showData" :key="product.id">
-          <td style="min-width: 100px; width: 100px">
-            <p class="status-success">啟用</p>
+          <td class="fixed-width-100">
+            <p class="status-text bg-success text-green">啟用</p>
           </td>
           <td class="mobile-hide">{{ product.category }}</td>
-          <td class="imageItem mobile-hide">
+          <!-- <td class="imageItem mobile-hide">
             <img :src="product.imageUrl1" :alt="product.title" />
-          </td>
+          </td> -->
           <td>{{ product.title }}</td>
           <td class="mobile-hide">
             {{ product.origin_price.toLocaleString() }}
@@ -40,16 +41,16 @@
             <div class="d-flex justify-content-center flex-wrap">
               <button
                 type="button"
-                class="btn btn-outline-secondary py-1 px-2 m-1 fs-base"
+                class="btn operate-btn m-1 fs-base text-secondary border"
                 data-bs-toggle="modal"
                 data-bs-target="#setProductModal"
                 @click="setStatus = 'edit'"
               >
-                <font-awesome-icon icon="fa-pen-to-square" />編輯
+                <font-awesome-icon icon="fa-edit" />編輯
               </button>
               <button
                 type="button"
-                class="btn btn-outline-danger py-1 px-2 m-1 fs-base"
+                class="btn operate-btn py-1 m-1 fs-base text-red border-danger"
                 @click="deleteProduct(product)"
               >
                 <font-awesome-icon icon="fa-trash-can" />刪除
