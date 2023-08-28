@@ -19,13 +19,12 @@
           <th scope="col" class="mobile-hide">商品原價</th>
           <th scope="col">商品價格</th>
           <th scope="col">操作</th>
-          <th></th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="product in showData" :key="product.id">
-          <td class="fixed-width-100">
-            <p class="status-text bg-success text-green">啟用</p>
+          <td>
+            <p class="fixed-width-80 status-text bg-success text-green">啟用</p>
           </td>
           <td class="mobile-hide">{{ product.category }}</td>
           <!-- <td class="imageItem mobile-hide">
@@ -41,7 +40,7 @@
             <div class="d-flex justify-content-center flex-wrap">
               <button
                 type="button"
-                class="btn operate-btn m-1 fs-base text-secondary border"
+                class="edit-btn"
                 data-bs-toggle="modal"
                 data-bs-target="#setProductModal"
                 @click="setStatus = 'edit'"
@@ -50,7 +49,7 @@
               </button>
               <button
                 type="button"
-                class="btn operate-btn py-1 m-1 fs-base text-red border-danger"
+                class="danger-btn"
                 @click="deleteProduct(product)"
               >
                 <font-awesome-icon icon="fa-trash-can" />刪除
@@ -61,7 +60,7 @@
       </tbody>
     </table>
   </div>
-  <div class="d-end me-3">
+  <div class="d-end me-3" v-if="pageCount !== 1">
     <nav aria-label="Page navigation example ">
       <ul class="pagination">
         <li class="page-item">
@@ -100,7 +99,7 @@
 </template>
 <script>
 import { apiGetProductAll, apiDeleteProduct } from "@/api/api";
-import { ref, computed } from "vue";
+import { ref, computed, onMounted } from "vue";
 import loadingStore from "@/stores/loading";
 import SetProductModal from "../modal/SetProductModal.vue";
 import { deleteProductAlert } from "@/methods/sweetAlert.js";
@@ -109,12 +108,18 @@ import { useRouter } from "vue-router";
 export default {
   components: { SetProductModal },
   setup() {
-    const maxDataLen = ref(10);
+    // const maxDataLen = ref(10);
     const nowPage = ref(1);
     const setStatus = ref("add");
     const loading = loadingStore();
     const productList = ref();
     const router = useRouter();
+    const getMaxDataLen = () => {
+      const windowHeight = window.innerHeight;
+      const dataHeight = windowHeight * 0.72;
+      return Math.floor(dataHeight / 60);
+    };
+    const maxDataLen = ref(getMaxDataLen());
     const pageCount = computed(() => {
       if (productList.value) {
         return Math.ceil(
@@ -168,7 +173,11 @@ export default {
       nowPage.value = page;
     };
     getProductAll();
-
+    onMounted(() => {
+      window.addEventListener("resize", () => {
+        maxDataLen.value = getMaxDataLen();
+      });
+    });
     return {
       showData,
       setStatus,
@@ -205,9 +214,16 @@ table {
   td,
   th {
     vertical-align: middle;
-    text-align: center;
     white-space: nowrap;
     font-weight: normal;
+    &:first-child,
+    &:last-child {
+      text-align: center;
+    }
+    &:nth-last-child(2),
+    &:nth-last-child(3) {
+      text-align: right;
+    }
   }
   input[role="switch"] {
     cursor: pointer;
