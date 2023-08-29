@@ -1,5 +1,5 @@
 <template>
-  <div class="px-2">
+  <div class="px-2 d-center">
     <img src="@/assets/images/e-store-logo.png" class="menu-logo" alt="" />
   </div>
   <ul class="menuList">
@@ -31,7 +31,7 @@ export default {};
 .menuList {
   padding-top: 1rem;
   margin-top: 0.5rem;
-  border-top: 1px solid white;
+  // border-top: 1px solid white;
 
   li {
     padding: 0.5rem 0rem;

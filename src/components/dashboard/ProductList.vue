@@ -1,14 +1,26 @@
 <template>
-  <button
-    type="button"
-    class="btn btn-dark py-2 px-3 m-2"
-    data-bs-toggle="modal"
-    data-bs-target="#setProductModal"
-    @click="setStatus = 'add'"
-  >
-    新增商品
-  </button>
   <div class="productList">
+    <div class="d-between">
+      <div class="border px-3 rounded-5 d-center align-items-center w-25">
+        <font-awesome-icon icon="fa-search" role="button" />
+        <input
+          type="text"
+          class="form-control border-0"
+          placeholder="查詢商品名稱"
+          v-model="productKeyWord"
+        />
+      </div>
+
+      <button
+        type="button"
+        class="btn btn-dark py-1 px-3"
+        data-bs-toggle="modal"
+        data-bs-target="#setProductModal"
+        @click="setStatus = 'add'"
+      >
+        + 新增
+      </button>
+    </div>
     <table class="table table-hover">
       <thead>
         <tr>
@@ -27,10 +39,12 @@
             <p class="fixed-width-80 status-text bg-success text-green">啟用</p>
           </td>
           <td class="mobile-hide">{{ product.category }}</td>
-          <!-- <td class="imageItem mobile-hide">
-            <img :src="product.imageUrl1" :alt="product.title" />
-          </td> -->
-          <td>{{ product.title }}</td>
+
+          <td>
+            <img class="image-sm me-2" :src="product.imageUrl1" />{{
+              product.title
+            }}
+          </td>
           <td class="mobile-hide">
             {{ product.origin_price.toLocaleString() }}
           </td>
@@ -108,7 +122,7 @@ import { useRouter } from "vue-router";
 export default {
   components: { SetProductModal },
   setup() {
-    // const maxDataLen = ref(10);
+    const productKeyWord = ref("");
     const nowPage = ref(1);
     const setStatus = ref("add");
     const loading = loadingStore();
@@ -131,10 +145,14 @@ export default {
     });
     const showData = computed(() => {
       if (productList.value) {
+        console.log("🚀  productList.value:", productList.value);
+        const searchData = productList.value.filter((product) => {
+          return product.title.match(productKeyWord.value);
+        });
         const startData =
           nowPage.value * maxDataLen.value - maxDataLen.value + 1;
         const endData = nowPage.value * maxDataLen.value;
-        return productList.value.slice(startData - 1, endData);
+        return searchData.slice(startData - 1, endData);
       } else {
         return [];
       }
@@ -186,6 +204,7 @@ export default {
       pageCount,
       nowPage,
       switchpage,
+      productKeyWord,
     };
   },
 };
@@ -200,15 +219,16 @@ export default {
   max-width: 100vw;
   overflow: auto;
   margin: 0.5rem 0;
+  padding: 0.5rem 2rem;
 }
 
-.imageItem {
-  width: 10vw;
-  img {
-    width: 100%;
-    height: 120px;
-  }
-}
+// .imageItem {
+//   width: 10vw;
+//   img {
+//     width: 100%;
+//     height: 120px;
+//   }
+// }
 table {
   margin-top: 1rem;
   td,
