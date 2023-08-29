@@ -14,6 +14,9 @@ import {
     faUserEdit,
     faFileEdit,
     faSearch,
+    faHome,
+    faArrowUp,
+    faArrowDown,
 } from "@fortawesome/free-solid-svg-icons";
 
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -34,4 +37,7 @@ library.add(
     faCartShopping,
     faFileEdit,
     faSearch,
+    faHome,
+    faArrowUp,
+    faArrowDown
 ); 

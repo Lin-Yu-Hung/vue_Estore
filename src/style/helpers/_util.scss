@@ -64,3 +64,8 @@ li {
 .fixed-width-150 {
   @include fixedWidth(150px);
 }
+
+// 高寬度
+.vh-75 {
+  height: 75vh;
+}

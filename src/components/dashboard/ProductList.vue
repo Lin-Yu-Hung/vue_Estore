@@ -1,112 +1,130 @@
 <template>
-  <div class="productList">
-    <div class="d-between">
-      <div class="border px-3 rounded-5 d-center align-items-center w-25">
-        <font-awesome-icon icon="fa-search" role="button" />
-        <input
-          type="text"
-          class="form-control border-0"
-          placeholder="查詢商品名稱"
-          v-model="productKeyWord"
-        />
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md card shadow card-layout">
+        <div class="d-between align-items-center">
+          <span>熱銷商品</span>
+        </div>
       </div>
-
-      <button
-        type="button"
-        class="btn btn-dark py-1 px-3"
-        data-bs-toggle="modal"
-        data-bs-target="#setProductModal"
-        @click="setStatus = 'add'"
-      >
-        + 新增
-      </button>
+      <div class="col-md card shadow card-layout">
+        <div class="d-between align-items-center">
+          <span>銷售額占比</span>
+        </div>
+      </div>
     </div>
-    <table class="table table-hover">
-      <thead>
-        <tr>
-          <th scope="col">狀態</th>
-          <th scope="col" class="mobile-hide">商品分類</th>
-          <!-- <th scope="col" class="mobile-hide">商品圖片</th> -->
-          <th scope="col">商品名稱</th>
-          <th scope="col" class="mobile-hide">商品原價</th>
-          <th scope="col">商品價格</th>
-          <th scope="col">操作</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="product in showData" :key="product.id">
-          <td>
-            <p class="fixed-width-80 status-text bg-success text-green">啟用</p>
-          </td>
-          <td class="mobile-hide">{{ product.category }}</td>
-
-          <td>
-            <img class="image-sm me-2" :src="product.imageUrl1" />{{
-              product.title
-            }}
-          </td>
-          <td class="mobile-hide">
-            {{ product.origin_price.toLocaleString() }}
-          </td>
-          <td>{{ product.price.toLocaleString() }}</td>
-
-          <td>
-            <div class="d-flex justify-content-center flex-wrap">
-              <button
-                type="button"
-                class="edit-btn"
-                data-bs-toggle="modal"
-                data-bs-target="#setProductModal"
-                @click="setStatus = 'edit'"
-              >
-                <font-awesome-icon icon="fa-edit" />編輯
-              </button>
-              <button
-                type="button"
-                class="danger-btn"
-                @click="deleteProduct(product)"
-              >
-                <font-awesome-icon icon="fa-trash-can" />刪除
-              </button>
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
   </div>
-  <div class="d-end me-3" v-if="pageCount !== 1">
-    <nav aria-label="Page navigation example ">
-      <ul class="pagination">
-        <li class="page-item">
-          <a
-            class="page-link"
-            aria-label="Previous"
-            @click="nowPage--"
-            :class="{ disabled: nowPage == 1 }"
-          >
-            <span aria-hidden="true">&laquo;</span>
-          </a>
-        </li>
-        <li class="page-item" v-for="(item, index) in pageCount" :key="index">
-          <a
-            class="page-link"
-            @click="switchpage(item)"
-            :class="{ active: nowPage == item }"
-            >{{ item }}</a
-          >
-        </li>
-        <li class="page-item">
-          <a
-            class="page-link"
-            aria-label="Next"
-            @click="nowPage++"
-            :class="{ disabled: nowPage == pageCount }"
-          >
-            <span aria-hidden="true">&raquo;</span>
-          </a>
-        </li>
-      </ul>
-    </nav>
+  <div class="card shadow card-layout">
+    <div class="productList">
+      <div class="d-between">
+        <div class="border px-3 rounded-5 d-center align-items-center w-lg-25">
+          <font-awesome-icon icon="fa-search" role="button" />
+          <input
+            type="text"
+            class="form-control border-0"
+            placeholder="查詢商品名稱"
+            v-model="productKeyWord"
+          />
+        </div>
+
+        <button
+          type="button"
+          class="btn btn-dark py-1 px-3"
+          data-bs-toggle="modal"
+          data-bs-target="#setProductModal"
+          @click="setStatus = 'add'"
+        >
+          + 新增
+        </button>
+      </div>
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col">狀態</th>
+            <th scope="col" class="mobile-hide">商品分類</th>
+            <!-- <th scope="col" class="mobile-hide">商品圖片</th> -->
+            <th scope="col">商品名稱</th>
+            <th scope="col" class="mobile-hide">商品原價</th>
+            <th scope="col">商品價格</th>
+            <th scope="col">操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="product in showData" :key="product.id">
+            <td>
+              <p class="fixed-width-80 status-text bg-success text-green">
+                啟用
+              </p>
+            </td>
+            <td class="mobile-hide">{{ product.category }}</td>
+
+            <td>
+              <img class="image-sm me-2" :src="product.imageUrl1" />{{
+                product.title
+              }}
+            </td>
+            <td class="mobile-hide">
+              {{ product.origin_price.toLocaleString() }}
+            </td>
+            <td>{{ product.price.toLocaleString() }}</td>
+
+            <td>
+              <div class="d-flex justify-content-center flex-wrap">
+                <button
+                  type="button"
+                  class="edit-btn"
+                  data-bs-toggle="modal"
+                  data-bs-target="#setProductModal"
+                  @click="setStatus = 'edit'"
+                >
+                  <font-awesome-icon icon="fa-edit" />編輯
+                </button>
+                <button
+                  type="button"
+                  class="danger-btn"
+                  @click="deleteProduct(product)"
+                >
+                  <font-awesome-icon icon="fa-trash-can" />刪除
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="d-end me-3" v-if="pageCount !== 1">
+      <nav aria-label="Page navigation example ">
+        <ul class="pagination">
+          <li class="page-item">
+            <a
+              class="page-link"
+              aria-label="Previous"
+              @click="nowPage--"
+              :class="{ disabled: nowPage == 1 }"
+            >
+              <span aria-hidden="true">&laquo;</span>
+            </a>
+          </li>
+          <li class="page-item" v-for="(item, index) in pageCount" :key="index">
+            <a
+              class="page-link"
+              @click="switchpage(item)"
+              :class="{ active: nowPage == item }"
+              >{{ item }}</a
+            >
+          </li>
+          <li class="page-item">
+            <a
+              class="page-link"
+              aria-label="Next"
+              @click="nowPage++"
+              :class="{ disabled: nowPage == pageCount }"
+            >
+              <span aria-hidden="true">&raquo;</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
   </div>
 
   <setProductModal :setStatus="setStatus" @updateData="getProductAll" />
@@ -218,8 +236,6 @@ export default {
   min-height: 72vh;
   max-width: 100vw;
   overflow: auto;
-  margin: 0.5rem 0;
-  padding: 0.5rem 2rem;
 }
 
 // .imageItem {

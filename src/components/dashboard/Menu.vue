@@ -4,6 +4,15 @@
   </div>
   <ul class="menuList">
     <li>
+      <router-link class="menu-link" to="home"
+        ><font-awesome-icon
+          class="lg-down-hide"
+          icon="fa-home"
+          role="button"
+        />首頁</router-link
+      >
+    </li>
+    <li>
       <router-link class="menu-link" to="productList"
         ><font-awesome-icon
           class="lg-down-hide"
@@ -31,6 +40,7 @@ export default {};
 .menuList {
   padding-top: 1rem;
   margin-top: 0.5rem;
+  padding-left: 10%m;
   // border-top: 1px solid white;
 
   li {
