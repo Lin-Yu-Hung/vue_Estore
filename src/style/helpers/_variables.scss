@@ -36,14 +36,15 @@ $grays: (
 // fusv-enable
 
 // scss-docs-start color-variables
-$blue: #0d6efd !default;
+$blue: #748ede !default;
 $indigo: #6610f2 !default;
 $purple: #6f42c1 !default;
 $pink: #d63384 !default;
-$red: #dc3545 !default;
+$red: #ff7070 !default;
 $orange: #fd7e14 !default;
 $yellow: #ffc107 !default;
 $green: #009430 !default;
+$green-light: #a9df96 !default;
 $teal: #20c997 !default;
 $cyan: #0dcaf0 !default;
 // scss-docs-end color-variables
@@ -315,12 +316,17 @@ $theme-colors: (
   "secondary": $secondary,
   "success": $success,
   "info": $info,
+  "blue": $blue,
   "warning": $warning,
   "danger": $danger,
+  "danger-light": #ffd6e0,
   "light": $light,
   "dark": $dark,
   "green": $green,
+  "green-light": $green-light,
   "red": $red,
+  "gray-light": #646a6f,
+  "gold": $yellow-400,
 ) !default;
 // scss-docs-end theme-colors-map
 
@@ -562,6 +568,7 @@ $font-size-lg: $font-size-base * 1.25 !default;
 $font-weight-lighter: lighter !default;
 $font-weight-light: 300 !default;
 $font-weight-normal: 400 !default;
+$font-weight-medium: 500 !default;
 $font-weight-semibold: 600 !default;
 $font-weight-bold: 700 !default;
 $font-weight-bolder: bolder !default;

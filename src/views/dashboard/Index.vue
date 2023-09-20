@@ -36,7 +36,7 @@ export default {
     };
     const showMenu = () => {
       const content = document.getElementById("dashboard-content-layout");
-      const screenWidth = window.innerWidth;
+      const screenWidth = window.outerWidth;
       const menuList = document.querySelector(".menuList");
       content.style.marginLeft = "250px";
       content.style.width = `${screenWidth - 250}px`;
@@ -52,11 +52,13 @@ export default {
 
     onMounted(() => {
       window.addEventListener("resize", () => {
+        // console.log(window.innerWidth);
         let screenWidth = window.innerWidth;
         if (screenWidth > window.screen.width) {
           // 處理平板與手機翻轉時取得寬度錯誤
           screenWidth = window.screen.width;
         }
+
         if (screenWidth < 992 && menuStatus.value) {
           hideMenu();
         } else if (screenWidth > 992) {

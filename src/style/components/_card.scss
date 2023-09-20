@@ -1,0 +1,27 @@
+@mixin card-border-bottom($color) {
+  border-top: 0.5px solid $card-border-color;
+  border-left: 0.5px solid $card-border-color;
+  border-right: 0.5px solid $card-border-color;
+  border-bottom: 4.5px solid $color;
+}
+
+.card-border-gold {
+  @include card-border-bottom($yellow-300);
+}
+.card-border-blue {
+  @include card-border-bottom($blue);
+}
+.card-border-green-light {
+  @include card-border-bottom($green-light);
+}
+.card-border-red {
+  @include card-border-bottom($red);
+}
+.card-layout {
+  margin: 0.15rem 0;
+  padding: 1rem;
+  @include md {
+    padding: 1rem;
+    margin: 0.5rem;
+  }
+}

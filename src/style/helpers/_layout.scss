@@ -63,12 +63,3 @@ $menu-width: 250px;
   display: flex;
   justify-content: end;
 }
-
-.card-layout {
-  margin: 0.15rem 0;
-  padding: 1rem;
-  @include md {
-    padding: 1rem;
-    margin: 0.5rem;
-  }
-}

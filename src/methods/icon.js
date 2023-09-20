@@ -17,6 +17,10 @@ import {
     faHome,
     faArrowUp,
     faArrowDown,
+    faCoins,
+    faPeopleGroup,
+    faFileLines,
+    faArrowTrendUp,
 } from "@fortawesome/free-solid-svg-icons";
 
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -39,5 +43,9 @@ library.add(
     faSearch,
     faHome,
     faArrowUp,
-    faArrowDown
+    faArrowDown,
+    faCoins,
+    faPeopleGroup,
+    faFileLines,
+    faArrowTrendUp
 ); 

@@ -1,5 +1,3 @@
-import { bottom } from "@popperjs/core"
-
 export const bestSellerChart = {
     tooltip: {
         trigger: 'axis',

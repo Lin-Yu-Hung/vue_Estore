@@ -160,7 +160,7 @@ import { VueEcharts } from "vue3-echarts";
 import {
   bestSellerChart,
   proportionOfSalesChart,
-} from "@/methods/chartOption.js";
+} from "@/methods/chartOption/productList.js";
 export default {
   components: { SetProductModal, VueEcharts },
   setup() {
@@ -236,6 +236,7 @@ export default {
     };
     const resizeChart = () => {
       const windowWidth = window.innerWidth;
+      if (!proportionOfSales.value) return;
       const updateOption = JSON.parse(JSON.stringify(proportionOfSalesOption));
       if (windowWidth < 1550 && windowWidth > 1370) {
         updateOption.legend.right = "0%";
