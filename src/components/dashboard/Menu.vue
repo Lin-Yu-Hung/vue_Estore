@@ -4,7 +4,7 @@
   </div>
   <ul class="menuList">
     <li>
-      <router-link class="menu-link" to="home"
+      <router-link class="menu-link lg-down-hide" to="home"
         ><font-awesome-icon
           class="lg-down-hide"
           icon="fa-home"
@@ -13,7 +13,7 @@
       >
     </li>
     <li>
-      <router-link class="menu-link" to="productList"
+      <router-link class="menu-link lg-down-hide" to="productList"
         ><font-awesome-icon
           class="lg-down-hide"
           icon="fa-list"
@@ -22,7 +22,7 @@
       >
     </li>
     <li>
-      <router-link class="menu-link" to="orderManage"
+      <router-link class="menu-link lg-down-hide" to="orderManage"
         ><font-awesome-icon
           class="lg-down-hide"
           icon="fa-cart-shopping"

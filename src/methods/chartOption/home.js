@@ -1,13 +1,4 @@
 export const revenueLineChart = {
-    title: {
-        text: '本周成長比',
-        top: "3%",
-        left: '12%',
-        textStyle: {
-
-
-        }
-    },
     tooltip: {
         trigger: 'axis',
         axisPointer: {
@@ -18,11 +9,11 @@ export const revenueLineChart = {
         top: "15%",
         bottom: "8%",
         left: "12%",
-        right: "12%"
+        right: "15%"
     },
     legend: {
         top: "3%",
-        right: "12%",
+
     },
 
     xAxis: {

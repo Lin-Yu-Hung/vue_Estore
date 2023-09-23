@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex w-100">
+  <div class="d-flex">
     <div class="dashboard-menu" id="dashboard-menu">
       <Menu />
     </div>

@@ -318,6 +318,7 @@ $theme-colors: (
   "info": $info,
   "blue": $blue,
   "warning": $warning,
+  "warning-light": #ffefca,
   "danger": $danger,
   "danger-light": #ffd6e0,
   "light": $light,
@@ -326,6 +327,7 @@ $theme-colors: (
   "green-light": $green-light,
   "red": $red,
   "gray-light": #646a6f,
+  "secondary-light": #e3e6ed,
   "gold": $yellow-400,
 ) !default;
 // scss-docs-end theme-colors-map
