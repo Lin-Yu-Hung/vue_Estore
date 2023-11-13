@@ -12,15 +12,43 @@
         />首頁</router-link
       >
     </li>
-    <li>
-      <router-link class="menu-link lg-down-hide" to="productList"
-        ><font-awesome-icon
-          class="lg-down-hide"
-          icon="fa-list"
-          role="button"
-        />產品設定</router-link
+    <li class="dropdown-list lg-down-hide">
+      <div
+        class="dropdown-title"
+        @click="toggleStatus"
+        data-bs-toggle="collapse"
+        data-bs-target="#test"
+        aria-expanded="true"
+        aria-controls="test"
       >
+        <span class="pe-none">
+          <font-awesome-icon
+            class="lg-down-hide"
+            icon="fa-list"
+            role="button"
+          />產品設定
+        </span>
+        <font-awesome-icon
+          class="lg-down-hide dropdown-arrow pe-none"
+          icon="fa-chevron-right"
+        />
+      </div>
+      <div class="collapse multi-collapse" id="test">
+        <ul>
+          <li class="pt-3 pb-0">
+            <router-link class="menu-link lg-down-hide" to="home"
+              >建立商品</router-link
+            >
+          </li>
+          <li class="pt-3 pb-0">
+            <router-link class="menu-link lg-down-hide" to="productList"
+              >商品列表</router-link
+            >
+          </li>
+        </ul>
+      </div>
     </li>
+
     <li>
       <router-link class="menu-link lg-down-hide" to="orderManage"
         ><font-awesome-icon
@@ -33,21 +61,20 @@
   </ul>
 </template>
 <script>
-export default {};
+import { ref } from "vue";
+
+export default {
+  setup() {
+    const active = ref("");
+    const toggleStatus = (event) => {
+      event.target.classList.toggle("collapsed");
+    };
+    return {
+      active,
+      toggleStatus,
+    };
+  },
+};
 </script>
 
-<style lang="scss" scoped>
-.menuList {
-  padding-top: 1rem;
-  margin-top: 0.5rem;
-  padding-left: 10%m;
-  // border-top: 1px solid white;
-
-  li {
-    padding: 0.5rem 0rem;
-    svg {
-      margin-right: 0.5rem;
-    }
-  }
-}
-</style>
+<style lang="scss" scoped></style>

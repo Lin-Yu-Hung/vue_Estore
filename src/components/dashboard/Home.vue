@@ -184,7 +184,7 @@
           <h5 class="fw-semibold text-gray-light m-0">最新訂單</h5>
         </div>
         <div class="latest-order">
-          <table class="table">
+          <table class="table table-hover">
             <thead>
               <tr>
                 <th>訂單編號</th>

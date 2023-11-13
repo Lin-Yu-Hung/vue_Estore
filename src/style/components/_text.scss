@@ -24,6 +24,47 @@ $font-size: (
 a {
   text-decoration: none;
 }
+.menuList {
+  padding-top: 1rem;
+  margin-top: 0.5rem;
+  padding-left: 10%;
+  li {
+    cursor: pointer;
+    user-select: none;
+    padding: 0.5rem 0rem;
+    padding-right: 10%;
+    svg {
+      margin-right: 0.5rem;
+    }
+  }
+  .dropdown-list {
+    color: gray;
+    display: flex;
+    flex-direction: column;
+    .dropdown-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      .dropdown-arrow {
+        transition: all 0.25s ease;
+      }
+      &.collapsed {
+        .dropdown-arrow {
+          transform: rotate(90deg);
+        }
+      }
+    }
+    // ul {
+    //   height: 0px;
+    //   transition: all 0.5s ease;
+    //   li {
+    //     display: none;
+    //     padding-bottom: 0;
+    //   }
+    // }
+  }
+}
+
 .menu-link {
   color: gray;
   &:hover {

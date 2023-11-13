@@ -21,6 +21,7 @@ import {
     faPeopleGroup,
     faFileLines,
     faArrowTrendUp,
+    faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
 
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -47,5 +48,6 @@ library.add(
     faCoins,
     faPeopleGroup,
     faFileLines,
-    faArrowTrendUp
+    faArrowTrendUp,
+    faChevronRight
 ); 
