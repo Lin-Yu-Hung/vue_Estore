@@ -53,17 +53,19 @@ export default {
     onMounted(() => {
       window.addEventListener("resize", () => {
         // console.log(window.innerWidth);
-        let screenWidth = window.innerWidth;
-        if (screenWidth > window.screen.width) {
-          // 處理平板與手機翻轉時取得寬度錯誤
-          screenWidth = window.screen.width;
-        }
+        setTimeout(() => {
+          let screenWidth = window.innerWidth;
+          if (screenWidth > window.screen.width) {
+            // 處理平板與手機翻轉時取得寬度錯誤
+            screenWidth = window.screen.width;
+          }
 
-        if (screenWidth < 992 && menuStatus.value) {
-          hideMenu();
-        } else if (screenWidth > 992) {
-          showMenu();
-        }
+          if (screenWidth < 992 && menuStatus.value) {
+            hideMenu();
+          } else if (screenWidth > 992) {
+            showMenu();
+          }
+        }, 100);
       });
     });
     return {

@@ -35,11 +35,11 @@
       </div>
       <div class="collapse multi-collapse" id="productSetting">
         <ul>
-          <!-- <li class="collapse-item" parentId="productSetting">
-            <router-link class="menu-link lg-down-hide" to="createProduct"
+          <li class="collapse-item" parentId="productSetting">
+            <router-link class="menu-link lg-down-hide" to="setProduct"
               >建立商品</router-link
             >
-          </li> -->
+          </li>
           <li class="collapse-item" parentId="productSetting">
             <router-link class="menu-link lg-down-hide" to="productList"
               >商品列表</router-link

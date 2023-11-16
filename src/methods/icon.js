@@ -22,6 +22,8 @@ import {
     faFileLines,
     faArrowTrendUp,
     faChevronRight,
+    faImage,
+    faImages,
 } from "@fortawesome/free-solid-svg-icons";
 
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -49,5 +51,7 @@ library.add(
     faPeopleGroup,
     faFileLines,
     faArrowTrendUp,
-    faChevronRight
+    faChevronRight,
+    faImage,
+    faImages,
 ); 
