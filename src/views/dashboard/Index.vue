@@ -65,7 +65,7 @@ export default {
           } else if (screenWidth > 992) {
             showMenu();
           }
-        }, 100);
+        }, 200);
       });
     });
     return {

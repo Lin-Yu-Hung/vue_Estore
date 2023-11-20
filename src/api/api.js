@@ -1,8 +1,9 @@
 import axios from "axios";
 import { getCookie } from "../methods/cookie";
-
-const timeout = 5000;
-
+import loadingStore from "@/stores/loading";
+import { errorAlert } from "@/methods/sweetAlert.js";
+const timeout = 10000;
+const loading = loadingStore();
 const login = axios.create({
   baseURL: `${import.meta.env.VITE_API}`,
   timeout: timeout,
@@ -23,6 +24,16 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
+api.interceptors.response.use(
+  (response) => { return response; },
+  (error) => {
+    if (error.message == `timeout of ${timeout}ms exceeded`) {
+      loading.hideLoading();
+      errorAlert('連線逾時', "請確認連線狀態後重新嘗試")
+    }
+  }
+
+);
 export const login_api = (params) => login.post("/admin/signin", params);
 export const apiGetProductAll = () => api.get("/admin/products/all");
 export const createProduct = (params) => api.post("/admin/product", params);

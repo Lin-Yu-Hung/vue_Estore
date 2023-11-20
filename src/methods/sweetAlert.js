@@ -12,9 +12,41 @@ const Toast = Swal.mixin({
   },
 });
 
-export const deleteProductAlert = async (productName) => {
+export const successAlert = async (title) => {
+  Swal.fire({
+    title: title,
+    icon: "success",
+    showCancelButton: false,
+    showConfirmButton: false,
+    timer: 1500,
+    buttonsStyling: false,
+    customClass: {
+      title: "fs-4 fw-bold mb-2",
+      target: "rounded-3",
+    },
+  });
+};
+
+export const errorAlert = async (title, text) => {
+  Swal.fire({
+    title: title,
+    html: text,
+    icon: "error",
+    showCancelButton: false,
+    confirmButtonText: "確認",
+    buttonsStyling: false,
+    customClass: {
+      title: "fs-4 fw-bold mb-2",
+      htmlContainer: 'mt-2 mb-3',
+      confirmButton: "btn btn-primary px-3 ",
+      target: "rounded-3",
+    },
+  });
+};
+
+export const deleteWarningAlert = async (targetItem) => {
   const result = await Swal.fire({
-    title: `是否要刪除${productName}`,
+    title: `是否要刪除${targetItem}`,
     icon: "warning",
     showCancelButton: true,
     cancelButtonText: "取消",

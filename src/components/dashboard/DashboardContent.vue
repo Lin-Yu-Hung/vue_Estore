@@ -86,9 +86,7 @@
     </div>
   </nav>
   <div class="dashboard-content">
-    <div>
-      <router-view />
-    </div>
+    <router-view />
     <footer>
       <div class="d-between w-100 flex-wrap">
         <span>Copyright © 2023 YuHung Lin</span>

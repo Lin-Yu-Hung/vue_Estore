@@ -41,6 +41,11 @@
             >
           </li>
           <li class="collapse-item" parentId="productSetting">
+            <router-link class="menu-link lg-down-hide" to="editProduct"
+              >修改商品</router-link
+            >
+          </li>
+          <li class="collapse-item" parentId="productSetting">
             <router-link class="menu-link lg-down-hide" to="productList"
               >商品列表</router-link
             >

@@ -73,9 +73,12 @@
               <td class="mobile-hide">{{ product.category }}</td>
 
               <td>
-                <img class="image-sm me-2" :src="product.imageUrl1" />{{
-                  product.title
-                }}
+                <img
+                  class="image-sm me-2"
+                  :src="product.imageUrl"
+                  :alt="product.title"
+                  :title="product.title"
+                />{{ product.title }}
               </td>
               <td class="mobile-hide">
                 {{ product.origin_price.toLocaleString() }}
@@ -87,9 +90,7 @@
                   <button
                     type="button"
                     class="edit-btn"
-                    data-bs-toggle="modal"
-                    data-bs-target="#setProductModal"
-                    @click="setStatus = 'edit'"
+                    @click="setEditData(product)"
                   >
                     <font-awesome-icon icon="fa-edit" />編輯
                   </button>
@@ -147,31 +148,35 @@
     </div>
   </div>
 
-  <setProductModal :setStatus="setStatus" @updateData="getProductAll" />
+  <!-- <setProductModal :setStatus="setStatus" @updateData="getProductAll" /> -->
 </template>
 <script>
 import { apiGetProductAll, apiDeleteProduct } from "@/api/api";
 import { ref, computed, onMounted } from "vue";
 import loadingStore from "@/stores/loading";
 import SetProductModal from "../modal/SetProductModal.vue";
-import { deleteProductAlert } from "@/methods/sweetAlert.js";
+import { deleteWarningAlert } from "@/methods/sweetAlert.js";
 import { useRouter } from "vue-router";
 import { VueEcharts } from "vue3-echarts";
+import { storeToRefs } from "pinia";
 import {
   bestSellerChart,
   proportionOfSalesChart,
 } from "@/methods/chartOption/productList.js";
+import productStore from "@/stores/product.js";
+
 export default {
   components: { SetProductModal, VueEcharts },
   setup() {
+    const product = productStore();
+    const { productList } = storeToRefs(product);
+    product.getAllProductData();
     const bestSellerOption = { ...bestSellerChart };
     const proportionOfSalesOption = { ...proportionOfSalesChart };
     const proportionOfSales = ref(null);
     const productKeyWord = ref("");
     const nowPage = ref(1);
-    const setStatus = ref("add");
     const loading = loadingStore();
-    const productList = ref();
     const router = useRouter();
     const getMaxDataLen = () => {
       const windowHeight = window.innerHeight;
@@ -179,6 +184,7 @@ export default {
       return Math.floor(dataHeight / 60);
     };
     const maxDataLen = ref(getMaxDataLen());
+
     const pageCount = computed(() => {
       if (productList.value) {
         return Math.ceil(
@@ -215,8 +221,12 @@ export default {
       }
       loading.hideLoading();
     };
+    const setEditData = (data) => {
+      product.setEditData(data);
+      router.push("/dashboard/editProduct");
+    };
     const deleteProduct = async (product) => {
-      const result = await deleteProductAlert(product.title);
+      const result = await deleteWarningAlert(product.title);
       if (!result) return;
       loading.showLoading();
       try {
@@ -268,7 +278,6 @@ export default {
     });
     return {
       showData,
-      setStatus,
       pageCount,
       nowPage,
       productKeyWord,
@@ -278,6 +287,7 @@ export default {
       getProductAll,
       deleteProduct,
       switchpage,
+      setEditData,
     };
   },
 };

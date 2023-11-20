@@ -1,129 +1,440 @@
 <template>
   <div class="card pt-2">
-    <h2 class="px-2">建立商品</h2>
+    <div class="px-2 mb-2 d-between">
+      <h2 class="mb-0">{{ isEditStatus ? "修改" : "建立" }}商品</h2>
+      <select
+        class="form-select w-25"
+        v-if="isEditStatus"
+        v-model="selectEditProduct"
+      >
+        <option :value="''" selected disabled>請選擇編輯商品</option>
+        <option
+          :value="product.id"
+          v-for="product in productList"
+          :key="product.id"
+        >
+          {{ product.title }}
+        </option>
+      </select>
+    </div>
 
-    <div class="container-fluid">
+    <Form v-slot="{ errors }" class="container-fluid" @submit="setProduct">
       <div class="row border-top">
-        <div class="col border-end pt-2">
+        <div class="col-md border-end pt-2">
           <label for="name" class="form-label">是否啟用</label>
           <div class="form-check form-check-inline ms-3 mb-3">
             <input
               class="form-check-input"
               type="radio"
-              name="inlineRadioOptions"
-              id="inlineRadio1"
-              value="option1"
+              name="is_enable"
+              id="is_enableTrue"
+              :value="1"
+              v-model="data.is_enabled"
               checked
             />
-            <label class="form-check-label" for="inlineRadio1">是</label>
+            <label class="form-check-label" for="is_enableTrue" role="button"
+              >是</label
+            >
           </div>
           <div class="form-check form-check-inline">
             <input
               class="form-check-input"
               type="radio"
-              name="inlineRadioOptions"
-              id="inlineRadio2"
-              value="option2"
+              name="is_enable"
+              id="is_enableFalse"
+              v-model="data.is_enabled"
+              :value="2"
             />
-            <label class="form-check-label" for="inlineRadio2">否</label>
+            <label class="form-check-label" for="is_enableFalse" role="button"
+              >否</label
+            >
           </div>
           <div class="mb-3">
             <label for="name" class="form-label">商品名稱</label>
-            <input
+            <Field
+              id="title"
+              name="商品名稱"
               type="text"
-              class="form-control"
-              id="name"
-              placeholder="請輸入商品名稱"
+              rules="required"
+              class="formInput form-control"
+              :class="{ 'is-invalid': errors['商品名稱'] }"
+              placeHolder="請輸入商品名稱"
+              v-model="data.title"
+            />
+            <ErrorMessage
+              class="text-danger invalid-feedback"
+              name="商品名稱"
             />
           </div>
           <div class="row mb-3">
-            <div class="col">
-              <label for="name" class="form-label">分類</label>
-              <select class="form-select" aria-label="Default select example">
-                <option selected>Open this select menu</option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
-              </select>
+            <div class="col-md mb-3 mb-md-0">
+              <label for="category" class="form-label">分類</label>
+              <Field
+                as="select"
+                id="category"
+                name="分類"
+                rules="required"
+                class="form-select"
+                :class="{ 'is-invalid': errors['分類'] }"
+                v-model="data.category"
+              >
+                <option selected value="" disabled>請選擇分類</option>
+                <option value="衣服">衣服</option>
+                <option value="鞋子">鞋子</option>
+                <option value="褲子">褲子</option>
+                <option value="其他">其他</option>
+              </Field>
+              <ErrorMessage class="text-danger invalid-feedback" name="分類" />
             </div>
-            <div class="col">
-              <label for="name" class="form-label">商品名稱</label>
-              <input
+            <div class="col-md">
+              <label for="unit" class="form-label">單位</label>
+              <Field
+                id="unit"
+                name="單位"
                 type="text"
-                class="form-control"
-                id="name"
-                placeholder="請輸入商品名稱"
+                rules="required"
+                class="formInput form-control"
+                :class="{ 'is-invalid': errors['單位'] }"
+                placeHolder="請輸入單位"
+                v-model="data.unit"
               />
+              <ErrorMessage class="text-danger invalid-feedback" name="單位" />
             </div>
           </div>
           <div class="row mb-3">
-            <div class="col">
-              <label for="name" class="form-label">商品名稱</label>
-              <input
-                type="text"
-                class="form-control"
-                id="name"
-                placeholder="請輸入商品名稱"
+            <div class="col-md mb-3 mb-md-0">
+              <label for="origin_price" class="form-label">原價</label>
+              <Field
+                id="origin_price"
+                name="原價"
+                type="number"
+                rules="required"
+                class="formInput form-control"
+                :class="{ 'is-invalid': errors['原價'] }"
+                placeHolder="請輸入原價"
+                v-model.number="data.origin_price"
               />
+              <ErrorMessage class="text-danger invalid-feedback" name="原價" />
             </div>
-            <div class="col">
-              <label for="name" class="form-label">商品名稱</label>
-              <input
-                type="text"
-                class="form-control"
-                id="name"
-                placeholder="請輸入商品名稱"
+            <div class="col-md">
+              <label for="price" class="form-label">售價</label>
+              <Field
+                id="price"
+                name="售價"
+                type="number"
+                rules="required"
+                class="formInput form-control"
+                :class="{ 'is-invalid': errors['售價'] }"
+                placeHolder="請輸入售價"
+                v-model.number="data.price"
               />
+              <ErrorMessage class="text-danger invalid-feedback" name="售價" />
             </div>
           </div>
           <div class="mb-3">
-            <label for="name" class="form-label">商品名稱</label>
-            <textarea
-              rows="3"
+            <label for="name" class="form-label">產品描述</label>
+            <Field
+              as="textarea"
+              name="產品描述"
+              type="text"
+              rules="required"
+              rows="4"
               class="form-control"
-              aria-label="With textarea"
-            ></textarea>
+              :class="{ 'is-invalid': errors['產品描述'] }"
+              placeHolder="請輸入產品描述"
+              v-model="data.description"
+            >
+            </Field>
+            <ErrorMessage
+              class="text-danger invalid-feedback"
+              name="產品描述"
+            />
           </div>
           <div class="mb-3">
-            <label for="name" class="form-label">商品名稱</label>
+            <label for="name" class="form-label">說明內容</label>
             <textarea
-              rows="3"
+              rows="4"
               class="form-control"
-              aria-label="With textarea"
+              placeholder="請輸入產品說明內容"
+              v-model="data.content"
             ></textarea>
           </div>
         </div>
-        <div class="col-4 col-xxxl-3 d-column justify-content-between">
+        <div
+          class="col-md-5 col-lg-4 col-xxxl-3 d-column justify-content-between"
+        >
           <div class="pt-2">
-            <label class="uploadImg" for="uploadImg" role="button"
+            <h5 class="my-2">上傳商品主圖</h5>
+            <hr class="mt-0 mb-2" />
+            <label
+              v-if="!imageUrl"
+              class="uploadImg template-image mb-3"
+              for="uploadImg"
+              role="button"
               ><div class="d-column">
                 <font-awesome-icon
                   class="fs-2 mb-2 me-0 text-secondary"
                   icon="fa-image"
                 />
-                <p class="text-secondary mb-0">上傳商品圖片</p>
+                <p class="text-secondary mb-0">商品主圖</p>
               </div>
             </label>
-            <input type="file" class="form-control d-none" id="uploadImg" />
+            <div class="position-relative my-2" v-else>
+              <button
+                type="button"
+                class="btn-close position-absolute top-0"
+                aria-label="Close"
+                @click="imageUrl = ''"
+              ></button>
+              <img class="uploadImg mb-3" :src="imageUrl" :alt="imageUrl" />
+            </div>
+
+            <input
+              @change="uploadImg"
+              id="uploadImg"
+              class="form-control d-none"
+              type="file"
+            />
+            <h5 class="my-2">上傳商品附圖</h5>
+            <hr class="mt-0 mb-2" />
+            <div class="d-flex flex-wrap">
+              <template v-if="imageList.length > 0">
+                <div
+                  class="position-relative"
+                  v-for="(img, index) in imageList"
+                  :key="img"
+                >
+                  <button
+                    type="button"
+                    class="btn-close position-absolute top-0"
+                    aria-label="Close"
+                    @click="delImage(index)"
+                  ></button>
+                  <img class="uploadImgs mb-3" :src="img" :alt="img" />
+                </div>
+              </template>
+              <label
+                v-for="(item, index) in 5 - imageList.length"
+                :key="index"
+                class="uploadImgs template-image"
+                for="uploadImgs"
+                role="button"
+                ><div class="d-column">
+                  <font-awesome-icon
+                    class="fs-4 mb-2 me-0 text-secondary"
+                    icon="fa-image"
+                  />
+                  <p class="text-secondary mb-0">商品附圖</p>
+                </div>
+              </label>
+              <input
+                @change="uploadImg($event, 'multiple')"
+                type="file"
+                class="form-control d-none"
+                id="uploadImgs"
+                multiple
+              />
+            </div>
           </div>
 
-          <button type="button" class="btn btn-primary my-2">建立商品</button>
+          <button type="submit" class="btn btn-primary my-2">
+            {{ isEditStatus ? "修改" : "建立" }}商品
+          </button>
         </div>
       </div>
-    </div>
+    </Form>
   </div>
 </template>
 <script>
-export default {};
+import { createProduct, apiUploadImg } from "@/api/api";
+import { errorAlert, successAlert } from "@/methods/sweetAlert.js";
+import loadingStore from "@/stores/loading";
+import { onMounted, nextTick } from "vue";
+import { Field, Form, ErrorMessage } from "vee-validate";
+import { ref, watch } from "vue";
+import productStore from "@/stores/product.js";
+import { useRoute } from "vue-router";
+import { storeToRefs } from "pinia";
+
+export default {
+  components: {
+    Field,
+    Form,
+    ErrorMessage,
+  },
+  setup(props, context) {
+    let imageUrl = ref("");
+    const imageList = ref([]);
+    const data = ref({
+      title: "",
+      category: "",
+      origin_price: 0,
+      price: 0,
+      unit: "",
+      description: "",
+      content: "",
+      is_enabled: 1,
+    });
+    const selectEditProduct = ref("");
+    const route = useRoute();
+    const isEditStatus = ref(route.fullPath === "/dashboard/editProduct");
+    const loading = loadingStore();
+    const product = productStore();
+    const { productList } = storeToRefs(product);
+    if (productList.value.length === 0) {
+      product.getAllProductData();
+    }
+    const setEditData = (editData) => {
+      data.value = { ...editData };
+      imageUrl.value = editData.imageUrl;
+      imageList.value = [...editData.imagesUrl];
+      selectEditProduct.value = editData.id;
+    };
+    if (isEditStatus && Object.keys(product.editData).length > 0) {
+      // 初次進入編輯頁面且有帶入編輯資料時
+      setEditData(product.editData);
+      product.setEditData({}); // 設定完後清空資料
+    }
+    watch(
+      () => route.path,
+      (value) => {
+        isEditStatus.value = route.fullPath === "/dashboard/editProduct";
+        data.value = {
+          title: "",
+          category: "",
+          origin_price: 0,
+          price: 0,
+          unit: "",
+          description: "",
+          content: "",
+          is_enabled: 1,
+        };
+        imageUrl.value = "";
+        imageList.value.splice(0);
+        selectEditProduct.value = "";
+      }
+    );
+
+    const setProduct = async () => {
+      data.value.imageUrl = imageUrl.value;
+      data.value.imagesUrl = [...imageList.value];
+      loading.showLoading();
+      const params = {
+        data: { ...data.value },
+      };
+      try {
+        const res = await createProduct(params);
+        console.log(res);
+        if (res.data.success) {
+          successAlert("建立成功!");
+        }
+      } catch (error) {
+        console.log(error);
+      } finally {
+        loading.hideLoading();
+      }
+    };
+    const uploadImg = async (event, imgType = "main") => {
+      const fileList = [...event.target.files];
+      const imgLen = event.target.files.length;
+      if (imgLen === 0) return;
+      if (imgLen > 5 || imgLen + imageList.value.length > 5) {
+        errorAlert("最多上傳5筆檔案");
+        return;
+      }
+      const errorFormat = fileList.some((file) => {
+        return (
+          !file.type ||
+          (file.type !== "image/jpeg" && file.type !== "image/png")
+        );
+      });
+      if (errorFormat) {
+        // 錯誤的檔案類型
+        loading.hideLoading();
+        errorAlert("檔案格式錯誤", "僅能上傳jpg、png類型檔案");
+        return;
+      }
+      loading.showLoading();
+      if (imgType == "main") {
+        const formData = new FormData();
+        const img = fileList[0];
+        formData.append("file-to-upload", img);
+        try {
+          const res = await apiUploadImg(formData);
+          console.log(res);
+          if (res.status === 200) {
+            imageUrl.value = res.data.imageUrl;
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      } else {
+        const uploadAllFile = fileList.map(async (img) => {
+          const formData = new FormData();
+          formData.append("file-to-upload", img);
+          try {
+            const res = await apiUploadImg(formData);
+            if (res.status === 200) {
+              return res.data.imageUrl;
+            } else {
+              return null;
+            }
+          } catch (error) {
+            return null;
+          }
+        });
+        const result = await Promise.all(uploadAllFile);
+        const inVaild = result.some((item) => item === null);
+        if (!inVaild) {
+          imageList.value.push(...result);
+        } else {
+          errorAlert("上傳失敗", "請稍後在試或使用其他檔案");
+        }
+      }
+      loading.hideLoading();
+    };
+    const delImage = (index) => {
+      imageList.value.splice(index, 1);
+    };
+    return {
+      data,
+      imageUrl,
+      imageList,
+      isEditStatus,
+      productList,
+      selectEditProduct,
+      setProduct,
+      uploadImg,
+      delImage,
+    };
+  },
+};
 </script>
 <style lang="scss" scoped>
-.uploadImg {
+.template-image {
   display: flex;
   align-items: center;
   justify-content: center;
-
-  height: 300px;
   border: 2px dashed gray;
   border-radius: 10px;
+}
+
+.uploadImg {
+  height: 275px;
+  max-width: 100%;
+}
+.uploadImgs {
+  max-height: 110px;
+  max-width: 110px;
+  height: 110px;
+  width: 110px;
+  margin-right: 0.25rem;
+  margin-bottom: 0.25rem;
+  @media screen and (max-width: 1400px) {
+    max-height: 100px;
+    max-width: 100px;
+    height: 100px;
+    width: 100px;
+  }
 }
 </style>
