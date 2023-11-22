@@ -15,20 +15,22 @@ export default defineStore("productStore", {
         productList: (state) => state.product,
     },
     actions: {
-        async getAllProductData() {
-            loading.showLoading();
-            try {
-                const res = await apiGetProductAll();
-                console.log(res);
-                this.product = Object.values(res.data.products);
-            } catch (err) {
-                // 驗證失敗
-                router.push("/login");
-                console.log(err);
-            } finally {
-                loading.hideLoading();
-            }
-
+        getAllProductData() {
+            return new Promise(async (resolve, reject) => {
+                loading.showLoading();
+                try {
+                    const res = await apiGetProductAll();
+                    console.log(res);
+                    this.product = Object.values(res.data.products);
+                } catch (err) {
+                    // 驗證失敗
+                    router.push("/login");
+                    console.log(err);
+                } finally {
+                    loading.hideLoading();
+                    resolve()
+                }
+            })
         },
         setEditData(data) {
             this.editData = { ...data };

@@ -2,20 +2,59 @@
   <div class="card pt-2">
     <div class="px-2 mb-2 d-between">
       <h2 class="mb-0">{{ isEditStatus ? "修改" : "建立" }}商品</h2>
-      <select
+      <div class="input-group w-25 border rounded" v-if="isEditStatus">
+        <input
+          type="text"
+          class="form-control border-0 rounded"
+          readonly
+          role="button"
+          placeholder="請選擇編輯商品"
+          data-bs-toggle="dropdown"
+          data-bs-auto-close="true"
+          aria-expanded="false"
+          :value="selectEditProduct ? editDataMap[selectEditProduct].title : ''"
+        />
+        <div class="dropdown-menu w-100 border-top-0">
+          <div class="px-2 pt-1">
+            <input
+              type="text"
+              placeholder="查詢商品名稱"
+              class="form-control-sm border rounded w-100"
+              v-model="productKeyword"
+            />
+            <ul class="product-list ps-0 mt-2 mb-0">
+              <li
+                class="py-1"
+                :class="{ active: selectEditProduct === product.id }"
+                @click="
+                  (selectEditProduct = product.id),
+                    setEditData(editDataMap[product.id])
+                "
+                v-for="product in filterProductList"
+                :key="product.id"
+                :value="product.id"
+              >
+                {{ product.title }}
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <!-- <select
         class="form-select w-25"
         v-if="isEditStatus"
         v-model="selectEditProduct"
+        @change="setEditData(editDataMap[selectEditProduct])"
       >
         <option :value="''" selected disabled>請選擇編輯商品</option>
         <option
-          :value="product.id"
           v-for="product in productList"
           :key="product.id"
+          :value="product.id"
         >
           {{ product.title }}
         </option>
-      </select>
+      </select> -->
     </div>
 
     <Form v-slot="{ errors }" class="container-fluid" @submit="setProduct">
@@ -251,7 +290,7 @@ import { errorAlert, successAlert } from "@/methods/sweetAlert.js";
 import loadingStore from "@/stores/loading";
 import { onMounted, nextTick } from "vue";
 import { Field, Form, ErrorMessage } from "vee-validate";
-import { ref, watch } from "vue";
+import { ref, watch, computed } from "vue";
 import productStore from "@/stores/product.js";
 import { useRoute } from "vue-router";
 import { storeToRefs } from "pinia";
@@ -275,26 +314,8 @@ export default {
       content: "",
       is_enabled: 1,
     });
-    const selectEditProduct = ref("");
     const route = useRoute();
-    const isEditStatus = ref(route.fullPath === "/dashboard/editProduct");
     const loading = loadingStore();
-    const product = productStore();
-    const { productList } = storeToRefs(product);
-    if (productList.value.length === 0) {
-      product.getAllProductData();
-    }
-    const setEditData = (editData) => {
-      data.value = { ...editData };
-      imageUrl.value = editData.imageUrl;
-      imageList.value = [...editData.imagesUrl];
-      selectEditProduct.value = editData.id;
-    };
-    if (isEditStatus && Object.keys(product.editData).length > 0) {
-      // 初次進入編輯頁面且有帶入編輯資料時
-      setEditData(product.editData);
-      product.setEditData({}); // 設定完後清空資料
-    }
     watch(
       () => route.path,
       (value) => {
@@ -314,6 +335,53 @@ export default {
         selectEditProduct.value = "";
       }
     );
+    const selectEditProduct = ref("");
+    const productKeyword = ref("");
+    const editDataMap = ref({});
+    const product = productStore();
+    const { productList } = storeToRefs(product); // 取得商品列表
+    const isEditStatus = ref(route.fullPath === "/dashboard/editProduct");
+
+    const filterProductList = computed(() => {
+      if (productList.value.length > 0) {
+        return productList.value.filter((product) => {
+          return product.title.match(productKeyword.value);
+        });
+      } else {
+        return [];
+      }
+    });
+    const setEditData = (editData) => {
+      data.value = { ...editData };
+      imageUrl.value = editData.imageUrl;
+      if (editData.imagesUrl) {
+        imageList.value = [...editData.imagesUrl];
+      } else {
+        imageList.value.splice(0);
+      }
+      selectEditProduct.value = editData.id;
+    };
+    // 編輯功能
+    if (isEditStatus) {
+      const setEditDataMap = () => {
+        productList.value.forEach((product) => {
+          editDataMap.value[product.id] = product;
+        });
+      };
+
+      if (productList.value.length === 0) {
+        product.getAllProductData().then(() => {
+          setEditDataMap();
+        });
+      } else {
+        setEditDataMap();
+      }
+      if (Object.keys(product.editData).length > 0) {
+        // 初次進入編輯頁面且有帶入編輯資料時
+        setEditData(product.editData);
+        product.setEditData({}); // 設定完後清空資料
+      }
+    }
 
     const setProduct = async () => {
       data.value.imageUrl = imageUrl.value;
@@ -401,11 +469,14 @@ export default {
       imageUrl,
       imageList,
       isEditStatus,
-      productList,
+      filterProductList,
       selectEditProduct,
+      productKeyword,
+      editDataMap,
       setProduct,
       uploadImg,
       delImage,
+      setEditData,
     };
   },
 };
@@ -435,6 +506,23 @@ export default {
     max-width: 100px;
     height: 100px;
     width: 100px;
+  }
+}
+.dropdown-menu {
+  width: calc(100%);
+  transform: translate3d(0px, 38px, 0px) !important;
+}
+.product-list {
+  max-height: 350px;
+  overflow: auto;
+  li {
+    cursor: pointer;
+    &.active {
+      background-color: rgb(229, 233, 233);
+    }
+    &:hover {
+      background-color: rgb(229, 233, 233);
+    }
   }
 }
 </style>
