@@ -54,6 +54,7 @@
     </div>
 
     <Form
+      :class="{ cover: !selectEditProduct && isEditStatus }"
       v-slot="{ errors }"
       class="container-fluid"
       ref="form"
@@ -545,6 +546,26 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+form {
+  position: relative;
+  &.cover::after {
+    position: absolute;
+    content: "請先選擇編輯商品";
+    background-color: black;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    opacity: 0.75;
+    color: white;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+  }
+}
+
 .template-image {
   display: flex;
   align-items: center;
