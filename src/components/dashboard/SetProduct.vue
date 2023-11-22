@@ -2,7 +2,10 @@
   <div class="card pt-2">
     <div class="px-2 mb-2 d-between">
       <h2 class="mb-0">{{ isEditStatus ? "修改" : "建立" }}商品</h2>
-      <div class="input-group w-25 border rounded" v-if="isEditStatus">
+      <div
+        class="input-group w-25 border rounded d-flex align-items-center"
+        v-if="isEditStatus"
+      >
         <input
           type="text"
           class="form-control border-0 rounded"
@@ -13,6 +16,14 @@
           data-bs-auto-close="true"
           aria-expanded="false"
           :value="selectEditProduct ? editDataMap[selectEditProduct].title : ''"
+        />
+        <font-awesome-icon
+          data-bs-toggle="dropdown"
+          data-bs-auto-close="true"
+          role="button"
+          aria-expanded="false"
+          class="me-3"
+          icon="fa-chevron-down"
         />
         <div class="dropdown-menu w-100 border-top-0">
           <div class="px-2 pt-1">
@@ -40,24 +51,14 @@
           </div>
         </div>
       </div>
-      <!-- <select
-        class="form-select w-25"
-        v-if="isEditStatus"
-        v-model="selectEditProduct"
-        @change="setEditData(editDataMap[selectEditProduct])"
-      >
-        <option :value="''" selected disabled>請選擇編輯商品</option>
-        <option
-          v-for="product in productList"
-          :key="product.id"
-          :value="product.id"
-        >
-          {{ product.title }}
-        </option>
-      </select> -->
     </div>
 
-    <Form v-slot="{ errors }" class="container-fluid" @submit="setProduct">
+    <Form
+      v-slot="{ errors }"
+      class="container-fluid"
+      ref="form"
+      @submit="setProduct"
+    >
       <div class="row border-top">
         <div class="col-md border-end pt-2">
           <label for="name" class="form-label">是否啟用</label>
@@ -203,7 +204,7 @@
           class="col-md-5 col-lg-4 col-xxxl-3 d-column justify-content-between"
         >
           <div class="pt-2">
-            <h5 class="my-2">上傳商品主圖</h5>
+            <h5 class="my-2">商品主圖</h5>
             <hr class="mt-0 mb-2" />
             <label
               v-if="!imageUrl"
@@ -234,7 +235,7 @@
               class="form-control d-none"
               type="file"
             />
-            <h5 class="my-2">上傳商品附圖</h5>
+            <h5 class="my-2">商品附圖</h5>
             <hr class="mt-0 mb-2" />
             <div class="d-flex flex-wrap">
               <template v-if="imageList.length > 0">
@@ -275,18 +276,43 @@
               />
             </div>
           </div>
-
-          <button type="submit" class="btn btn-primary my-2">
-            {{ isEditStatus ? "修改" : "建立" }}商品
-          </button>
+          <div class="d-flex mt-3 mb-2">
+            <button
+              type="button"
+              class="btn btn-danger text-white w-50 me-2"
+              @click="deleteProduct"
+              :disabled="!selectEditProduct"
+              v-if="isEditStatus"
+            >
+              <font-awesome-icon icon="fa-trash-can" class="me-1" />刪除商品
+            </button>
+            <button
+              type="submit"
+              class="btn btn-primary flex-grow-1"
+              :class="{ 'ms-2': isEditStatus }"
+            >
+              <font-awesome-icon icon="fa-edit" class="me-1" />{{
+                isEditStatus ? "修改" : "建立"
+              }}商品
+            </button>
+          </div>
         </div>
       </div>
     </Form>
   </div>
 </template>
 <script>
-import { createProduct, apiUploadImg } from "@/api/api";
-import { errorAlert, successAlert } from "@/methods/sweetAlert.js";
+import {
+  createProduct,
+  apiUploadImg,
+  apiDeleteProduct,
+  apiUpdateProduct,
+} from "@/api/api";
+import {
+  errorAlert,
+  successAlert,
+  deleteWarningAlert,
+} from "@/methods/sweetAlert.js";
 import loadingStore from "@/stores/loading";
 import { onMounted, nextTick } from "vue";
 import { Field, Form, ErrorMessage } from "vee-validate";
@@ -320,19 +346,7 @@ export default {
       () => route.path,
       (value) => {
         isEditStatus.value = route.fullPath === "/dashboard/editProduct";
-        data.value = {
-          title: "",
-          category: "",
-          origin_price: 0,
-          price: 0,
-          unit: "",
-          description: "",
-          content: "",
-          is_enabled: 1,
-        };
-        imageUrl.value = "";
-        imageList.value.splice(0);
-        selectEditProduct.value = "";
+        reset();
       }
     );
     const selectEditProduct = ref("");
@@ -341,9 +355,15 @@ export default {
     const product = productStore();
     const { productList } = storeToRefs(product); // 取得商品列表
     const isEditStatus = ref(route.fullPath === "/dashboard/editProduct");
-
+    const form = ref(); // form DOM
+    const setEditDataMap = () => {
+      productList.value.forEach((product) => {
+        editDataMap.value[product.id] = product;
+      });
+    };
     const filterProductList = computed(() => {
       if (productList.value.length > 0) {
+        setEditDataMap(); // 每次更新再從組一次資料
         return productList.value.filter((product) => {
           return product.title.match(productKeyword.value);
         });
@@ -363,12 +383,6 @@ export default {
     };
     // 編輯功能
     if (isEditStatus) {
-      const setEditDataMap = () => {
-        productList.value.forEach((product) => {
-          editDataMap.value[product.id] = product;
-        });
-      };
-
       if (productList.value.length === 0) {
         product.getAllProductData().then(() => {
           setEditDataMap();
@@ -390,13 +404,20 @@ export default {
       const params = {
         data: { ...data.value },
       };
+      const api = isEditStatus ? apiUpdateProduct : createProduct;
+      const alertTitle = isEditStatus ? "編輯" : "建立";
       try {
-        const res = await createProduct(params);
+        const res = await api(params);
         console.log(res);
         if (res.data.success) {
-          successAlert("建立成功!");
+          await product.getAllProductData();
+          successAlert(`${alertTitle}成功!`);
+          reset();
+        } else {
+          errorAlert(`${alertTitle}失敗!`);
         }
       } catch (error) {
+        errorAlert(`${alertTitle}失敗!`);
         console.log(error);
       } finally {
         loading.hideLoading();
@@ -406,7 +427,10 @@ export default {
       const fileList = [...event.target.files];
       const imgLen = event.target.files.length;
       if (imgLen === 0) return;
-      if (imgLen > 5 || imgLen + imageList.value.length > 5) {
+      if (
+        imgType !== "main" &&
+        (imgLen > 5 || imgLen + imageList.value.length > 5)
+      ) {
         errorAlert("最多上傳5筆檔案");
         return;
       }
@@ -464,6 +488,43 @@ export default {
     const delImage = (index) => {
       imageList.value.splice(index, 1);
     };
+    const deleteProduct = async () => {
+      const result = await deleteWarningAlert(data.value.title);
+      if (!result) return;
+      loading.showLoading();
+      try {
+        const res = await apiDeleteProduct(data.value.id);
+        console.log(res);
+        if (res.data.success) {
+          await product.getAllProductData();
+          successAlert("刪除成功!");
+          reset();
+        }
+      } catch (err) {
+        console.log(err);
+      } finally {
+        loading.hideLoading();
+      }
+    };
+    const reset = async () => {
+      data.value = {
+        title: "",
+        category: "",
+        origin_price: 0,
+        price: 0,
+        unit: "",
+        description: "",
+        content: "",
+        is_enabled: 1,
+      };
+      imageUrl.value = "";
+      imageList.value.splice(0);
+      selectEditProduct.value = "";
+      setTimeout(() => {
+        form.value.resetForm();
+      }, 0);
+    };
+
     return {
       data,
       imageUrl,
@@ -473,10 +534,12 @@ export default {
       selectEditProduct,
       productKeyword,
       editDataMap,
+      form,
       setProduct,
       uploadImg,
       delImage,
       setEditData,
+      deleteProduct,
     };
   },
 };
