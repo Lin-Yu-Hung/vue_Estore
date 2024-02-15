@@ -332,6 +332,7 @@ export default {
   setup(props, context) {
     let imageUrl = ref("");
     let tempImgFile = ref(null); // 暫存上傳檔案，以便儲存時發送api儲存
+    let tempImgFiles = ref([]); // 暫存上傳檔案，以便儲存時發送api儲存
     const imageList = ref([]);
     const data = ref({
       title: "",
@@ -419,10 +420,36 @@ export default {
       } else {
         data.value.imageUrl = imageUrl.value;
       }
-      data.value.imagesUrl = [...imageList.value];
+      console.log(tempImgFiles.value);
+      if (tempImgFiles.value.length !== 0) {
+        const uploadAllFile = tempImgFiles.value.map(async (img) => {
+          const formData = new FormData();
+          formData.append("file-to-upload", img);
+          try {
+            const res = await apiUploadImg(formData);
+            if (res.status === 200) {
+              return res.data.imageUrl;
+            } else {
+              return null;
+            }
+          } catch (error) {
+            return null;
+          }
+        });
+        const result = await Promise.all(uploadAllFile);
+        const inVaild = result.some((item) => item === null);
+        if (!inVaild) {
+          data.value.imagesUrl = [...result];
+        } else {
+          errorAlert("上傳失敗", "請稍後在試或使用其他檔案");
+        }
+      } else {
+        data.value.imagesUrl = [...imageList.value];
+      }
       const params = {
         data: { ...data.value },
       };
+      console.log("🚀  params:", params);
       const api = isEditStatus.value ? apiUpdateProduct : createProduct;
       const alertTitle = isEditStatus.value ? "編輯" : "建立";
       try {
@@ -479,15 +506,9 @@ export default {
         }
       } else {
         const uploadAllFile = fileList.map(async (img) => {
-          const formData = new FormData();
-          formData.append("file-to-upload", img);
           try {
-            const res = await apiUploadImg(formData);
-            if (res.status === 200) {
-              return res.data.imageUrl;
-            } else {
-              return null;
-            }
+            const res = await uploadImage(img);
+            return res.result;
           } catch (error) {
             return null;
           }
@@ -496,6 +517,7 @@ export default {
         const inVaild = result.some((item) => item === null);
         if (!inVaild) {
           imageList.value.push(...result);
+          tempImgFiles.value = [...fileList];
         } else {
           errorAlert("上傳失敗", "請稍後在試或使用其他檔案");
         }

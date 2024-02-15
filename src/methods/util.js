@@ -8,7 +8,7 @@ export const uploadImage = (file) => {
         };
         reader.onerror = () => {
             // 讀取完成後
-            reject();
+            reject(null);
         };
     })
 }
