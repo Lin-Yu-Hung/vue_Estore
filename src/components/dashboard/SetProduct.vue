@@ -321,6 +321,7 @@ import { ref, watch, computed } from "vue";
 import productStore from "@/stores/product.js";
 import { useRoute } from "vue-router";
 import { storeToRefs } from "pinia";
+import { uploadImage } from "@/methods/util.js";
 
 export default {
   components: {
@@ -330,6 +331,7 @@ export default {
   },
   setup(props, context) {
     let imageUrl = ref("");
+    let tempImgFile = ref(null); // 暫存上傳檔案，以便儲存時發送api儲存
     const imageList = ref([]);
     const data = ref({
       title: "",
@@ -341,6 +343,7 @@ export default {
       content: "",
       is_enabled: 1,
     });
+
     const route = useRoute();
     const loading = loadingStore();
     watch(
@@ -383,7 +386,7 @@ export default {
       selectEditProduct.value = editData.id;
     };
     // 編輯功能
-    if (isEditStatus) {
+    if (isEditStatus.value) {
       if (productList.value.length === 0) {
         product.getAllProductData().then(() => {
           setEditDataMap();
@@ -399,21 +402,38 @@ export default {
     }
 
     const setProduct = async () => {
-      data.value.imageUrl = imageUrl.value;
-      data.value.imagesUrl = [...imageList.value];
       loading.showLoading();
+      if (tempImgFile.value !== null) {
+        const formData = new FormData();
+        formData.append("file-to-upload", tempImgFile.value);
+        try {
+          const res = await apiUploadImg(formData);
+          console.log(res);
+          if (res.status === 200) {
+            data.value.imageUrl = res.data.imageUrl;
+          }
+        } catch (error) {
+          console.log(error);
+        }
+        tempImgFile.value = null;
+      } else {
+        data.value.imageUrl = imageUrl.value;
+      }
+      data.value.imagesUrl = [...imageList.value];
       const params = {
         data: { ...data.value },
       };
-      const api = isEditStatus ? apiUpdateProduct : createProduct;
-      const alertTitle = isEditStatus ? "編輯" : "建立";
+      const api = isEditStatus.value ? apiUpdateProduct : createProduct;
+      const alertTitle = isEditStatus.value ? "編輯" : "建立";
       try {
         const res = await api(params);
         console.log(res);
         if (res.data.success) {
           await product.getAllProductData();
           successAlert(`${alertTitle}成功!`);
-          reset();
+          if (!isEditStatus.value) {
+            reset();
+          }
         } else {
           errorAlert(`${alertTitle}失敗!`);
         }
@@ -449,17 +469,13 @@ export default {
       }
       loading.showLoading();
       if (imgType == "main") {
-        const formData = new FormData();
         const img = fileList[0];
-        formData.append("file-to-upload", img);
         try {
-          const res = await apiUploadImg(formData);
-          console.log(res);
-          if (res.status === 200) {
-            imageUrl.value = res.data.imageUrl;
-          }
+          const res = await uploadImage(img);
+          imageUrl.value = res.result;
+          tempImgFile.value = img;
         } catch (error) {
-          console.log(error);
+          errorAlert("上傳失敗", "請稍後在試或使用其他檔案");
         }
       } else {
         const uploadAllFile = fileList.map(async (img) => {
