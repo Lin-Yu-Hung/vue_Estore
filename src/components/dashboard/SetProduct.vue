@@ -439,10 +439,15 @@ export default {
         const result = await Promise.all(uploadAllFile);
         const inVaild = result.some((item) => item === null);
         if (!inVaild) {
-          data.value.imagesUrl = [...result];
+          if (!data.value.imagesUrl || data.value.imagesUrl.length === 0) {
+            data.value.imagesUrl = [...result];
+          } else {
+            data.value.imagesUrl.push(...result);
+          }
         } else {
           errorAlert("上傳失敗", "請稍後在試或使用其他檔案");
         }
+        tempImgFiles.value.splice(0);
       } else {
         data.value.imagesUrl = [...imageList.value];
       }
