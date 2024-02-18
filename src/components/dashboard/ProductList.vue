@@ -213,7 +213,8 @@ export default {
       try {
         const res = await apiGetProductAll();
         console.log(res);
-        productList.value = Object.values(res.data.products);
+        product.setProductList(Object.values(res.data.products));
+        // productList.value = ;
       } catch (err) {
         // 驗證失敗
         router.push("/login");

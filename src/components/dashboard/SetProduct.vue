@@ -567,7 +567,7 @@ export default {
       imageList.value.splice(0);
       selectEditProduct.value = "";
       setTimeout(() => {
-        form.value.resetForm();
+        form.value && form.value.resetForm();
       }, 0);
     };
 

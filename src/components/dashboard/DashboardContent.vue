@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-expand-md navbar-dark bg-dark px-2 pt-1">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-2 pt-1">
     <div class="container-fluid">
       <div class="navbar-brand p-0">
         <font-awesome-icon
@@ -30,7 +30,7 @@
         id="offcanvasDarkNavbar"
         aria-labelledby="offcanvasDarkNavbarLabel"
       >
-        <div class="md-up-hide d-end p-2">
+        <div class="lg-up-hide d-end p-2">
           <button
             type="button"
             class="btn-close btn-close-white"
@@ -45,34 +45,14 @@
             class="menu-logo-medium"
             alt="logo"
           />
-          <!-- <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">test</h5> -->
         </div>
         <div
-          class="offcanvas-body d-column align-items-center align-items-md-end"
+          class="offcanvas-body d-column align-items-center align-items-lg-end"
         >
-          <ul class="navbar-nav flex-grow-1 md-up-hide">
-            <li class="nav-item">
-              <router-link
-                class="menu-link"
-                aria-current="page"
-                to="productList"
-              >
-                <font-awesome-icon
-                  icon="fa-list"
-                  role="button"
-                />產品設定</router-link
-              >
-            </li>
-            <li class="nav-item">
-              <router-link class="menu-link" to="orderManage"
-                ><font-awesome-icon
-                  icon="fa-cart-shopping"
-                  role="button"
-                />購物車</router-link
-              >
-            </li>
-            <li class="nav-item mt-auto"></li>
-          </ul>
+          <div class="navbar-nav flex-grow-1 lg-up-hide w-100">
+            <MenuList v-if="!menuStatus" />
+          </div>
+
           <div class="d-center">
             <router-link
               class="menu-link"
@@ -99,14 +79,43 @@
 import { setCookie } from "@/methods/cookie.js";
 import menuStore from "@/stores/menu";
 import { storeToRefs } from "pinia";
+import MenuList from "@/components/dashboard/MenuList.vue";
+import { watch } from "vue";
+import { bsOffcanvas } from "@/methods/bootstrap.js";
+import { useRoute } from "vue-router";
 
 export default {
+  components: { MenuList },
   emits: ["changeMenuStatus"],
   setup(props, context) {
+    const route = useRoute();
+    watch(
+      () => route.path,
+      (value) => {
+        if (window.innerWidth < 992) {
+          bsOffcanvas("offcanvasDarkNavbar").hide();
+          const offcanvasElement = document.getElementById(
+            "offcanvasDarkNavbar"
+          );
+          const offcanvasBackdrop = document.querySelector(
+            ".offcanvas-backdrop"
+          );
+          offcanvasBackdrop.remove();
+          offcanvasElement.classList.remove("show");
+          document.body.removeAttribute("data-bs-overflow");
+          document.body.removeAttribute("data-bs-padding-right");
+          document.body.style = "";
+        }
+      }
+    );
     const menu = menuStore();
     const { emit } = context;
     const { menuStatus } = storeToRefs(menu);
-
+    if (window.innerWidth < 992) {
+      menu.hideMenu();
+    } else {
+      menu.showMenu();
+    }
     const setMenuStatus = () => {
       emit("changeMenuStatus");
     };
@@ -121,6 +130,17 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.offcanvas {
+  max-width: 85%;
+}
+.navbar-toggler {
+  border: none;
+
+  &:focus {
+    box-shadow: none;
+  }
+}
+
 .offcanvas-body {
   align-items: center;
   ul {

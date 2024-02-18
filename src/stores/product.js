@@ -32,6 +32,9 @@ export default defineStore("productStore", {
                 }
             })
         },
+        setProductList(data) {
+            this.product = JSON.parse(JSON.stringify(data))
+        },
         setEditData(data) {
             this.editData = { ...data };
         },
