@@ -18,12 +18,12 @@ echo > .nojekyll
 git init
 git checkout -B main
 git add -A
-git commit -m '修改logo樣式'
+git commit -m 'test3'
 
 # if you are deploying to https://4080e068.github.io
 # git push -f https://github.com/4080E68/vue_Estore.git main
 
 # if you are deploying to https://4080e068.github.io/vite
-git push -f https://github.com/4080E68/vue_Estore.git
+git push origin main
 
 cd -
