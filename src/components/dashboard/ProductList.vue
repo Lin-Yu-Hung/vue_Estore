@@ -41,14 +41,8 @@
             />
           </div>
 
-          <button
-            type="button"
-            class="btn btn-dark py-1 px-3"
-            data-bs-toggle="modal"
-            data-bs-target="#setProductModal"
-            @click="setStatus = 'add'"
-          >
-            + 新增
+          <button type="button" class="btn btn-dark py-1 px-3">
+            <router-link to="setProduct" class="text-white">+ 新增</router-link>
           </button>
         </div>
         <table class="table table-hover">
