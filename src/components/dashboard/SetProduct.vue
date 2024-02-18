@@ -377,10 +377,10 @@ export default {
       }
     });
     const setEditData = (editData) => {
-      data.value = { ...editData };
+      data.value = JSON.parse(JSON.stringify(editData));
       imageUrl.value = editData.imageUrl;
       if (editData.imagesUrl) {
-        imageList.value = [...editData.imagesUrl];
+        imageList.value = JSON.parse(JSON.stringify(editData.imagesUrl));
       } else {
         imageList.value.splice(0);
       }
@@ -420,7 +420,6 @@ export default {
       } else {
         data.value.imageUrl = imageUrl.value;
       }
-      console.log(tempImgFiles.value);
       if (tempImgFiles.value.length !== 0) {
         const uploadAllFile = tempImgFiles.value.map(async (img) => {
           const formData = new FormData();
@@ -442,6 +441,7 @@ export default {
           if (!data.value.imagesUrl || data.value.imagesUrl.length === 0) {
             data.value.imagesUrl = [...result];
           } else {
+            console.log("🚀  data.value.imagesUrl:", data.value.imagesUrl);
             data.value.imagesUrl.push(...result);
           }
         } else {
@@ -449,12 +449,12 @@ export default {
         }
         tempImgFiles.value.splice(0);
       } else {
+        // 未操作
         data.value.imagesUrl = [...imageList.value];
       }
       const params = {
         data: { ...data.value },
       };
-      console.log("🚀  params:", params);
       const api = isEditStatus.value ? apiUpdateProduct : createProduct;
       const alertTitle = isEditStatus.value ? "編輯" : "建立";
       try {
@@ -523,6 +523,7 @@ export default {
         if (!inVaild) {
           imageList.value.push(...result);
           tempImgFiles.value = [...fileList];
+          console.log("🚀  tempImgFiles.value:", tempImgFiles.value);
         } else {
           errorAlert("上傳失敗", "請稍後在試或使用其他檔案");
         }
@@ -531,6 +532,7 @@ export default {
     };
     const delImage = (index) => {
       imageList.value.splice(index, 1);
+      data.value.imagesUrl.splice(index, 1);
     };
     const deleteProduct = async () => {
       const result = await deleteWarningAlert(data.value.title);
