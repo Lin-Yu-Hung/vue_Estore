@@ -100,11 +100,13 @@ export default {
           const offcanvasBackdrop = document.querySelector(
             ".offcanvas-backdrop"
           );
-          offcanvasBackdrop.remove();
-          offcanvasElement.classList.remove("show");
-          document.body.removeAttribute("data-bs-overflow");
-          document.body.removeAttribute("data-bs-padding-right");
-          document.body.style = "";
+          if (offcanvasElement && offcanvasBackdrop) {
+            offcanvasBackdrop.remove();
+            offcanvasElement.classList.remove("show");
+            document.body.removeAttribute("data-bs-overflow");
+            document.body.removeAttribute("data-bs-padding-right");
+            document.body.style = "";
+          }
         }
       }
     );

@@ -17,7 +17,6 @@ export default defineStore("productStore", {
     actions: {
         getAllProductData() {
             return new Promise(async (resolve, reject) => {
-                loading.showLoading();
                 try {
                     const res = await apiGetProductAll();
                     console.log(res);
@@ -27,7 +26,6 @@ export default defineStore("productStore", {
                     router.push("/login");
                     console.log(err);
                 } finally {
-                    loading.hideLoading();
                     resolve()
                 }
             })

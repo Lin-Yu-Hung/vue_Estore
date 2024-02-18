@@ -41,9 +41,11 @@
             />
           </div>
 
-          <button type="button" class="btn btn-dark py-1 px-3">
-            <router-link to="setProduct" class="text-white">+ 新增</router-link>
-          </button>
+          <router-link
+            to="setProduct"
+            class="bg-primary px-3 py-2 text-center rounded text-white"
+            >+ 新增</router-link
+          >
         </div>
         <table class="table table-hover">
           <thead>
@@ -141,8 +143,6 @@
       </div>
     </div>
   </div>
-
-  <!-- <setProductModal :setStatus="setStatus" @updateData="getProductAll" /> -->
 </template>
 <script>
 import { apiGetProductAll, apiDeleteProduct } from "@/api/api";
@@ -164,7 +164,6 @@ export default {
   setup() {
     const product = productStore();
     const { productList } = storeToRefs(product);
-    product.getAllProductData();
     const bestSellerOption = { ...bestSellerChart };
     const proportionOfSalesOption = { ...proportionOfSalesChart };
     const proportionOfSales = ref(null);
@@ -178,7 +177,6 @@ export default {
       return Math.floor(dataHeight / 60);
     };
     const maxDataLen = ref(getMaxDataLen());
-
     const pageCount = computed(() => {
       if (productList.value) {
         return Math.ceil(
@@ -208,13 +206,13 @@ export default {
         const res = await apiGetProductAll();
         console.log(res);
         product.setProductList(Object.values(res.data.products));
-        // productList.value = ;
       } catch (err) {
         // 驗證失敗
         router.push("/login");
         console.log(err);
+      } finally {
+        loading.hideLoading();
       }
-      loading.hideLoading();
     };
     const setEditData = (data) => {
       product.setEditData(data);
@@ -227,11 +225,11 @@ export default {
       try {
         const res = await apiDeleteProduct(product.id);
         if (res.data.success) {
-          console.log(`刪除${product.title}商品!`);
-          getProductAll();
+          await getProductAll();
         }
       } catch (err) {
         console.log(err);
+      } finally {
         loading.hideLoading();
       }
     };
@@ -298,13 +296,6 @@ export default {
   overflow: auto;
 }
 
-// .imageItem {
-//   width: 10vw;
-//   img {
-//     width: 100%;
-//     height: 120px;
-//   }
-// }
 table {
   margin-top: 1rem;
   td,

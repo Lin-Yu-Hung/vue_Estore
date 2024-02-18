@@ -3,7 +3,7 @@
     <div class="px-2 mb-2 d-between">
       <h2 class="mb-0">{{ isEditStatus ? "修改" : "建立" }}商品</h2>
       <div
-        class="input-group w-25 border rounded d-flex align-items-center"
+        class="input-group border rounded d-flex align-items-center"
         v-if="isEditStatus"
       >
         <input
@@ -591,6 +591,13 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+.input-group {
+  width: 25%;
+  @media screen and (max-width: 768px) {
+    width: 50%;
+  }
+}
+
 form {
   position: relative;
   &.cover::after {
