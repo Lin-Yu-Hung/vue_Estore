@@ -1,1 +1,0 @@
-import{M as s,I as a,O as t}from"./index-297003e7.js";const o=e=>new s(document.getElementById(e)),l=e=>new a(document.getElementById(e),{toggle:!1}),c=e=>new t(document.getElementById(e));export{c as a,l as b,o as c};
