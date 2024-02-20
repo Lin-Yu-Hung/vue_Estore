@@ -1,18 +1,15 @@
 <template>
-  <div>
-    <div class="menu" @mouseenter="showMenu" @mouseleave="hideMenu">
-      Hover over me
-      <Transition
-        name="custom-classes"
-        enter-active-class="animate__animated animate__fadeIn"
-        leave-active-class="animate__animated animate__fadeOut"
-      >
-        <div v-if="menuVisible" class="dropdown">
-          <!-- Your menu content goes here -->
-          Menu Item 1 Menu Item 2 Menu Item 3
-        </div>
-      </Transition>
-    </div>
+  <div class="menu py-4" @mouseenter="showMenu" @mouseleave="hideMenu">
+    <slot name="header"></slot>
+    <Transition
+      name="custom-classes"
+      enter-active-class="animate__animated animate__fadeIn"
+      leave-active-class="animate__animated animate__fadeOut"
+    >
+      <div class="dropdown shadow card" v-if="menuVisible">
+        <slot name="menu"></slot>
+      </div>
+    </Transition>
   </div>
 </template>
 
@@ -22,7 +19,6 @@ import { ref } from "vue";
 export default {
   setup() {
     const menuVisible = ref(false);
-
     const showMenu = () => {
       menuVisible.value = true;
     };
@@ -40,17 +36,17 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss" scoped>
 .menu {
   cursor: pointer;
-  display: inline-block;
   position: relative;
 }
 
 .dropdown {
+  min-width: 120px;
   position: absolute;
   top: 100%;
-  left: 0;
+  right: 0;
 }
 
 /* 設定動畫持續時間 */

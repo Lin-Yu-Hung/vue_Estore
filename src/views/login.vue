@@ -142,6 +142,9 @@ export default {
     }
   }
   button {
+    &:hover:not(.btn-primary) {
+      background-color: rgb(245, 242, 242);
+    }
     img {
       width: 23px;
       height: 23px;

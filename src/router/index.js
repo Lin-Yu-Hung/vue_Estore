@@ -26,6 +26,18 @@ const router = createRouter({
       component: () => import("@/views/login.vue"),
     },
     {
+      path: "/eStore",
+      name: "eStore",
+      meta: {
+        title: "E-Store",
+      },
+      component: () => import("@/views/shop/Index.vue"),
+      children: [{
+        path: "home",
+        component: () => import("@/components/shop/Home.vue"),
+      }]
+    },
+    {
       path: "/dashboard",
       name: "dashboard",
       meta: {
