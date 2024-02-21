@@ -20,6 +20,7 @@ import { localize, setLocale } from "@vee-validate/i18n"; // 匯入繁體中文�
 import zhTW from '@vee-validate/i18n/dist/locale/zh_TW.json'
 import "@/methods/icon.js"
 import 'animate.css';
+import 'swiper/css';
 
 defineRule("required", required);
 defineRule("email", email);

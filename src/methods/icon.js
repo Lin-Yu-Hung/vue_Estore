@@ -26,6 +26,9 @@ import {
     faImages,
     faChevronDown,
     faSearch,
+    faCartArrowDown,
+    faFire,
+    faBars,
 } from "@fortawesome/free-solid-svg-icons";
 
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -58,5 +61,7 @@ library.add(
     faImages,
     faChevronDown,
     faUser,
-
+    faCartArrowDown,
+    faFire,
+    faBars,
 ); 

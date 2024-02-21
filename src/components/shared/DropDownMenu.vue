@@ -1,5 +1,5 @@
 <template>
-  <div class="menu py-4" @mouseenter="showMenu" @mouseleave="hideMenu">
+  <div class="menu py-2 py-md-4" @mouseenter="showMenu" @mouseleave="hideMenu">
     <slot name="header"></slot>
     <Transition
       name="custom-classes"
@@ -38,6 +38,7 @@ export default {
 
 <style lang="scss" scoped>
 .menu {
+  z-index: 100;
   cursor: pointer;
   position: relative;
 }

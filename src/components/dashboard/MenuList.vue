@@ -1,62 +1,5 @@
 <template>
-  <ul class="menuList">
-    <li>
-      <router-link class="menu-link" to="home"
-        ><font-awesome-icon
-          class=""
-          icon="fa-home"
-          role="button"
-        />首頁</router-link
-      >
-    </li>
-    <li class="dropdown-list">
-      <div
-        class="dropdown-title"
-        @click="toggleStatus"
-        data-bs-toggle="collapse"
-        data-bs-target="#productSetting"
-        aria-expanded="false"
-        aria-controls="productSetting"
-      >
-        <span class="pe-none">
-          <font-awesome-icon class="" icon="fa-list" role="button" />產品設定
-        </span>
-        <font-awesome-icon
-          class="dropdown-arrow pe-none"
-          icon="fa-chevron-right"
-        />
-      </div>
-      <div class="collapse multi-collapse" id="productSetting">
-        <ul>
-          <li class="collapse-item" parentId="productSetting">
-            <router-link class="menu-link" to="setProduct"
-              >建立商品</router-link
-            >
-          </li>
-          <li class="collapse-item" parentId="productSetting">
-            <router-link class="menu-link" to="editProduct"
-              >修改商品</router-link
-            >
-          </li>
-          <li class="collapse-item" parentId="productSetting">
-            <router-link class="menu-link" to="productList"
-              >商品列表</router-link
-            >
-          </li>
-        </ul>
-      </div>
-    </li>
-
-    <li>
-      <router-link class="menu-link" to="orderManage"
-        ><font-awesome-icon
-          class=""
-          icon="fa-cart-shopping"
-          role="button"
-        />購物車</router-link
-      >
-    </li>
-  </ul>
+  <slot name="menu"></slot>
 </template>
 <script>
 import { ref, onMounted, watch, nextTick } from "vue";
@@ -67,7 +10,6 @@ export default {
   setup() {
     const route = useRoute();
     const collapseMap = {};
-    const isClickableMap = {};
     const preCollapse = ref(null);
     watch(
       () => route.path,
@@ -75,19 +17,7 @@ export default {
         setActivePage();
       }
     );
-    const toggleStatus = (event) => {
-      const controls = event.target.getAttribute("aria-controls");
-      if (isClickableMap[controls] === undefined) {
-        isClickableMap[controls] = true;
-      }
-      if (isClickableMap[controls]) {
-        event.target.classList.toggle("show");
-      }
-      isClickableMap[controls] = false;
-      setTimeout(() => {
-        isClickableMap[controls] = true;
-      }, 350); // bootstrap 預設動畫時間為0.35秒
-    };
+
     const setOtherCollapse = (status, targetId = null) => {
       if (targetId) {
         for (const key in collapseMap) {
@@ -152,9 +82,6 @@ export default {
       });
       setActivePage();
     });
-    return {
-      toggleStatus,
-    };
   },
 };
 </script>
