@@ -35,16 +35,15 @@ $menu-width: 250px;
   min-height: calc(100vh - $navbar-height);
   max-height: calc(100vh - $navbar-height);
   overflow: auto;
-  footer {
-    min-height: 60px;
-    background-color: rgb(239, 239, 240);
-    display: flex;
-    align-items: center;
-    padding: 1rem;
-    font-size: 14px;
-  }
 }
-
+footer {
+  min-height: 60px;
+  background-color: rgb(239, 239, 240);
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  font-size: 14px;
+}
 .navbar {
   height: $navbar-height;
   padding-left: 0;

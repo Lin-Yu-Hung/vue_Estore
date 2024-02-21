@@ -120,10 +120,12 @@
                 v-model="data.category"
               >
                 <option selected value="" disabled>請選擇分類</option>
-                <option value="衣服">衣服</option>
-                <option value="鞋子">鞋子</option>
-                <option value="褲子">褲子</option>
-                <option value="其他">其他</option>
+                <option value="手機">手機</option>
+                <option value="平板">平板</option>
+                <option value="電腦">電腦</option>
+                <option value="遊戲機">遊戲機</option>
+                <option value="3C配件">3C配件</option>
+                <option value="智慧手錶">智慧手錶</option>
               </Field>
               <ErrorMessage class="text-danger invalid-feedback" name="分類" />
             </div>
@@ -229,7 +231,12 @@
               ></button>
               <img class="uploadImg mb-3" :src="imageUrl" :alt="imageUrl" />
             </div>
-
+            <input
+              type="text"
+              v-model="imageUrl"
+              class="form-control rounded"
+              placeholder="輸入圖片網址"
+            />
             <input
               @change="uploadImg"
               id="uploadImg"

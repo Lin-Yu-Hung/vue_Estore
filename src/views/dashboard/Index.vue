@@ -82,6 +82,7 @@ import menuStore from "@/stores/menu";
 import { storeToRefs } from "pinia";
 import { onMounted } from "vue";
 import MenuList from "@/components/dashboard/MenuList.vue";
+import { toggleStatus } from "@/methods/util.js";
 
 export default {
   components: {
@@ -131,21 +132,7 @@ export default {
 
     const changeMenuStatus = () =>
       menuStatus.value ? resetMenu("hide") : resetMenu("show");
-    const isClickableMap = {};
 
-    const toggleStatus = (event) => {
-      const controls = event.target.getAttribute("aria-controls");
-      if (isClickableMap[controls] === undefined) {
-        isClickableMap[controls] = true;
-      }
-      if (isClickableMap[controls]) {
-        event.target.classList.toggle("show");
-      }
-      isClickableMap[controls] = false;
-      setTimeout(() => {
-        isClickableMap[controls] = true;
-      }, 350); // bootstrap 預設動畫時間為0.35秒
-    };
     onMounted(() => {
       window.addEventListener("resize", () => {
         setTimeout(() => {
@@ -161,3 +148,4 @@ export default {
   },
 };
 </script>
+<style lang="scss" scoped></style>

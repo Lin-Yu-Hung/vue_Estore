@@ -132,12 +132,7 @@
   </nav>
   <div class="dashboard-content">
     <router-view />
-    <footer>
-      <div class="d-between w-100 flex-wrap">
-        <span>Copyright © 2023 YuHung Lin</span>
-        <span>本作品僅作為個人作品使用，不含任何商業行為</span>
-      </div>
-    </footer>
+    <Footer />
   </div>
 </template>
 <script>
@@ -148,9 +143,11 @@ import MenuList from "@/components/dashboard/MenuList.vue";
 import { watch } from "vue";
 import { bsOffcanvas } from "@/methods/bootstrap.js";
 import { useRoute } from "vue-router";
+import { toggleStatus } from "@/methods/util.js";
+import Footer from "@/components/Footer.vue";
 
 export default {
-  components: { MenuList },
+  components: { MenuList, Footer },
   emits: ["changeMenuStatus"],
   setup(props, context) {
     const route = useRoute();
@@ -186,20 +183,7 @@ export default {
     const setMenuStatus = () => {
       emit("changeMenuStatus");
     };
-    const isClickableMap = {};
-    const toggleStatus = (event) => {
-      const controls = event.target.getAttribute("aria-controls");
-      if (isClickableMap[controls] === undefined) {
-        isClickableMap[controls] = true;
-      }
-      if (isClickableMap[controls]) {
-        event.target.classList.toggle("show");
-      }
-      isClickableMap[controls] = false;
-      setTimeout(() => {
-        isClickableMap[controls] = true;
-      }, 350); // bootstrap 預設動畫時間為0.35秒
-    };
+
     return {
       setCookie,
       setMenuStatus,

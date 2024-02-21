@@ -60,7 +60,13 @@ a {
     }
   }
 }
-
+.collapse-item {
+  padding-top: 16px;
+  padding-bottom: 0;
+  &::before {
+    content: "－";
+  }
+}
 .menu-link {
   color: gray;
   &:hover {

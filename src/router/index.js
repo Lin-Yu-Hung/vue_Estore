@@ -35,6 +35,10 @@ const router = createRouter({
       children: [{
         path: "home",
         component: () => import("@/components/shop/Home.vue"),
+
+      }, {
+        path: "productList",
+        component: () => import("@/components/dashboard/ProductList.vue"),
       }]
     },
     {

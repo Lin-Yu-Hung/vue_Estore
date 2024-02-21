@@ -85,12 +85,3 @@ export default {
   },
 };
 </script>
-<style lang="scss" scoped>
-.collapse-item {
-  padding-top: 16px;
-  padding-bottom: 0;
-  &::before {
-    content: "－";
-  }
-}
-</style>
