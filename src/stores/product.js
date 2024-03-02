@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import loadingStore from "@/stores/loading.js"
-import { apiGetProductAll } from "@/api/api";
+import { apiGetAdminProductAll } from "@/api/api";
 import { useRouter } from "vue-router";
 
 const router = useRouter()
@@ -18,7 +18,7 @@ export default defineStore("productStore", {
         getAllProductData() {
             return new Promise(async (resolve, reject) => {
                 try {
-                    const res = await apiGetProductAll();
+                    const res = await apiGetAdminProductAll();
                     console.log(res);
                     this.product = Object.values(res.data.products);
                 } catch (err) {

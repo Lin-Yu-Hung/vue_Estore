@@ -145,7 +145,7 @@
   </div>
 </template>
 <script>
-import { apiGetProductAll, apiDeleteProduct } from "@/api/api";
+import { apiGetAdminProductAll, apiDeleteProduct } from "@/api/api";
 import { ref, computed, onMounted } from "vue";
 import loadingStore from "@/stores/loading";
 import SetProductModal from "../modal/SetProductModal.vue";
@@ -203,7 +203,7 @@ export default {
     const getProductAll = async () => {
       loading.showLoading();
       try {
-        const res = await apiGetProductAll();
+        const res = await apiGetAdminProductAll();
         console.log(res);
         product.setProductList(Object.values(res.data.products));
       } catch (err) {

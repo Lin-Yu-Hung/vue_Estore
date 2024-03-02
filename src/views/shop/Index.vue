@@ -239,7 +239,7 @@
         </div>
       </div>
     </div>
-
+    <!-- {{ productList }} -->
     <div class="border p-3 rounded bg-white shadow mb-5">
       <swiper
         :slidesPerView="2"
@@ -297,24 +297,31 @@ import { Swiper, SwiperSlide } from "swiper/vue";
 import { FreeMode, Autoplay, Navigation } from "swiper/modules";
 import MenuList from "@/components/dashboard/MenuList.vue";
 import { toggleStatus } from "@/methods/util.js";
-import productStore from "@/stores/product.js";
-import { storeToRefs } from "pinia";
 import loadingStore from "@/stores/loading";
 import Footer from "@/components/Footer.vue";
-
+import { apiGetProductAll } from "@/api/api.js";
 import "swiper/css/free-mode";
+import { ref } from "vue";
+import { errorAlert } from "@/methods/sweetAlert.js";
+
 // import "swiper/css/navigation";
+
 export default {
   components: { DropDownMenu, Swiper, SwiperSlide, MenuList, Footer },
   setup(props) {
-    const product = productStore();
     const loading = loadingStore();
-    const { productList } = storeToRefs(product);
+    const productList = ref({});
     const getAllProduct = async () => {
       loading.showLoading();
-      await product.getAllProductData();
-      loading.hideLoading();
-      console.log("🚀  productList:", productList.value);
+      try {
+        const res = await apiGetProductAll();
+        // console.log(res);
+        productList.value = JSON.parse(JSON.stringify(res.data.products));
+      } catch (error) {
+        errorAlert("取得資料錯誤", "請重新整理網頁或聯絡客服人員");
+      } finally {
+        loading.hideLoading();
+      }
     };
     getAllProduct();
     return {

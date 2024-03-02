@@ -34,9 +34,13 @@ api.interceptors.response.use(
   }
 
 );
+// admin
 export const login_api = (params) => login.post("/admin/signin", params);
-export const apiGetProductAll = () => api.get("/admin/products/all");
+export const apiGetAdminProductAll = () => api.get("/admin/products/all");
 export const createProduct = (params) => api.post("/admin/product", params);
 export const apiUpdateProduct = (params) => api.put(`/admin/product/${params.data.id}`, params);
 export const apiDeleteProduct = (id) => api.delete(`/admin/product/${id}`);
 export const apiUploadImg = (data) => api.post(`/admin/upload`, data);
+
+// 客戶端
+export const apiGetProductAll = () => api.get("/products/all");
