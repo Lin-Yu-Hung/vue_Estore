@@ -158,10 +158,44 @@
               </div>
             </template>
             <template v-slot:menu>
-              <ul class="profile ps-0 py-2 mb-0">
-                <li class="border-bottom px-2 py-1 text-end">個人資料</li>
-                <li class="border-bottom px-2 py-1 text-end">登出</li>
-              </ul>
+              <div class="cartList pb-0">
+                <div class="card mb-2 border-0 border-bottom rounded-0">
+                  <div class="d-flex align-items-center">
+                    <img
+                      src="@/assets/images/GoldPhone-1-300x300.webp"
+                      alt="..."
+                    />
+                    <div class="card-body d-column p-0 pb-2">
+                      <div class="d-between">
+                        <h5 class="card-title fs-6 mb-0">Card title</h5>
+                        <font-awesome-icon
+                          icon="fa-xmark"
+                          class="del-btn m-0 text-secondary"
+                        />
+                      </div>
+                      <p
+                        class="description text-secondary fs-small fs-small mb-2"
+                      >
+                        This is a wider card with supporting text below as a
+                        natural lead-in to additional content. This content is a
+                        little bit longer.
+                      </p>
+                      <p class="text-end mb-0">
+                        $ {{ (19999).toLocaleString() }} * 1
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="d-column align-items-end p-2">
+                <p class="mb-2">
+                  總金額:
+                  <span class="fs-5">$ {{ (2000000).toLocaleString() }}</span>
+                </p>
+                <button type="button" class="btn btn-primary w-100">
+                  立即結帳
+                </button>
+              </div>
             </template>
           </DropDownMenu>
         </div>
@@ -465,6 +499,31 @@ img {
     .card-text {
       display: -webkit-box;
       -webkit-line-clamp: 4; /* 显示的行数 */
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+  }
+}
+.cartList {
+  max-width: 30vw;
+  padding: 0.75rem 1rem;
+  max-height: 70svh;
+  overflow: auto;
+  .card {
+    img {
+      width: 125px;
+    }
+    .del-btn {
+      padding: 0.25rem;
+      &:hover {
+        color: black !important;
+      }
+    }
+    .description {
+      min-width: 18vw;
+      height: 42px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2; /* 显示的行数 */
       -webkit-box-orient: vertical;
       overflow: hidden;
     }

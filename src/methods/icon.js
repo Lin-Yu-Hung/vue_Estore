@@ -29,6 +29,7 @@ import {
     faCartArrowDown,
     faFire,
     faBars,
+    faXmark,
 } from "@fortawesome/free-solid-svg-icons";
 
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -64,4 +65,5 @@ library.add(
     faCartArrowDown,
     faFire,
     faBars,
+    faXmark,
 ); 
