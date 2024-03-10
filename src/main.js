@@ -1,5 +1,6 @@
 import { createApp } from "vue";
 import { createPinia } from "pinia";
+import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import App from "./App.vue";
 import router from "./router";
@@ -34,6 +35,9 @@ configure({
 })
 setLocale("zh_TW");
 
+const pinia = createPinia()
+pinia.use(piniaPluginPersistedstate)
+
 // firebase
 import {
   getSingleData,
@@ -43,6 +47,7 @@ import {
   addArrayItem,
   delArrayItem,
 } from "@/methods/firebase.js";
+
 
 // addArrayItem("Lin_Yu_Hung", "user", "blog", {
 //   title: "新增的部落格名稱",
@@ -64,7 +69,7 @@ import {
 
 const app = createApp(App);
 app.component("font-awesome-icon", FontAwesomeIcon);
-app.use(createPinia());
+app.use(pinia);
 app.use(router);
 app.mount("#app");
 

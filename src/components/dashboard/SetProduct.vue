@@ -365,6 +365,7 @@ export default {
     const productKeyword = ref("");
     const editDataMap = ref({});
     const product = productStore();
+    console.log(product.editData);
     const { productList } = storeToRefs(product); // 取得商品列表
     const isEditStatus = ref(route.fullPath === "/dashboard/editProduct");
     const form = ref(); // form DOM
@@ -393,21 +394,6 @@ export default {
       }
       selectEditProduct.value = editData.id;
     };
-    // 編輯功能
-    if (isEditStatus.value) {
-      if (productList.value.length === 0) {
-        product.getAllProductData().then(() => {
-          setEditDataMap();
-        });
-      } else {
-        setEditDataMap();
-      }
-      if (Object.keys(product.editData).length > 0) {
-        // 初次進入編輯頁面且有帶入編輯資料時
-        setEditData(product.editData);
-        product.setEditData({}); // 設定完後清空資料
-      }
-    }
 
     const setProduct = async () => {
       loading.showLoading();
@@ -577,6 +563,24 @@ export default {
         form.value && form.value.resetForm();
       }, 0);
     };
+
+    // 編輯功能
+    if (isEditStatus.value) {
+      if (productList.value.length === 0) {
+        loading.showLoading();
+        product.getAllProductData().then(() => {
+          setEditDataMap();
+          loading.hideLoading();
+        });
+      } else {
+        setEditDataMap();
+      }
+      if (Object.keys(product.editData).length > 0) {
+        // 初次進入編輯頁面且有帶入編輯資料時
+        setEditData(product.editData);
+        product.setEditData({}); // 設定完後清空資料
+      }
+    }
 
     return {
       data,

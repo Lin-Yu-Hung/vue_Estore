@@ -151,51 +151,59 @@
                   role="button"
                 ></font-awesome-icon>
                 <span
+                  v-if="cartItems.length > 0"
                   class="position-absolute start-100 translate-middle badge rounded-pill bg-danger"
                 >
-                  20
+                  {{ cartItems.length }}
                 </span>
               </div>
             </template>
             <template v-slot:menu>
-              <div class="cartList pb-0">
-                <div class="card mb-2 border-0 border-bottom rounded-0">
-                  <div class="d-flex align-items-center">
-                    <img
-                      src="@/assets/images/GoldPhone-1-300x300.webp"
-                      alt="..."
-                    />
-                    <div class="card-body d-column p-0 pb-2">
-                      <div class="d-between">
-                        <h5 class="card-title fs-6 mb-0">Card title</h5>
-                        <font-awesome-icon
-                          icon="fa-xmark"
-                          class="del-btn m-0 text-secondary"
-                        />
+              <template v-if="cartItems.length > 0">
+                <div class="cartList pb-0">
+                  <div
+                    class="card mb-2 border-0 border-bottom rounded-0"
+                    v-for="(item, index) in cartItems"
+                    :key="item.info.id"
+                  >
+                    <div class="d-flex align-items-center">
+                      <img :src="item.info.imageUrl" :alt="item.info.title" />
+                      <div class="card-body d-column p-0 pb-2">
+                        <div class="d-between mb-2">
+                          <h5 class="card-title fs-6 mb-0">
+                            {{ item.info.title }}
+                          </h5>
+                          <font-awesome-icon
+                            @click="cart.delItem(index)"
+                            icon="fa-xmark"
+                            class="del-btn m-0 text-secondary"
+                          />
+                        </div>
+                        <p
+                          class="description text-secondary fs-small fs-small mb-2"
+                        >
+                          {{ item.info.description }}
+                        </p>
+                        <p class="text-end mb-0">
+                          $ {{ item.info.price.toLocaleString() }} *
+                          {{ item.count }}
+                        </p>
                       </div>
-                      <p
-                        class="description text-secondary fs-small fs-small mb-2"
-                      >
-                        This is a wider card with supporting text below as a
-                        natural lead-in to additional content. This content is a
-                        little bit longer.
-                      </p>
-                      <p class="text-end mb-0">
-                        $ {{ (19999).toLocaleString() }} * 1
-                      </p>
                     </div>
                   </div>
                 </div>
-              </div>
-              <div class="d-column align-items-end p-2">
-                <p class="mb-2">
-                  總金額:
-                  <span class="fs-5">$ {{ (2000000).toLocaleString() }}</span>
-                </p>
-                <button type="button" class="btn btn-primary w-100">
-                  立即結帳
-                </button>
-              </div>
+                <div class="d-column align-items-end p-2">
+                  <p class="mb-2">
+                    總金額:
+                    <span class="fs-5"
+                      >$ {{ cartAmount.toLocaleString() }}</span
+                    >
+                  </p>
+                  <button type="button" class="btn btn-primary w-100">
+                    立即結帳
+                  </button>
+                </div>
+              </template>
             </template>
           </DropDownMenu>
         </div>
@@ -273,8 +281,8 @@
         </div>
       </div>
     </div>
-    <!-- {{ productList }} -->
     <div class="border p-3 rounded bg-white shadow mb-5">
+      <h2 class="fs-4">熱賣商品</h2>
       <swiper
         :slidesPerView="2"
         :spaceBetween="20"
@@ -313,10 +321,27 @@
                 {{ product.title }}
               </h5>
               <hr />
-              <p class="card-text flex-grow-1">
+              <p class="card-text flex-grow-1 fs-small">
                 {{ product.description }}
               </p>
-              <button class="btn btn-primary w-100">查看更多</button>
+              <div class="d-between align-items-center">
+                <span class="fs-5">
+                  $ {{ product.price.toLocaleString() }}
+                </span>
+                <font-awesome-icon
+                  class="border rounded-pill p-2 fs-6 me-0 btn btn-outline-secondary"
+                  icon="fa-cart-arrow-down"
+                  role="button"
+                  @click="cart.addItem(product)"
+                ></font-awesome-icon>
+              </div>
+
+              <!-- <button
+                class="btn btn-primary w-100"
+                @click="cart.addItem(product)"
+              >
+                加入購物車
+              </button> -->
             </div>
           </div></swiper-slide
         >
@@ -337,13 +362,16 @@ import { apiGetProductAll } from "@/api/api.js";
 import "swiper/css/free-mode";
 import { ref } from "vue";
 import { errorAlert } from "@/methods/sweetAlert.js";
-
+import { storeToRefs } from "pinia";
+import cartStore from "@/stores/shop/cart.js";
 // import "swiper/css/navigation";
 
 export default {
   components: { DropDownMenu, Swiper, SwiperSlide, MenuList, Footer },
   setup(props) {
     const loading = loadingStore();
+    const cart = cartStore();
+    const { cartItems, cartAmount } = storeToRefs(cart);
     const productList = ref({});
     const getAllProduct = async () => {
       loading.showLoading();
@@ -361,6 +389,9 @@ export default {
     return {
       productList,
       toggleStatus,
+      cartItems,
+      cartAmount,
+      cart,
       modules: [FreeMode, Navigation, Autoplay],
     };
   },
@@ -493,8 +524,11 @@ img {
     }
   }
   .card {
+    &:hover {
+      box-shadow: rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px;
+    }
     .card-img-top {
-      max-height: 230px;
+      height: 170px;
     }
     .card-text {
       display: -webkit-box;
@@ -504,28 +538,35 @@ img {
     }
   }
 }
+// 購物車
 .cartList {
-  max-width: 30vw;
+  // max-width: 50vw;
   padding: 0.75rem 1rem;
   max-height: 70svh;
-  overflow: auto;
+  overflow-y: auto;
   .card {
     img {
       width: 125px;
     }
     .del-btn {
-      padding: 0.25rem;
       &:hover {
         color: black !important;
       }
     }
     .description {
+      // width: max-content;
       min-width: 18vw;
       height: 42px;
       display: -webkit-box;
       -webkit-line-clamp: 2; /* 显示的行数 */
       -webkit-box-orient: vertical;
       overflow: hidden;
+      @media screen and (max-width: 1440px) {
+        min-width: 25vw;
+      }
+      @media screen and (max-width: 576px) {
+        min-width: 40vw;
+      }
     }
   }
 }

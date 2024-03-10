@@ -37,4 +37,6 @@ export default defineStore("productStore", {
             this.editData = { ...data };
         },
     },
+    // persist: true,
+
 });

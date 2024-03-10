@@ -48,6 +48,9 @@ export default {
   position: absolute;
   top: 100%;
   right: 0;
+  @media screen and (max-width: 767px) {
+    top: 120%;
+  }
 }
 
 /* 設定動畫持續時間 */
