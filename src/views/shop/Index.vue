@@ -170,7 +170,7 @@
                       <img :src="item.info.imageUrl" :alt="item.info.title" />
                       <div class="card-body d-column p-0 pb-2">
                         <div class="d-between mb-2">
-                          <h5 class="card-title fs-6 mb-0">
+                          <h5 class="card-title fs-small fs-lg-base mb-0">
                             {{ item.info.title }}
                           </h5>
                           <font-awesome-icon
@@ -179,9 +179,7 @@
                             class="del-btn m-0 text-secondary"
                           />
                         </div>
-                        <p
-                          class="description text-secondary fs-small fs-small mb-2"
-                        >
+                        <p class="description text-secondary fs-small mb-2">
                           {{ item.info.description }}
                         </p>
                         <p class="text-end mb-0">
@@ -283,6 +281,7 @@
     </div>
     <div class="border p-3 rounded bg-white shadow mb-5">
       <h2 class="fs-4">熱賣商品</h2>
+
       <swiper
         :slidesPerView="2"
         :spaceBetween="20"
@@ -305,46 +304,60 @@
         }"
         :modules="modules"
       >
-        <swiper-slide
-          class="h-auto"
-          v-for="(product, index) in productList"
-          :key="index"
-          ><div class="card h-100">
-            <div class="card-body d-column">
-              <img
-                :src="product.imageUrl"
-                class="card-img-top"
-                :alt="product.title"
-                :title="product.title"
-              />
-              <h5 class="card-title text-truncate">
-                {{ product.title }}
-              </h5>
-              <hr />
-              <p class="card-text flex-grow-1 fs-small">
-                {{ product.description }}
-              </p>
-              <div class="d-between align-items-center">
-                <span class="fs-5">
-                  $ {{ product.price.toLocaleString() }}
-                </span>
-                <font-awesome-icon
-                  class="border rounded-pill p-2 fs-6 me-0 btn btn-outline-secondary"
-                  icon="fa-cart-arrow-down"
-                  role="button"
-                  @click="cart.addItem(product)"
-                ></font-awesome-icon>
+        <template v-if="Object.keys(productList).length === 0">
+          <swiper-slide v-for="item in 20" :key="item">
+            <div class="card" aria-hidden="true">
+              <div class="bg-secondary card-img-top"></div>
+              <div class="card-body">
+                <h5 class="card-title placeholder-glow">
+                  <span class="placeholder col-6"></span>
+                </h5>
+                <p class="card-text placeholder-glow">
+                  <span class="placeholder col-7"></span>
+                  <span class="placeholder col-4"></span>
+                  <span class="placeholder col-4"></span>
+                  <span class="placeholder col-6"></span>
+                  <span class="placeholder col-8"></span>
+                </p>
+              </div></div
+          ></swiper-slide>
+        </template>
+        <template v-else>
+          <swiper-slide
+            class="h-auto"
+            v-for="(product, index) in productList"
+            :key="index"
+          >
+            <div class="card h-100">
+              <div class="card-body d-column">
+                <img
+                  :src="product.imageUrl"
+                  class="card-img-top mb-2"
+                  :alt="product.title"
+                  :title="product.title"
+                />
+                <h5 class="card-title text-truncate mb-0">
+                  {{ product.title }}
+                </h5>
+                <hr class="my-2" />
+                <p class="card-text flex-grow-1 fs-small">
+                  {{ product.description }}
+                </p>
+                <div class="d-between align-items-center">
+                  <span class="product-price">
+                    $ {{ product.price.toLocaleString() }}
+                  </span>
+                  <font-awesome-icon
+                    class="border rounded-pill p-2 fs-6 me-0 btn btn-outline-secondary"
+                    icon="fa-cart-arrow-down"
+                    role="button"
+                    @click="cart.addItem(product)"
+                  ></font-awesome-icon>
+                </div>
               </div>
-
-              <!-- <button
-                class="btn btn-primary w-100"
-                @click="cart.addItem(product)"
-              >
-                加入購物車
-              </button> -->
             </div>
-          </div></swiper-slide
-        >
+          </swiper-slide>
+        </template>
       </swiper>
     </div>
   </div>
@@ -523,18 +536,40 @@ img {
       }
     }
   }
+  // 熱賣商品
   .card {
     &:hover {
       box-shadow: rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px;
     }
+
+    .card-title {
+      @media screen and (max-width: 768px) {
+        font-size: 1rem;
+      }
+    }
     .card-img-top {
-      height: 170px;
+      height: 115px;
+      @media screen and (min-width: 992px) {
+        height: 170px;
+      }
     }
     .card-text {
       display: -webkit-box;
-      -webkit-line-clamp: 4; /* 显示的行数 */
+      -webkit-line-clamp: 4;
       -webkit-box-orient: vertical;
       overflow: hidden;
+    }
+    .product-price {
+      font-size: 1.25rem;
+    }
+    @media screen and (max-width: 992px) {
+      .product-price {
+        font-size: 1rem;
+      }
+      .card-text {
+        -webkit-line-clamp: 3;
+        overflow: auto;
+      }
     }
   }
 }

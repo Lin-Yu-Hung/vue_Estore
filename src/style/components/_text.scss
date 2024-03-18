@@ -21,6 +21,37 @@ $font-size: (
   font-size: map-get($font-size, 5);
 }
 
+.fs-lg-large {
+  @include lg {
+    font-size: map-get($font-size, 2);
+  }
+}
+.fs-lg-base {
+  @include lg {
+    font-size: map-get($font-size, 3);
+  }
+}
+.fs-md-large {
+  @include md {
+    font-size: map-get($font-size, 2);
+  }
+}
+.fs-md-base {
+  @include md {
+    font-size: map-get($font-size, 3);
+  }
+}
+.fs-lg-small {
+  @include lg {
+    font-size: map-get($font-size, 4);
+  }
+}
+.fs-md-small {
+  @include md {
+    font-size: map-get($font-size, 4);
+  }
+}
+
 a {
   text-decoration: none;
 }
