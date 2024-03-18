@@ -18,7 +18,7 @@ echo > .nojekyll
 git init
 git checkout -B main
 git add -A
-git commit -m '[修改] 修正首頁取得資料錯誤'
+git commit -m '[新增] 新增吐司通知訊息套件'
 
 # if you are deploying to https://4080e068.github.io
 # git push -f https://github.com/4080E68/vue_Estore.git main

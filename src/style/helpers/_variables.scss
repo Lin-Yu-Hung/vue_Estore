@@ -307,6 +307,8 @@ $info: $cyan !default;
 $warning: $yellow !default;
 $light: $gray-100 !default;
 $dark: #141824 !default;
+$link-color: #0062bd !default;
+
 // $secondary-light:
 // scss-docs-end theme-color-variables
 
@@ -329,6 +331,7 @@ $theme-colors: (
   "gray-light": #646a6f,
   "secondary-light": #e3e6ed,
   "gold": $yellow-400,
+  "link": $link-color,
 ) !default;
 // scss-docs-end theme-colors-map
 
@@ -421,7 +424,6 @@ $body-text-align: null !default;
 //
 // Style anchor elements.
 
-$link-color: $primary !default;
 $link-decoration: underline !default;
 $link-shade-percentage: 20% !default;
 $link-hover-color: shift-color($link-color, $link-shade-percentage) !default;

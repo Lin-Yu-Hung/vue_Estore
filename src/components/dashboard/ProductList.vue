@@ -70,7 +70,7 @@
 
               <td>
                 <img
-                  class="image-sm me-2"
+                  class="image-mini me-2"
                   :src="product.imageUrl"
                   :alt="product.title"
                   :title="product.title"

@@ -115,3 +115,23 @@ a {
   padding: 0.25rem;
   margin-bottom: 0;
 }
+// 限制行數
+
+@mixin line-clamp($lines: 2) {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  -webkit-line-clamp: $lines;
+}
+
+.line-clamp-2 {
+  @include line-clamp;
+}
+
+.line-clamp-3 {
+  @include line-clamp(3);
+}
+
+.line-clamp-4 {
+  @include line-clamp(4);
+}

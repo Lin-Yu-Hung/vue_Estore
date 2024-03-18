@@ -361,6 +361,51 @@
           </swiper-slide>
         </template>
       </swiper>
+      <h2 class="fs-4 mt-5">新品上市</h2>
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col ps-0">
+            <div class="row row-cols-3 align-items-center g-2 py-2">
+              <div class="col" v-for="product in productList" :key="product.id">
+                <div class="card" style="height: auto">
+                  <div class="row g-0">
+                    <div class="col-lg-5 d-center">
+                      <img
+                        :src="product.imageUrl"
+                        class="img-fluid rounded-start image-sm"
+                        :alt="product.title"
+                        :title="product.title"
+                      />
+                    </div>
+                    <div class="col-lg">
+                      <div
+                        class="card-body py-0 d-column justify-content-center h-100"
+                      >
+                        <a class="text-link line-clamp-2 mb-1" role="button">
+                          {{ product.title }}
+                        </a>
+                        <div class="d-flex">
+                          <font-awesome-icon
+                            v-for="(item, index) in 4"
+                            :key="index"
+                            class="fs-mini m-0 text-warning"
+                            icon="fa-star"
+                            role="button"
+                          ></font-awesome-icon>
+                        </div>
+                        <p class="card-text mt-1">
+                          $ {{ product.price.toLocaleString() }}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-3">圖片</div>
+        </div>
+      </div>
     </div>
   </div>
   <Footer />
