@@ -22,6 +22,7 @@ import zhTW from '@vee-validate/i18n/dist/locale/zh_TW.json'
 import "@/methods/icon.js"
 import 'animate.css';
 import 'swiper/css';
+import 'vue3-toastify/dist/index.css';
 
 defineRule("required", required);
 defineRule("email", email);

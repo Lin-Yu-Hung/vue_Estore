@@ -1,4 +1,5 @@
 import { defineStore } from "pinia";
+import { successToast } from "@/methods/Toast.js";
 
 export default defineStore("cartStore", {
     //在這裡會帶入兩個參數 1.state名稱 2.屬性參數
@@ -16,6 +17,12 @@ export default defineStore("cartStore", {
                 return null
             }
         },
+        cartItemCount: (state) => { // 總數量
+            return state.cartItems.reduce((acc, item) => {
+                acc += item.count
+                return acc
+            }, 0)
+        },
         cartIndexMap: (state) => {
             return state.cartItems.reduce((acc, item, index) => {
                 acc[item.info.id] = index
@@ -32,6 +39,7 @@ export default defineStore("cartStore", {
             } else {
                 this.cartItems.unshift({ info: item, count: 1 });
             }
+            successToast("🚚 已加入購物車");
         },
         delItem(index) {
             this.cartItems.splice(index, 1)

@@ -154,7 +154,7 @@
                   v-if="cartItems.length > 0"
                   class="position-absolute start-100 translate-middle badge rounded-pill bg-danger"
                 >
-                  {{ cartItems.length }}
+                  {{ cartItemCount }}
                 </span>
               </div>
             </template>
@@ -239,16 +239,17 @@
               <div class="d-column">
                 <span
                   class="fs-small text-decoration-line-through text-secondary"
-                  >$ {{ (19999).toLocaleString() }}</span
+                  >$ {{ (45000).toLocaleString() }}</span
                 >
                 <span class="fs-5 text-danger"
-                  >$ {{ (14999).toLocaleString() }}</span
+                  >$ {{ (32000).toLocaleString() }}</span
                 >
               </div>
               <font-awesome-icon
-                class="text-white border rounded-pill p-2 fs-6"
+                class="text-white border rounded-pill p-2 fs-6 btn btn-outline-secondary"
                 icon="fa-cart-arrow-down"
                 role="button"
+                @click="cart.addItem(productList[2])"
               ></font-awesome-icon>
             </div>
           </div>
@@ -262,17 +263,18 @@
               <div class="d-column">
                 <span
                   class="fs-small text-decoration-line-through text-secondary"
-                  >$ {{ (2500).toLocaleString() }}</span
+                  >$ {{ (4500).toLocaleString() }}</span
                 >
                 <span class="fs-5 text-danger"
-                  >$ {{ (2000).toLocaleString() }}</span
+                  >$ {{ (2500).toLocaleString() }}</span
                 >
               </div>
 
               <font-awesome-icon
-                class="text-white border rounded-pill p-2 fs-6"
+                class="text-white border rounded-pill p-2 fs-6 btn btn-outline-secondary"
                 icon="fa-cart-arrow-down"
                 role="button"
+                @click="cart.addItem(productList[1])"
               ></font-awesome-icon>
             </div>
           </div>
@@ -377,14 +379,13 @@ import { ref } from "vue";
 import { errorAlert } from "@/methods/sweetAlert.js";
 import { storeToRefs } from "pinia";
 import cartStore from "@/stores/shop/cart.js";
-// import "swiper/css/navigation";
 
 export default {
   components: { DropDownMenu, Swiper, SwiperSlide, MenuList, Footer },
   setup(props) {
     const loading = loadingStore();
     const cart = cartStore();
-    const { cartItems, cartAmount } = storeToRefs(cart);
+    const { cartItems, cartAmount, cartItemCount } = storeToRefs(cart);
     const productList = ref({});
     const getAllProduct = async () => {
       loading.showLoading();
@@ -404,6 +405,7 @@ export default {
       toggleStatus,
       cartItems,
       cartAmount,
+      cartItemCount,
       cart,
       modules: [FreeMode, Navigation, Autoplay],
     };
