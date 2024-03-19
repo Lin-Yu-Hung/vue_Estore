@@ -9,10 +9,12 @@
               <div class="row g-0">
                 <div class="col-lg-5 d-center">
                   <img
+                    role="button"
                     :src="product.imageUrl"
                     class="img-fluid rounded-start"
                     :alt="product.title"
                     :title="product.title"
+                    @click="showDetail(product.id)"
                   />
                 </div>
                 <div class="col-lg-7">
@@ -20,8 +22,9 @@
                     class="card-body py-0 d-column justify-content-center h-100"
                   >
                     <a
-                      class="text-link line-clamp-2 line-clamp-md-1 line-clamp-lg-2 mb-1 fs-small fs-lg-base"
+                      class="text-link text-underline-hover line-clamp-2 line-clamp-md-1 line-clamp-lg-2 mb-1 fs-small fs-lg-base"
                       role="button"
+                      @click="showDetail(product.id)"
                     >
                       {{ product.title }}
                     </a>
@@ -67,10 +70,12 @@
 <script>
 import { ref, inject, computed } from "vue";
 import Pagination from "@/components/Pagination.vue";
+import { useRouter } from "vue-router";
 
 export default {
   components: { Pagination },
   setup(props) {
+    const router = useRouter();
     const nowPage = ref(1);
     const pageItemCount = inject("pageItemCount");
     const productList = inject("productList");
@@ -80,9 +85,11 @@ export default {
         pageItemCount.value * nowPage.value
       );
     });
-    console.log("🚀  showData:", showData);
     const changeShowData = (page) => {
       nowPage.value = page;
+    };
+    const showDetail = (id) => {
+      router.push(`productInfo/${id}`);
     };
 
     return {
@@ -91,6 +98,7 @@ export default {
       showData,
       changeShowData,
       pageItemCount,
+      showDetail,
     };
   },
 };

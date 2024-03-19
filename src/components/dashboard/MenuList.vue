@@ -37,6 +37,7 @@ export default {
       // 尋找active頁面
       await nextTick();
       const activeElement = document.querySelector(".router-link-active");
+      if (!activeElement) return;
       const liElement = activeElement.parentElement; // li元素
       const removeDropdownStatus = (array) => {
         // 移除所有dorpDown狀態

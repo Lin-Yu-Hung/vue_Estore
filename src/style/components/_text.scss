@@ -150,3 +150,10 @@ a {
     @include line-clamp(2);
   }
 }
+
+// hover
+.text-underline-hover {
+  &:hover {
+    text-decoration: underline;
+  }
+}
