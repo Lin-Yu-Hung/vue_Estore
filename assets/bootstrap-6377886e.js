@@ -1,1 +1,0 @@
-import{Y as s,Z as a,$ as t}from"./index-2251a77b.js";const o=e=>new s(document.getElementById(e)),l=e=>new a(document.getElementById(e),{toggle:!1}),c=e=>new t(document.getElementById(e));export{c as a,o as b,l as c};
