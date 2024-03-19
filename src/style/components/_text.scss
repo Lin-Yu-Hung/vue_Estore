@@ -117,15 +117,19 @@ a {
 }
 // 限制行數
 
-@mixin line-clamp($lines: 2) {
+@mixin line-clamp($lines: 1) {
   display: -webkit-box;
   -webkit-box-orient: vertical;
   overflow: hidden;
   -webkit-line-clamp: $lines;
 }
 
+.line-clamp-1 {
+  @include line-clamp(1);
+}
+
 .line-clamp-2 {
-  @include line-clamp;
+  @include line-clamp(2);
 }
 
 .line-clamp-3 {
@@ -134,4 +138,15 @@ a {
 
 .line-clamp-4 {
   @include line-clamp(4);
+}
+
+.line-clamp-md-1 {
+  @include md {
+    @include line-clamp(1);
+  }
+}
+.line-clamp-lg-2 {
+  @include lg {
+    @include line-clamp(2);
+  }
 }

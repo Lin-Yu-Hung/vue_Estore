@@ -283,8 +283,41 @@
     </div>
     <div class="border p-3 rounded bg-white shadow mb-5">
       <h2 class="fs-4">熱賣商品</h2>
-
       <swiper
+        v-if="productList.length === 0"
+        :slidesPerView="2"
+        :spaceBetween="20"
+        :breakpoints="{
+          '576': {
+            slidesPerView: 3,
+          },
+          '768': {
+            slidesPerView: 4,
+          },
+          '1200': {
+            slidesPerView: 5,
+          },
+        }"
+      >
+        <swiper-slide v-for="item in 5" :key="item">
+          <div class="card" aria-hidden="true">
+            <div class="bg-secondary card-img-top"></div>
+            <div class="card-body">
+              <h5 class="card-title placeholder-glow">
+                <span class="placeholder col-6"></span>
+              </h5>
+              <p class="card-text placeholder-glow">
+                <span class="placeholder col-7"></span>
+                <span class="placeholder col-4"></span>
+                <span class="placeholder col-4"></span>
+                <span class="placeholder col-6"></span>
+                <span class="placeholder col-8"></span>
+              </p>
+            </div></div
+        ></swiper-slide>
+      </swiper>
+      <swiper
+        v-else
         :slidesPerView="2"
         :spaceBetween="20"
         :freeMode="true"
@@ -306,106 +339,42 @@
         }"
         :modules="modules"
       >
-        <template v-if="Object.keys(productList).length === 0">
-          <swiper-slide v-for="item in 20" :key="item">
-            <div class="card" aria-hidden="true">
-              <div class="bg-secondary card-img-top"></div>
-              <div class="card-body">
-                <h5 class="card-title placeholder-glow">
-                  <span class="placeholder col-6"></span>
-                </h5>
-                <p class="card-text placeholder-glow">
-                  <span class="placeholder col-7"></span>
-                  <span class="placeholder col-4"></span>
-                  <span class="placeholder col-4"></span>
-                  <span class="placeholder col-6"></span>
-                  <span class="placeholder col-8"></span>
-                </p>
-              </div></div
-          ></swiper-slide>
-        </template>
-        <template v-else>
-          <swiper-slide
-            class="h-auto"
-            v-for="(product, index) in productList"
-            :key="index"
-          >
-            <div class="card h-100">
-              <div class="card-body d-column">
-                <img
-                  :src="product.imageUrl"
-                  class="card-img-top mb-2"
-                  :alt="product.title"
-                  :title="product.title"
-                />
-                <h5 class="card-title text-truncate mb-0">
-                  {{ product.title }}
-                </h5>
-                <hr class="my-2" />
-                <p class="card-text flex-grow-1 fs-small">
-                  {{ product.description }}
-                </p>
-                <div class="d-between align-items-center">
-                  <span class="product-price">
-                    $ {{ product.price.toLocaleString() }}
-                  </span>
-                  <font-awesome-icon
-                    class="border rounded-pill p-2 fs-6 me-0 btn btn-outline-secondary"
-                    icon="fa-cart-arrow-down"
-                    role="button"
-                    @click="cart.addItem(product)"
-                  ></font-awesome-icon>
-                </div>
-              </div>
-            </div>
-          </swiper-slide>
-        </template>
-      </swiper>
-      <h2 class="fs-4 mt-5">新品上市</h2>
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col ps-0">
-            <div class="row row-cols-3 align-items-center g-2 py-2">
-              <div class="col" v-for="product in productList" :key="product.id">
-                <div class="card" style="height: auto">
-                  <div class="row g-0">
-                    <div class="col-lg-5 d-center">
-                      <img
-                        :src="product.imageUrl"
-                        class="img-fluid rounded-start image-sm"
-                        :alt="product.title"
-                        :title="product.title"
-                      />
-                    </div>
-                    <div class="col-lg">
-                      <div
-                        class="card-body py-0 d-column justify-content-center h-100"
-                      >
-                        <a class="text-link line-clamp-2 mb-1" role="button">
-                          {{ product.title }}
-                        </a>
-                        <div class="d-flex">
-                          <font-awesome-icon
-                            v-for="(item, index) in 4"
-                            :key="index"
-                            class="fs-mini m-0 text-warning"
-                            icon="fa-star"
-                            role="button"
-                          ></font-awesome-icon>
-                        </div>
-                        <p class="card-text mt-1">
-                          $ {{ product.price.toLocaleString() }}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+        <swiper-slide
+          class="h-auto"
+          v-for="(product, index) in productList"
+          :key="index"
+        >
+          <div class="card h-100 card-hover-shadow">
+            <div class="card-body d-column">
+              <img
+                :src="product.imageUrl"
+                class="card-img-top mb-2"
+                :alt="product.title"
+                :title="product.title"
+              />
+              <h5 class="card-title text-truncate mb-0">
+                {{ product.title }}
+              </h5>
+              <hr class="my-2" />
+              <p class="card-text flex-grow-1 fs-small">
+                {{ product.description }}
+              </p>
+              <div class="d-between align-items-center">
+                <span class="product-price">
+                  $ {{ product.price.toLocaleString() }}
+                </span>
+                <font-awesome-icon
+                  class="border rounded-pill p-2 fs-6 me-0 btn btn-outline-secondary"
+                  icon="fa-cart-arrow-down"
+                  role="button"
+                  @click="cart.addItem(product)"
+                ></font-awesome-icon>
               </div>
             </div>
           </div>
-          <div class="col-3">圖片</div>
-        </div>
-      </div>
+        </swiper-slide>
+      </swiper>
+      <NewProduct />
     </div>
   </div>
   <Footer />
@@ -420,18 +389,35 @@ import loadingStore from "@/stores/loading";
 import Footer from "@/components/Footer.vue";
 import { apiGetProductAll } from "@/api/api.js";
 import "swiper/css/free-mode";
-import { ref } from "vue";
+import { ref, provide, computed } from "vue";
 import { errorAlert } from "@/methods/sweetAlert.js";
 import { storeToRefs } from "pinia";
 import cartStore from "@/stores/shop/cart.js";
+import NewProduct from "@/components/shop/NewProduct.vue";
 
 export default {
-  components: { DropDownMenu, Swiper, SwiperSlide, MenuList, Footer },
+  components: {
+    DropDownMenu,
+    Swiper,
+    SwiperSlide,
+    MenuList,
+    Footer,
+    NewProduct,
+  },
   setup(props) {
     const loading = loadingStore();
     const cart = cartStore();
     const { cartItems, cartAmount, cartItemCount } = storeToRefs(cart);
-    const productList = ref({});
+    const productList = ref([]);
+    const pageItemCount = ref(9); // 分頁每頁顯示數量
+    window.addEventListener("resize", (event) => {
+      if (window.innerWidth > 992) {
+        pageItemCount.value = 9;
+      } else {
+        pageItemCount.value = 6;
+      }
+    });
+
     const getAllProduct = async () => {
       loading.showLoading();
       try {
@@ -445,6 +431,8 @@ export default {
       }
     };
     getAllProduct();
+    provide("productList", productList);
+    provide("pageItemCount", pageItemCount);
     return {
       productList,
       toggleStatus,
@@ -585,10 +573,6 @@ img {
   }
   // 熱賣商品
   .card {
-    &:hover {
-      box-shadow: rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px;
-    }
-
     .card-title {
       @media screen and (max-width: 768px) {
         font-size: 1rem;
