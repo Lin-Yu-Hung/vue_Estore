@@ -223,11 +223,12 @@ import loadingStore from "@/stores/loading";
 import Footer from "@/components/Footer.vue";
 import { apiGetProductAll } from "@/api/api.js";
 import "swiper/css/free-mode";
-import { ref, provide, computed } from "vue";
+import { ref, provide, computed, watch } from "vue";
 import { errorAlert } from "@/methods/sweetAlert.js";
 import { storeToRefs } from "pinia";
 import cartStore from "@/stores/shop/cart.js";
 import { useRoute, useRouter } from "vue-router";
+import { hideOffcanvas } from "@/methods/bootstrap.js";
 
 export default {
   components: {
@@ -237,6 +238,12 @@ export default {
   },
   setup(props) {
     const route = useRoute();
+    watch(
+      () => route.path,
+      (value) => {
+        hideOffcanvas("offcanvasNavbar");
+      }
+    );
     const loading = loadingStore();
     const cart = cartStore();
     const { cartItems, cartAmount, cartItemCount } = storeToRefs(cart);

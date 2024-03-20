@@ -141,7 +141,7 @@ import menuStore from "@/stores/menu";
 import { storeToRefs } from "pinia";
 import MenuList from "@/components/dashboard/MenuList.vue";
 import { watch } from "vue";
-import { bsOffcanvas } from "@/methods/bootstrap.js";
+import { hideOffcanvas } from "@/methods/bootstrap.js";
 import { useRoute } from "vue-router";
 import { toggleStatus } from "@/methods/util.js";
 import Footer from "@/components/Footer.vue";
@@ -154,22 +154,7 @@ export default {
     watch(
       () => route.path,
       (value) => {
-        if (window.innerWidth < 992) {
-          bsOffcanvas("offcanvasDarkNavbar").hide();
-          const offcanvasElement = document.getElementById(
-            "offcanvasDarkNavbar"
-          );
-          const offcanvasBackdrop = document.querySelector(
-            ".offcanvas-backdrop"
-          );
-          if (offcanvasElement && offcanvasBackdrop) {
-            offcanvasBackdrop.remove();
-            offcanvasElement.classList.remove("show");
-            document.body.removeAttribute("data-bs-overflow");
-            document.body.removeAttribute("data-bs-padding-right");
-            document.body.style = "";
-          }
-        }
+        hideOffcanvas("offcanvasDarkNavbar");
       }
     );
     const menu = menuStore();
