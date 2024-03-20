@@ -21,7 +21,13 @@
 
         <div class="card">
           <div class="product-info border-end pe-3">
-            <p>Smartphone 6S 32GB LTE</p>
+            <p
+              role="button"
+              class="text-underline-hover"
+              @click="showDetail(productList[2].id)"
+            >
+              Smartphone 6S 32GB LTE
+            </p>
             <img
               src="@/assets/images/GoldPhone-1-300x300.webp"
               alt="Smartphone"
@@ -46,7 +52,13 @@
             </div>
           </div>
           <div class="product-info ps-3">
-            <p>Game Console Controller</p>
+            <p
+              role="button"
+              class="text-underline-hover"
+              @click="showDetail(productList[1].id)"
+            >
+              Game Console Controller
+            </p>
             <img
               src="@/assets/images/consal.webp"
               alt="Game Console Controller"

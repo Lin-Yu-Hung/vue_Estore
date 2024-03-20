@@ -31,13 +31,13 @@ export default defineStore("cartStore", {
         },
     },
     actions: {
-        addItem(item) {
+        addItem(item, count = 1) {
             // 待優化
             if (this.cartIndexMap[item.id] !== undefined) {
                 //如果該商品已存在購物車
-                this.cartItems[this.cartIndexMap[item.id]].count += 1;
+                this.cartItems[this.cartIndexMap[item.id]].count += count;
             } else {
-                this.cartItems.unshift({ info: item, count: 1 });
+                this.cartItems.unshift({ info: item, count: count });
             }
             successToast("🚚 已加入購物車");
         },

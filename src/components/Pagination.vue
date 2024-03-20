@@ -32,14 +32,18 @@ import { ref, computed, inject } from "vue";
 export default {
   props: {
     data: { type: Array },
+    showItemCount: { type: Number, default: 0 },
   },
   emits: ["changePage"],
   setup(props, context) {
     const { emit } = context;
     const nowPage = ref(1);
     const pageItemCount = inject("pageItemCount");
+    const showItemCount = props.showItemCount
+      ? props.showItemCount
+      : pageItemCount.value;
     const pageCount = computed(() => {
-      return Math.ceil(props.data.length / pageItemCount.value);
+      return Math.ceil(props.data.length / showItemCount);
     });
     const changePage = (page) => {
       if (page === nowPage.value) return;

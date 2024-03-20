@@ -1,0 +1,124 @@
+{
+    "comment": [
+        {
+            "name": "Tom",
+            "comment": "Good!",
+            "date": "2024/02/17",
+            "star": "3"
+        },
+        {
+            "name": "Alice",
+            "comment": "Nice product!",
+            "date": "2024/03/05",
+            "star": "4"
+        },
+        {
+            "name": "John",
+            "comment": "Could be better.",
+            "date": "2024/02/21",
+            "star": "2"
+        },
+        {
+            "name": "Emily",
+            "comment": "Excellent!",
+            "date": "2024/02/28",
+            "star": "5"
+        },
+        {
+            "name": "David",
+            "comment": "Average.",
+            "date": "2024/03/10",
+            "star": "3"
+        },
+        {
+            "name": "Sophia",
+            "comment": "Not bad.",
+            "date": "2024/03/12",
+            "star": "3"
+        },
+        {
+            "name": "Michael",
+            "comment": "Great experience!",
+            "date": "2024/02/19",
+            "star": "5"
+        },
+        {
+            "name": "Emma",
+            "comment": "Satisfactory.",
+            "date": "2024/03/08",
+            "star": "3"
+        },
+        {
+            "name": "James",
+            "comment": "Poor quality.",
+            "date": "2024/02/25",
+            "star": "1"
+        },
+        {
+            "name": "Olivia",
+            "comment": "Amazing!",
+            "date": "2024/03/15",
+            "star": "5"
+        },
+        {
+            "name": "Daniel",
+            "comment": "Not what I expected.",
+            "date": "2024/02/23",
+            "star": "2"
+        },
+        {
+            "name": "Ava",
+            "comment": "Decent.",
+            "date": "2024/03/02",
+            "star": "3"
+        },
+        {
+            "name": "Matthew",
+            "comment": "Fair price.",
+            "date": "2024/02/20",
+            "star": "4"
+        },
+        {
+            "name": "Isabella",
+            "comment": "Could improve.",
+            "date": "2024/02/27",
+            "star": "2"
+        },
+        {
+            "name": "William",
+            "comment": "Outstanding!",
+            "date": "2024/03/18",
+            "star": "5"
+        },
+        {
+            "name": "Mia",
+            "comment": "Not satisfied.",
+            "date": "2024/02/22",
+            "star": "1"
+        },
+        {
+            "name": "Alexander",
+            "comment": "Excellent customer service.",
+            "date": "2024/03/14",
+            "star": "5"
+        },
+        {
+            "name": "Ethan",
+            "comment": "Average performance.",
+            "date": "2024/02/24",
+            "star": "3"
+        },
+        {
+            "name": "Charlotte",
+            "comment": "Fair enough.",
+            "date": "2024/03/07",
+            "star": "3"
+        },
+        {
+            "name": "Benjamin",
+            "comment": "Worth the money.",
+            "date": "2024/03/16",
+            "star": "4"
+        }
+    ]
+}

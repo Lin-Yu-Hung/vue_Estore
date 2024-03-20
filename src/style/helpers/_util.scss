@@ -54,6 +54,11 @@ li {
     display: none !important;
   }
 }
+.xl-down-hide {
+  @media (max-width: 1200px) {
+    display: none !important;
+  }
+}
 // 固定寬度
 .fixed-width-80 {
   @include fixedWidth(80px);

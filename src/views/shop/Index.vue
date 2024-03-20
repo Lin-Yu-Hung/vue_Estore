@@ -36,7 +36,7 @@
                 <template v-slot:menu>
                   <ul class="menuList">
                     <li>
-                      <router-link class="menu-link" to="home"
+                      <router-link class="menu-link" to="/eStore/home"
                         ><font-awesome-icon
                           icon="fa-home"
                           role="button"
@@ -94,7 +94,9 @@
         <div class="col-4 lg-down-hide">
           <ul class="nav">
             <li>
-              <router-link class="menu-link" to="home">首頁</router-link>
+              <router-link class="menu-link" to="/eStore/home"
+                >首頁</router-link
+              >
             </li>
             <li>
               <DropDownMenu>

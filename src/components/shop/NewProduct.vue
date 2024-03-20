@@ -76,9 +76,9 @@ export default {
   components: { Pagination },
   setup(props) {
     const router = useRouter();
+    const productList = inject("productList");
     const nowPage = ref(1);
     const pageItemCount = inject("pageItemCount");
-    const productList = inject("productList");
     const showData = computed(() => {
       return productList.value.slice(
         nowPage.value * pageItemCount.value - pageItemCount.value,
