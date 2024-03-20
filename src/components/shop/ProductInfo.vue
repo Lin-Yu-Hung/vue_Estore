@@ -405,10 +405,12 @@
               class="card-img-top mb-2"
               :alt="product.title"
               :title="product.title"
+              @click="changeShowData(product)"
             />
             <h5
               class="card-title text-truncate text-underline-hover mb-0"
               role="button"
+              @click="changeShowData(product)"
             >
               {{ product.title }}
             </h5>
@@ -450,12 +452,12 @@ export default {
     const route = useRoute();
     const productList = inject("productList");
     const productListMap = inject("productListMap");
-    const productId = route.params.id;
+    const productId = ref(route.params.id);
     const showProductImg = ref("");
     const showData = computed(() => {
       if (Object.keys(productListMap.value).length > 0) {
-        showProductImg.value = productListMap.value[productId].imageUrl;
-        return productListMap.value[productId];
+        showProductImg.value = productListMap.value[productId.value].imageUrl;
+        return productListMap.value[productId.value];
       }
       return null;
     });
@@ -473,6 +475,14 @@ export default {
     });
     const changeShowComment = (page) => {
       nowPage.value = page;
+    };
+    const changeShowData = (item) => {
+      productId.value = item.id;
+      window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: "smooth",
+      });
     };
 
     const setCount = (type = "reduce") => {
@@ -511,6 +521,7 @@ export default {
       tempData,
       addToCart,
       relatedProducts,
+      changeShowData,
       modules: [FreeMode, Navigation, Autoplay],
     };
   },
