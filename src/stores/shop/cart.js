@@ -10,7 +10,7 @@ export default defineStore("cartStore", {
         cartAmount: (state) => { // 總金額
             if (state.cartItems.length > 0) {
                 return state.cartItems.reduce((acc, item) => {
-                    acc += item.info.price * item.count
+                    acc += parseInt(item.info.price) * parseInt(item.count)
                     return acc
                 }, 0)
             } else {
@@ -19,7 +19,7 @@ export default defineStore("cartStore", {
         },
         cartItemCount: (state) => { // 總數量
             return state.cartItems.reduce((acc, item) => {
-                acc += item.count
+                acc += parseInt(item.count)
                 return acc
             }, 0)
         },
@@ -43,6 +43,10 @@ export default defineStore("cartStore", {
         },
         delItem(index) {
             this.cartItems.splice(index, 1)
+        },
+        changeItemCount(index, count) {
+            this.cartItems[index].count = count;
+            console.log(this.cartItems[index].count);
         }
     },
     persist: true,

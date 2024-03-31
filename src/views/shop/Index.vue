@@ -198,8 +198,12 @@
                       >$ {{ cartAmount.toLocaleString() }}</span
                     >
                   </p>
-                  <button type="button" class="btn btn-primary w-100">
-                    立即結帳
+                  <button
+                    type="button"
+                    class="btn btn-primary w-100"
+                    @click="router.push('/eStore/cart')"
+                  >
+                    查看購物車
                   </button>
                 </div>
               </template>
@@ -238,6 +242,7 @@ export default {
   },
   setup(props) {
     const route = useRoute();
+    const router = useRouter();
     watch(
       () => route.path,
       (value) => {
@@ -288,6 +293,7 @@ export default {
       cartItemCount,
       cart,
       route,
+      router,
     };
   },
 };

@@ -151,6 +151,14 @@ a {
   }
 }
 
+//empty-text
+.empty-text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 70svh;
+}
+
 // hover
 .text-underline-hover {
   &:hover {

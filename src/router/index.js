@@ -32,19 +32,24 @@ const router = createRouter({
         title: "E-Store",
       },
       component: () => import("@/views/shop/Index.vue"),
-      children: [{
-        path: "home",
-        name: "home",
-        component: () => import("@/components/shop/Home.vue"),
-      },
-      {
-        path: "productList",
-        component: () => import("@/components/dashboard/ProductList.vue"),
-      },
-      {
-        path: "productInfo/:id",
-        component: () => import("@/components/shop/ProductInfo.vue"),
-      }
+      children: [
+        {
+          path: "home",
+          name: "home",
+          component: () => import("@/components/shop/Home.vue"),
+        },
+        {
+          path: "productList",
+          component: () => import("@/components/dashboard/ProductList.vue"),
+        },
+        {
+          path: "productInfo/:id",
+          component: () => import("@/components/shop/ProductInfo.vue"),
+        },
+        {
+          path: "cart",
+          component: () => import("@/components/shop/Cart.vue"),
+        }
       ]
     },
     {

@@ -18,7 +18,7 @@ echo > .nojekyll
 git init
 git checkout -B main
 git add -A
-git commit -m '[新增] 初步完成商品資訊UI、優化跳轉畫面關閉左側選單功能'
+git commit -m '[新增] 初步建置購物車UI'
 
 # if you are deploying to https://4080e068.github.io
 # git push -f https://github.com/4080E68/vue_Estore.git main
