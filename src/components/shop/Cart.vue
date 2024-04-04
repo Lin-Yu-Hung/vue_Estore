@@ -69,7 +69,7 @@
               class="form-control form-control-sm"
               id="coupon"
               placeholder="請輸入優惠代碼"
-              v-model="selectedCoupon"
+              v-model="selectedCoupon.code"
               :disabled="availableCoupon"
             />
           </div>
@@ -90,7 +90,7 @@
               role="button"
               v-if="availableCoupon"
             >
-              {{ selectedCoupon }} 優惠券
+              {{ selectedCoupon.code }} 優惠券
               <button
                 type="button"
                 class="btn-close pe-0"
@@ -109,7 +109,13 @@
             <div class="d-between w-40 text-nowrap">
               <span class="fs-6 mb-1 text-secondary"> 折扣 </span>
               <span class="fs-6 mb-1 text-secondary">
-                $ {{ (cart.cartAmount * 0.2).toLocaleString() }}
+                $
+                {{
+                  (
+                    cart.cartAmount -
+                    cart.cartAmount * (selectedCoupon.percent / 100)
+                  ).toLocaleString()
+                }}
               </span>
             </div>
           </div>
@@ -117,7 +123,13 @@
           <div class="d-end text-nowrap border-top pt-2 mt-2">
             <span class="fs-4 mb-1 me-2"> 總金額 </span>
             <span class="fs-4 mb-1">
-              $ {{ (cart.cartAmount * 0.8).toLocaleString() }}
+              $
+              {{
+                (
+                  cart.cartAmount *
+                  (selectedCoupon.percent / 100)
+                ).toLocaleString()
+              }}
             </span>
           </div>
 
@@ -136,17 +148,27 @@
 import cartStore from "@/stores/shop/cart.js";
 import CouponModal from "@/components/shop/CouponModal.vue";
 import { ref } from "vue";
+import { automaticLogin } from "@/methods/util.js";
+import loadingStore from "@/stores/loading";
+import couponStore from "@/stores/dashboard/coupon.js";
 
 export default {
   components: { CouponModal },
   setup(props) {
+    const coupon = couponStore();
+    const loading = loadingStore();
+    loading.showLoading();
+    automaticLogin().then(async () => {
+      await coupon.getCoupons();
+      loading.hideLoading();
+    });
     const cart = cartStore();
     const selectedCoupon = ref("");
     const availableCoupon = ref(false);
     const changeCount = (event, index) =>
       cart.changeItemCount(index, event.target.value);
     const setCoupon = (coupon) => {
-      selectedCoupon.value = coupon;
+      selectedCoupon.value = { ...coupon };
       availableCoupon.value = true;
     };
     const removeCoupon = () => {

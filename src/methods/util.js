@@ -1,3 +1,6 @@
+import { login_api } from "@/api/api";
+import { setCookie } from "@/methods/cookie.js"
+
 export const uploadImage = (file) => {
     return new Promise((resolve, reject) => {
         const reader = new FileReader();
@@ -28,3 +31,16 @@ export const toggleStatus = (event) => {
         isClickableMap[controls] = true;
     }, 350); // bootstrap 預設動畫時間為0.35秒
 };
+
+// 自動登入
+export const automaticLogin = () => {
+    return new Promise(async (resolve, reject) => {
+        const data = {
+            username: import.meta.env.VITE_username,
+            password: import.meta.env.VITE_password,
+        }
+        const res = await login_api(data)
+        setCookie("token", res.data.token);
+        resolve()
+    })
+}
