@@ -23,6 +23,7 @@ import "@/methods/icon.js"
 import 'animate.css';
 import 'swiper/css';
 import 'vue3-toastify/dist/index.css';
+import '@vuepic/vue-datepicker/dist/main.css'
 
 defineRule("required", required);
 defineRule("email", email);
@@ -70,6 +71,7 @@ import {
 
 const app = createApp(App);
 app.component("font-awesome-icon", FontAwesomeIcon);
+
 app.use(pinia);
 app.use(router);
 app.mount("#app");

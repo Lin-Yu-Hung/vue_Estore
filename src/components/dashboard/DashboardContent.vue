@@ -103,15 +103,40 @@
                       </ul>
                     </div>
                   </li>
-
-                  <li>
-                    <router-link class="menu-link" to="orderManage"
-                      ><font-awesome-icon
-                        class=""
-                        icon="fa-cart-shopping"
-                        role="button"
-                      />購物車</router-link
+                  <li class="dropdown-list">
+                    <div
+                      class="dropdown-title"
+                      @click="toggleStatus"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#orderManage"
+                      aria-expanded="false"
+                      aria-controls="orderManage"
                     >
+                      <span class="pe-none">
+                        <font-awesome-icon
+                          icon="fa-list"
+                          role="button"
+                        />訂單管理
+                      </span>
+                      <font-awesome-icon
+                        class="dropdown-arrow pe-none"
+                        icon="fa-chevron-right"
+                      />
+                    </div>
+                    <div class="collapse multi-collapse" id="orderManage">
+                      <ul>
+                        <li class="collapse-item" parentId="orderManage">
+                          <router-link class="menu-link" to="setProduct"
+                            >訂單列表</router-link
+                          >
+                        </li>
+                        <li class="collapse-item" parentId="orderManage">
+                          <router-link class="menu-link" to="editProduct"
+                            >設定優惠券</router-link
+                          >
+                        </li>
+                      </ul>
+                    </div>
                   </li>
                 </ul>
               </template>

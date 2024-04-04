@@ -51,10 +51,11 @@ export default {
         if (preCollapse.value !== liParentId) {
           preCollapse.value = liParentId;
           // 選擇了其他下拉群組
-          const dropdownTitle = document.querySelectorAll(
-            ".dropdown-title:not(.show)"
+          const dropdownTitle = document.querySelectorAll(".dropdown-title");
+          const notCurrentDropDown = Array.from(dropdownTitle).filter(
+            (el) => el.getAttribute("aria-controls") !== liParentId
           );
-          removeDropdownStatus(dropdownTitle);
+          removeDropdownStatus(notCurrentDropDown); // 將不是當前所選擇的下拉選單關閉狀態
           const parentCollapse = document.querySelector(
             // 透過parentId取得最上層的collapse元素
             `[aria-controls=${liParentId}]`

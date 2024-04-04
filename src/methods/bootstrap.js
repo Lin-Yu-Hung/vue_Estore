@@ -21,3 +21,15 @@ export const hideOffcanvas = (id) => {
         }
     }
 }
+
+export const hideModal = (id) => {
+    const modalEl = document.getElementById(id);
+    const modalBackdrop = document.querySelector(".modal-backdrop");
+    if (modalEl && modalBackdrop) {
+        modalEl.classList.remove("show");
+        modalEl.setAttribute("aria-hidden", "true");
+        modalEl.style.display = "none";
+        document.body.classList.remove("modal-open");
+        modalBackdrop.remove();
+    }
+}

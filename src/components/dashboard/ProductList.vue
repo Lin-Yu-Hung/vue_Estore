@@ -62,8 +62,14 @@
           <tbody>
             <tr v-for="product in showData" :key="product.id">
               <td>
-                <p class="fixed-width-80 status-text bg-success text-green">
-                  啟用
+                <p
+                  class="fixed-width-80 status-text"
+                  :class="{
+                    'bg-success text-green': product.is_enabled === 1,
+                    'bg-red text-white': product.is_enabled !== 1,
+                  }"
+                >
+                  {{ product.is_enabled === 1 ? "啟用" : "未啟用" }}
                 </p>
               </td>
               <td class="mobile-hide">{{ product.category }}</td>

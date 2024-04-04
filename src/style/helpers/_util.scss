@@ -77,6 +77,27 @@ li {
 .h-90 {
   height: 90%;
 }
+.mobile-w-75 {
+  @media (max-width: 576px) {
+    width: 75% !important;
+  }
+}
+.mobile-w-50 {
+  @media (max-width: 576px) {
+    width: 50% !important;
+  }
+}
+.mobile-w-100 {
+  @media (max-width: 576px) {
+    width: 100% !important;
+  }
+}
+.w-10 {
+  width: 10%;
+}
+.w-20 {
+  width: 20%;
+}
 .w-40 {
   width: 40%;
 }

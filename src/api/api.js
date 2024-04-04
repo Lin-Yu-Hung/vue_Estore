@@ -8,7 +8,7 @@ const login = axios.create({
   baseURL: `${import.meta.env.VITE_API}`,
   timeout: timeout,
 });
-const api = axios.create({
+export const api = axios.create({
   baseURL: `${import.meta.env.VITE_API}api/${import.meta.env.VITE_PATH}`,
   timeout: timeout,
 });
@@ -27,6 +27,7 @@ api.interceptors.request.use((config) => {
 api.interceptors.response.use(
   (response) => { return response; },
   (error) => {
+    console.log("🚀  error:", error)
     if (error.message == `timeout of ${timeout}ms exceeded`) {
       loading.hideLoading();
       errorAlert('連線逾時', "請確認連線狀態後重新嘗試")
@@ -41,6 +42,12 @@ export const createProduct = (params) => api.post("/admin/product", params);
 export const apiUpdateProduct = (params) => api.put(`/admin/product/${params.data.id}`, params);
 export const apiDeleteProduct = (id) => api.delete(`/admin/product/${id}`);
 export const apiUploadImg = (data) => api.post(`/admin/upload`, data);
+// coupon
+export const apiCreateCoupon = (params) => api.post("/admin/coupon", params)
+export const apiGetCouponList = (page) => api.get(`/admin/coupons?page=${page}`)
+export const apiUpdateCoupon = (params, id) => api.put(`/admin/coupon/${id}`, params)
+export const apiDeleteCoupon = (id) => api.delete(`/admin/coupon/${id}`)
 
 // 客戶端
 export const apiGetProductAll = () => api.get("/products/all");
+
