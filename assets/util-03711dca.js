@@ -1,1 +1,0 @@
-const s=o=>new Promise((t,r)=>{const a=new FileReader;a.readAsDataURL(o),a.onload=()=>{t(a)},a.onerror=()=>{r(null)}}),e={},n=o=>{const t=o.target.getAttribute("aria-controls");e[t]===void 0&&(e[t]=!0),e[t]&&o.target.classList.toggle("show"),e[t]=!1,setTimeout(()=>{e[t]=!0},350)};export{n as t,s as u};
