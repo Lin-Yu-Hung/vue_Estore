@@ -49,6 +49,10 @@ const router = createRouter({
         {
           path: "cart",
           component: () => import("@/components/shop/Cart.vue"),
+        },
+        {
+          path: "confirmPay",
+          component: () => import("@/components/shop/ConfirmPay.vue"),
         }
       ]
     },

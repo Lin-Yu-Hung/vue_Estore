@@ -233,7 +233,6 @@ import { storeToRefs } from "pinia";
 import cartStore from "@/stores/shop/cart.js";
 import { useRoute, useRouter } from "vue-router";
 import { hideOffcanvas } from "@/methods/bootstrap.js";
-
 export default {
   components: {
     DropDownMenu,

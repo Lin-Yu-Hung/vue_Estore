@@ -51,3 +51,7 @@ export const apiDeleteCoupon = (id) => api.delete(`/admin/coupon/${id}`)
 // 客戶端
 export const apiGetProductAll = () => api.get("/products/all");
 
+
+// linePay
+export const sendLinePayReq = (params) => api.post("https://express-4080e68s-projects.vercel.app/linepay/request", params)
+export const sendLinePayConfirm = (params) => api.post("https://express-4080e68s-projects.vercel.app/payments/confirm", params)

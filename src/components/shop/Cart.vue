@@ -111,10 +111,12 @@
               <span class="fs-6 mb-1 text-secondary">
                 $
                 {{
-                  (
-                    cart.cartAmount -
-                    cart.cartAmount * (selectedCoupon.percent / 100)
-                  ).toLocaleString()
+                  availableCoupon
+                    ? (
+                        cart.cartAmount -
+                        cart.cartAmount * (selectedCoupon.percent / 100)
+                      ).toLocaleString()
+                    : 0
                 }}
               </span>
             </div>
@@ -125,15 +127,27 @@
             <span class="fs-4 mb-1">
               $
               {{
-                (
-                  cart.cartAmount *
-                  (selectedCoupon.percent / 100)
-                ).toLocaleString()
+                availableCoupon
+                  ? (
+                      cart.cartAmount *
+                      (selectedCoupon.percent / 100)
+                    ).toLocaleString()
+                  : cart.cartAmount
               }}
             </span>
           </div>
-
-          <button class="btn btn-primary mt-2">立即結帳</button>
+          <div class="d-flex flex-wrap mt-2">
+            <button
+              type="button"
+              class="btn border flex-grow-1 me-1 btn-hover"
+              @click="linePay"
+            >
+              <img src="@/assets/images/LINE-Pay(h)_W74_n.png" alt="LINE-Pay" />
+            </button>
+            <button class="btn btn-primary flex-grow-1 ms-md-1">
+              <font-awesome-icon icon="fa-coins" />現金支付
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -151,6 +165,8 @@ import { ref } from "vue";
 import { automaticLogin } from "@/methods/util.js";
 import loadingStore from "@/stores/loading";
 import couponStore from "@/stores/dashboard/coupon.js";
+import { sendLinePayReq } from "@/api/api.js";
+import { errorAlert, successAlert } from "@/methods/sweetAlert.js";
 
 export default {
   components: { CouponModal },
@@ -175,6 +191,80 @@ export default {
       availableCoupon.value = false;
       selectedCoupon.value = "";
     };
+
+    const linePay = async () => {
+      const today = new Date();
+      const orderId = `${today.getFullYear()}${(today.getMonth() + 1)
+        .toString()
+        .padStart(2, "0")}${today
+        .getDay()
+        .toString()
+        .padStart(2, "0")}${today.getTime()}`;
+      const generatePackages = () => {
+        const categorizedItems = cart.cartItems.reduce((acc, product) => {
+          if (!acc[product.info.category]) {
+            acc[product.info.category] = [];
+          }
+          acc[product.info.category].push(product);
+          return acc;
+        }, {});
+        const calculateAmount = (array) => {
+          // 計算package金額
+          return array.reduce((acc, item) => {
+            acc += item.info.price;
+            return acc;
+          }, 0);
+        };
+        const generateProducts = (array) => {
+          return array.map((product) => {
+            return {
+              id: product.info.id,
+              name: product.info.title,
+              imageUrl: product.info.imageUrl,
+              quantity: product.count,
+              price: product.info.price,
+            };
+          });
+        };
+        const result = [];
+        for (const key in categorizedItems) {
+          result.push({
+            id: `package${key}`,
+            amount: calculateAmount(categorizedItems[key]),
+            name: key,
+            products: generateProducts(categorizedItems[key]),
+          });
+        }
+        return result;
+      };
+      const params = {
+        amount: cart.cartAmount,
+        currency: "TWD",
+        orderId: orderId,
+        packages: generatePackages(),
+        redirectUrls: {
+          confirmUrl: `${import.meta.env.VITE_DOMAIN}eStore/confirmPay`,
+          cancelUrl: `${import.meta.env.VITE_DOMAIN}eStore/confirmPay`,
+        },
+      };
+      console.log("🚀  params:", params);
+      try {
+        loading.showLoading();
+        const res = await sendLinePayReq(params);
+        if (res.status === 200) {
+          if (window.innerWidth > 576) {
+            window.location.href = res.data.info.paymentUrl.web;
+          } else {
+            window.location.href = res.data.info.paymentUrl.app;
+          }
+        }
+      } catch (error) {
+        console.log(error);
+        errorAlert("發生錯誤!");
+      } finally {
+        loading.hideLoading();
+      }
+    };
     return {
       cart,
       changeCount,
@@ -182,6 +272,7 @@ export default {
       selectedCoupon,
       availableCoupon,
       removeCoupon,
+      linePay,
     };
   },
 };

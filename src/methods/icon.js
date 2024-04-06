@@ -17,7 +17,7 @@ import {
     faHome,
     faArrowUp,
     faArrowDown,
-    faCoins,
+
     faPeopleGroup,
     faFileLines,
     faArrowTrendUp,
@@ -32,6 +32,7 @@ import {
     faXmark,
     faStar,
     faFaceFrown,
+    faCoins,
 } from "@fortawesome/free-solid-svg-icons";
 
 import { library } from "@fortawesome/fontawesome-svg-core";

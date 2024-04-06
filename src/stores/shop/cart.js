@@ -44,6 +44,9 @@ export default defineStore("cartStore", {
         delItem(index) {
             this.cartItems.splice(index, 1)
         },
+        clearCart() {
+            this.cartItems.splice(0)
+        },
         changeItemCount(index, count) {
             this.cartItems[index].count = count;
             console.log(this.cartItems[index].count);

@@ -67,3 +67,9 @@
 .edit-btn {
   @include button-style($secondary);
 }
+
+.btn-hover {
+  &:hover {
+    background-color: rgb(245, 242, 242);
+  }
+}
