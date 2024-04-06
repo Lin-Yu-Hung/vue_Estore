@@ -211,7 +211,7 @@ export default {
         const calculateAmount = (array) => {
           // 計算package金額
           return array.reduce((acc, item) => {
-            acc += item.info.price;
+            acc += item.info.price * item.count;
             return acc;
           }, 0);
         };
