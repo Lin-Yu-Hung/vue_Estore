@@ -1,5 +1,10 @@
 <template>
-  <div class="menu py-2 py-md-4" @mouseenter="showMenu" @mouseleave="hideMenu">
+  <div
+    class="menu py-2 py-md-4"
+    @mouseenter="showMenu"
+    @touchend="hideMenu"
+    @mouseleave="hideMenu"
+  >
     <slot name="header"></slot>
     <Transition
       name="custom-classes"

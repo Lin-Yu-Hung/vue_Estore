@@ -44,6 +44,7 @@
                 class="form-control form-control-sm"
                 :class="{ 'is-invalid': errors['姓名'] }"
                 placeholder="請輸入姓名"
+                v-model="data.user.name"
               />
               <ErrorMessage class="text-danger invalid-feedback" name="姓名" />
             </div>
@@ -58,6 +59,7 @@
                 class="form-control form-control-sm"
                 :class="{ 'is-invalid': errors['電話'] }"
                 placeholder="請輸入電話"
+                v-model="data.user.tel"
               />
               <ErrorMessage class="text-danger invalid-feedback" name="電話" />
             </div>
@@ -71,6 +73,7 @@
                 class="form-control form-control-sm"
                 :class="{ 'is-invalid': errors['電子信箱'] }"
                 placeholder="請輸入電子信箱"
+                v-model="data.user.email"
               />
               <ErrorMessage
                 class="text-danger invalid-feedback"
@@ -87,6 +90,7 @@
                 class="form-control form-control-sm"
                 :class="{ 'is-invalid': errors['地址'] }"
                 placeholder="請輸入地址"
+                v-model="data.user.address"
               />
               <ErrorMessage class="text-danger invalid-feedback" name="地址" />
             </div>
@@ -97,6 +101,7 @@
                 id="comment"
                 rows="3"
                 placeholder="請輸入備註"
+                v-model="data.message"
               ></textarea>
             </div>
           </div>
@@ -162,7 +167,7 @@
               >
                 <h2 class="fs-title border-bottom pb-2 mb-3">付款方式</h2>
                 <button
-                  type="submit"
+                  type="button"
                   class="btn border btn-hover mb-3 py-2"
                   @click="handlePayment('linePay', meta.valid)"
                 >
@@ -173,7 +178,7 @@
                 </button>
                 <button
                   class="btn btn-primary py-2"
-                  type="submit"
+                  type="button"
                   @click="handlePayment('cash', meta.valid)"
                 >
                   <font-awesome-icon icon="fa-coins" />現金支付
@@ -193,6 +198,9 @@ import loadingStore from "@/stores/loading";
 import cartStore from "@/stores/shop/cart.js";
 import pendingOrderStore from "@/stores/shop/pendingOrder.js";
 import { Field, Form, ErrorMessage } from "vee-validate";
+import { ref } from "vue";
+import { apiCreateCartItem, apiApplyCoupon } from "@/api/api.js";
+import { useRouter } from "vue-router";
 
 export default {
   components: {
@@ -201,7 +209,17 @@ export default {
     ErrorMessage,
   },
   setup(props) {
+    const data = ref({
+      user: {
+        name: "測試人員",
+        email: "zxcv96197@gmail.com",
+        tel: "0972018771",
+        address: "testAddress",
+      },
+      message: "測試備註",
+    });
     const loading = loadingStore();
+    const router = useRouter();
     const cart = cartStore();
     const { cartItems } = cart;
     const pendingOrder = pendingOrderStore();
@@ -265,7 +283,7 @@ export default {
 
       const params = {
         amount: availableCoupon
-          ? cart.cartAmount * (selectedCoupon.percent / 100)
+          ? Math.ceil(cart.cartAmount * (selectedCoupon.percent / 100))
           : cart.cartAmount,
         currency: "TWD",
         orderId: orderId,
@@ -289,13 +307,52 @@ export default {
         loading.hideLoading();
       }
     };
-    const handlePayment = (type, valid) => {
+    const handlePayment = async (type, valid) => {
       if (!valid) return;
-      if (type === "linePay") {
-        linePay();
-      } else {
+      loading.showLoading();
+      try {
+        // 因六角提供的建立訂單API必須要先透過API建立購物車才可建立訂單
+        const allRequest = cartItems.map((item) => {
+          return apiCreateCartItem({
+            data: {
+              product_id: item.info.id,
+              qty: item.count,
+            },
+          });
+        });
+        const res = await Promise.all(allRequest);
+        const result = res.every((item) => item.data.success); // 所有加入購物車api狀態
+        if (!result) {
+          loading.hideLoading();
+          return;
+        } else if (availableCoupon) {
+          // 套用優惠券api
+          const res = await apiApplyCoupon({
+            data: {
+              code: selectedCoupon.code,
+            },
+          });
+          console.log(res);
+          if (!res.data.success) {
+            loading.hideLoading();
+            return;
+          }
+        }
+      } catch (error) {
+        loading.hideLoading();
+        return;
       }
-      console.log("done");
+
+      if (type === "linePay") {
+        await linePay();
+      } else {
+        const result = await pendingOrder.createOrder({ data: data.value });
+        if (result) {
+          cart.clearCart();
+          router.push("/eStore/userOrder");
+        }
+        loading.hideLoading();
+      }
     };
     return {
       handlePayment,
@@ -303,6 +360,7 @@ export default {
       cart,
       availableCoupon,
       selectedCoupon,
+      data,
     };
   },
 };

@@ -1,65 +1,39 @@
 <template>
-  <div class="container-fluid d-center p-3">
-    <div class="card shadow p-3">
-      <div class="d-between flex-column h-100">
-        <div class="d-column">
-          <h2 class="fs-title border-bottom pb-2">確認付款</h2>
-          <div class="table-responsive">
-            <table class="table table-hover">
-              <thead>
-                <tr>
-                  <th scope="col">商品名稱</th>
-                  <th scope="col" class="text-end">數量</th>
-                  <th scope="col" class="text-end">單價</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="item in cart.cartItems" :key="item.info.id">
-                  <td>{{ item.info.title }}</td>
-                  <td class="text-end">{{ item.count }}</td>
-                  <td class="text-end">
-                    {{ item.info.price.toLocaleString() }}
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-        <div class="d-flex mt-2">
-          <button
-            class="btn btn-light border w-50 me-1"
-            @click="router.push('/eStore/cart')"
-          >
-            取消
-          </button>
-          <button class="btn btn-primary w-50 ms-1" @click="confirmPay">
-            確認付款
-          </button>
-        </div>
-      </div>
-    </div>
+  <div
+    class="container-fluid d-column justify-content-center align-items-center"
+  >
+    <img :src="logoSrc" alt="LINE-Pay" />
+    <h2 class="fs-2 text-center mt-2">交易進行中...</h2>
   </div>
 </template>
 <script>
 import cartStore from "@/stores/shop/cart.js";
 import { sendLinePayConfirm } from "@/api/api.js";
 import { useRoute, useRouter } from "vue-router";
-import loadingStore from "@/stores/loading";
 import { errorAlert, successAlert } from "@/methods/sweetAlert.js";
+import { computed } from "vue";
+import linePayImageSmall from "@/assets/images/LINE-Pay(h)_W119_n.png";
+import linePayImageLarge from "@/assets/images/LINE-Pay(h)_W238_n.png";
 
 export default {
   setup(props) {
     const cart = cartStore();
     const route = useRoute();
     const router = useRouter();
-    const loading = loadingStore();
+    const logoSrc = computed(() => {
+      if (window.innerWidth <= 576) {
+        return linePayImageSmall;
+      } else {
+        return linePayImageLarge;
+      }
+    });
 
     const confirmPay = async () => {
       if (!route.query.transactionId) {
-        errorAlert("發生錯誤");
+        errorAlert("交易發生錯誤");
+        router.push("/eStore/home");
         return;
       }
-      loading.showLoading();
       try {
         const res = await sendLinePayConfirm({
           transactionId: route.query.transactionId,
@@ -69,37 +43,25 @@ export default {
         console.log(res);
         if (res.status === 200) {
           await successAlert("交易成功");
-          router.push("/eStore/home");
-          setTimeout(() => {
-            cart.clearCart();
-          }, 1000);
+          router.push("/eStore/userOrder");
+          cart.clearCart();
         }
       } catch (error) {
         console.log(error);
-      } finally {
-        loading.hideLoading();
+        router.push("/eStore/home");
       }
     };
-    console.log();
+    confirmPay();
     return {
       cart,
       router,
       confirmPay,
+      logoSrc,
     };
   },
 };
 </script>
 <style lang="scss" scoped>
-.table-responsive {
-  max-height: 60svh;
-  table {
-    th,
-    td {
-      white-space: nowrap;
-    }
-  }
-}
-
 .container-fluid {
   min-height: calc(80svh - 72px - 60px);
 }

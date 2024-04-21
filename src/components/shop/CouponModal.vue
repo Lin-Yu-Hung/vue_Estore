@@ -21,9 +21,10 @@
         </div>
         <div class="modal-body">
           <label
-            v-for="(item, index) in coupon.coupons"
+            v-for="(item, index) in showData"
             :key="index"
             class="card card-hover-shadow mb-3"
+            :class="{ expired: isExpired(timestampToYMD(item.due_date)) }"
             :for="item.code"
             role="button"
           >
@@ -32,6 +33,7 @@
                 <div class="col-2 border-end">
                   <div class="d-center align-items-center h-100">
                     <input
+                      v-if="!isExpired(timestampToYMD(item.due_date))"
                       class="form-check-input"
                       type="radio"
                       name="coupon"
@@ -129,6 +131,20 @@ export default {
       await coupon.getCoupons(page);
       loading.hideLoading();
     };
+
+    const isExpired = (dateString) => {
+      const currentDate = new Date();
+      const expirationDate = new Date(dateString);
+      return expirationDate < currentDate;
+    };
+    const showData = computed(() => {
+      return coupon.coupons.sort((a, b) => {
+        // 日期降序
+        const dateA = new Date(timestampToYMD(a.due_date));
+        const dateB = new Date(timestampToYMD(b.due_date));
+        return dateB - dateA;
+      });
+    });
     return {
       selectedCoupon,
       applyCoupon,
@@ -137,6 +153,8 @@ export default {
       currentPage,
       totalPages,
       getCoupons,
+      isExpired,
+      showData,
     };
   },
 };
@@ -151,6 +169,26 @@ export default {
       border: 1px solid #dee2e6;
       color: black;
     }
+  }
+}
+.expired {
+  position: relative;
+  &::after {
+    content: "已過期";
+    color: white;
+    position: absolute;
+    border-radius: 0.375rem;
+    background-color: black;
+    opacity: 0.75;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    cursor: not-allowed;
   }
 }
 </style>
