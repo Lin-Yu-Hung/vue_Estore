@@ -57,7 +57,7 @@
           </table>
         </div>
       </div>
-      <div class="col">
+      <div class="col mb-2">
         <div class="card p-3 shadow">
           <h2 class="fs-5 mb-3 border-bottom pb-2">訂單金額</h2>
           <div class="d-flex align-items-center mb-3">
@@ -73,9 +73,11 @@
               :disabled="availableCoupon"
             />
           </div>
-          <div class="d-flex flex-column flex-sm-row justify-content-between">
+          <div
+            class="d-flex flex-column flex-sm-row justify-content-between mb-2 align-items-center"
+          >
             <p
-              class="mb-2 fs-6 text-decoration-underline"
+              class="fs-6 text-decoration-underline mb-0"
               role="button"
               data-bs-toggle="modal"
               data-bs-target="#couponModal"
@@ -85,18 +87,25 @@
                 icon="fa-solid fa-arrow-right"
               />
             </p>
-            <p
+            <div
+              v-if="availableCoupon"
+              class="d-flex align-items-center fs-6 text-secondary border rounded ps-2 pe-1 py-1 mb-1"
+            >
+              <font-awesome-icon icon="fa-ticket" class="me-4" />
+              {{ selectedCoupon.code }}
+              <button
+                type="button"
+                class="btn-close pe-0 ms-4"
+                @click="removeCoupon"
+              ></button>
+            </div>
+            <!-- <p
               class="text-end text-green mb-0"
               role="button"
               v-if="availableCoupon"
             >
               {{ selectedCoupon.code }} 優惠券
-              <button
-                type="button"
-                class="btn-close pe-0"
-                @click="removeCoupon"
-              ></button>
-            </p>
+            </p> -->
           </div>
 
           <div class="d-column align-items-end mt-2">
@@ -132,20 +141,13 @@
                       cart.cartAmount *
                       (selectedCoupon.percent / 100)
                     ).toLocaleString()
-                  : cart.cartAmount
+                  : cart.cartAmount.toLocaleString()
               }}
             </span>
           </div>
-          <div class="d-flex flex-wrap mt-2">
-            <button
-              type="button"
-              class="btn border flex-grow-1 me-1 btn-hover"
-              @click="linePay"
-            >
-              <img src="@/assets/images/LINE-Pay(h)_W74_n.png" alt="LINE-Pay" />
-            </button>
-            <button class="btn btn-primary flex-grow-1 ms-md-1">
-              <font-awesome-icon icon="fa-coins" />現金支付
+          <div class="d-end mt-3">
+            <button class="btn btn-primary ms-md-1 w-100" @click="confirmOrder">
+              <font-awesome-icon icon="fa-coins" />結帳
             </button>
           </div>
         </div>
@@ -160,17 +162,18 @@
 </template>
 <script>
 import cartStore from "@/stores/shop/cart.js";
+import pendingOrderStore from "@/stores/shop/pendingOrder.js";
 import CouponModal from "@/components/shop/CouponModal.vue";
 import { ref } from "vue";
 import { automaticLogin } from "@/methods/util.js";
 import loadingStore from "@/stores/loading";
 import couponStore from "@/stores/dashboard/coupon.js";
-import { sendLinePayReq } from "@/api/api.js";
-import { errorAlert, successAlert } from "@/methods/sweetAlert.js";
+import { useRouter } from "vue-router";
 
 export default {
   components: { CouponModal },
   setup(props) {
+    const router = useRouter();
     const coupon = couponStore();
     const loading = loadingStore();
     loading.showLoading();
@@ -192,79 +195,15 @@ export default {
       selectedCoupon.value = "";
     };
 
-    const linePay = async () => {
-      const today = new Date();
-      const orderId = `${today.getFullYear()}${(today.getMonth() + 1)
-        .toString()
-        .padStart(2, "0")}${today
-        .getDay()
-        .toString()
-        .padStart(2, "0")}${today.getTime()}`;
-      const generatePackages = () => {
-        const categorizedItems = cart.cartItems.reduce((acc, product) => {
-          if (!acc[product.info.category]) {
-            acc[product.info.category] = [];
-          }
-          acc[product.info.category].push(product);
-          return acc;
-        }, {});
-        const calculateAmount = (array) => {
-          // 計算package金額
-          return array.reduce((acc, item) => {
-            acc += item.info.price * item.count;
-            return acc;
-          }, 0);
-        };
-        const generateProducts = (array) => {
-          return array.map((product) => {
-            return {
-              id: product.info.id,
-              name: product.info.title,
-              imageUrl: product.info.imageUrl,
-              quantity: product.count,
-              price: product.info.price,
-            };
-          });
-        };
-        const result = [];
-        for (const key in categorizedItems) {
-          result.push({
-            id: `package${key}`,
-            amount: calculateAmount(categorizedItems[key]),
-            name: key,
-            products: generateProducts(categorizedItems[key]),
-          });
-        }
-        return result;
-      };
-      const params = {
-        amount: cart.cartAmount,
-        currency: "TWD",
-        orderId: orderId,
-        packages: generatePackages(),
-        redirectUrls: {
-          confirmUrl: `${import.meta.env.VITE_DOMAIN}eStore/confirmPay`,
-          cancelUrl: `${import.meta.env.VITE_DOMAIN}eStore/confirmPay`,
-        },
-      };
-      console.log("🚀  params:", params);
-      try {
-        loading.showLoading();
-        const res = await sendLinePayReq(params);
-        if (res.status === 200) {
-          if (window.innerWidth > 576) {
-            window.location.href = res.data.info.paymentUrl.web;
-          } else {
-            window.location.href = res.data.info.paymentUrl.app;
-          }
-        }
-      } catch (error) {
-        console.log(error);
-        errorAlert("發生錯誤!");
-      } finally {
-        loading.hideLoading();
-      }
+    const confirmOrder = () => {
+      const pendingOrder = pendingOrderStore();
+      pendingOrder.setInfo({
+        availableCoupon: availableCoupon.value,
+        selectedCoupon: selectedCoupon.value,
+      });
+      router.push("/eStore/confirmOrder");
     };
+
     return {
       cart,
       changeCount,
@@ -272,7 +211,8 @@ export default {
       selectedCoupon,
       availableCoupon,
       removeCoupon,
-      linePay,
+      confirmOrder,
+      router,
     };
   },
 };

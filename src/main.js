@@ -15,7 +15,7 @@ import {
   length,
   max,
   min,
-  ext
+  ext, regex,
 } from "@vee-validate/rules";
 import { localize, setLocale } from "@vee-validate/i18n"; // 匯入繁體中文語系檔案
 import zhTW from '@vee-validate/i18n/dist/locale/zh_TW.json'
@@ -31,8 +31,17 @@ defineRule("length", length);
 defineRule("max", max);
 defineRule("min", min);
 defineRule("ext", ext);
+defineRule("regex", regex);
 configure({
-  generateMessage: localize({ zh_TW: zhTW }), // 載入繁體中文語系
+  generateMessage: localize({
+    zh_TW: {
+      messages: {
+        required: '此欄位為必填',
+        email: '電子信箱格式錯誤',
+        max: "此欄位最大字數為10"
+      },
+    }
+  }), // 載入繁體中文語系
   validateOnInput: true // 當輸入任何內容直接進行驗證
 })
 setLocale("zh_TW");
