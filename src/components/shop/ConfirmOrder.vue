@@ -113,7 +113,7 @@
               <div class="d-column align-items-end">
                 <div class="d-between w-40 mobile-w-100 text-nowrap mb-2">
                   <span class="fs-6 text-secondary"> 小記 </span>
-                  <span class="fs-6 text-secondary">
+                  <span class="fs-6 text-secondary" v-if="cart.cartAmount">
                     $ {{ cart.cartAmount.toLocaleString() }}
                   </span>
                 </div>
@@ -342,14 +342,19 @@ export default {
         loading.hideLoading();
         return;
       }
-
+      const result = await pendingOrder.createOrder({ data: data.value });
       if (type === "linePay") {
+        pendingOrder.setInfo({
+          orderId: result.data.orderId,
+        });
         await linePay();
       } else {
-        const result = await pendingOrder.createOrder({ data: data.value });
-        if (result) {
-          cart.clearCart();
-          router.push("/eStore/userOrder");
+        console.log("🚀  result:", result);
+        if (result.success) {
+          router.push(`/eStore/completeOrder/${result.data.orderId}`);
+          setTimeout(() => {
+            cart.clearCart();
+          }, 1000);
         }
         loading.hideLoading();
       }

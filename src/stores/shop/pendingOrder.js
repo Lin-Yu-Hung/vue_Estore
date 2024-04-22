@@ -7,7 +7,8 @@ export default defineStore("pendingOrderStore", {
     state: () => ({
         info: {
             availableCoupon: false,
-            selectedCoupon: {}
+            selectedCoupon: {},
+            orderId: "",
         },
     }),
     actions: {
@@ -17,7 +18,8 @@ export default defineStore("pendingOrderStore", {
         initInfo() {
             this.info = {
                 availableCoupon: false,
-                selectedCoupon: {}
+                selectedCoupon: {},
+                orderId: "",
             };
         },
         createOrder(params) {
@@ -25,13 +27,12 @@ export default defineStore("pendingOrderStore", {
                 try {
                     const res = await apiCreateOrder(params);
                     if (res.data.success) {
-                        successAlert("建立訂單成功")
+                        resolve({ success: true, data: res.data })
                     }
-                    resolve(true)
                 } catch (error) {
                     console.log(error);
                     errorAlert("發生錯誤")
-                    reject(false)
+                    reject({ success: false })
                 }
             })
         }

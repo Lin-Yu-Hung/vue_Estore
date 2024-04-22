@@ -73,9 +73,7 @@
               :disabled="availableCoupon"
             />
           </div>
-          <div
-            class="d-flex flex-column flex-sm-row justify-content-between mb-2 align-items-center"
-          >
+          <div class="d-between mb-2 align-items-center">
             <p
               class="fs-6 text-decoration-underline mb-0"
               role="button"
@@ -99,13 +97,6 @@
                 @click="removeCoupon"
               ></button>
             </div>
-            <!-- <p
-              class="text-end text-green mb-0"
-              role="button"
-              v-if="availableCoupon"
-            >
-              {{ selectedCoupon.code }} 優惠券
-            </p> -->
           </div>
 
           <div class="d-column align-items-end mt-2">
@@ -200,6 +191,7 @@ export default {
       pendingOrder.setInfo({
         availableCoupon: availableCoupon.value,
         selectedCoupon: selectedCoupon.value,
+        orderId: "",
       });
       router.push("/eStore/confirmOrder");
     };

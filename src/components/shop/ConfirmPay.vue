@@ -3,7 +3,7 @@
     class="container-fluid d-column justify-content-center align-items-center"
   >
     <img :src="logoSrc" alt="LINE-Pay" />
-    <h2 class="fs-2 text-center mt-2">交易進行中...</h2>
+    <h2 class="fs-2 text-center mt-4">交易進行中...</h2>
   </div>
 </template>
 <script>
@@ -14,12 +14,14 @@ import { errorAlert, successAlert } from "@/methods/sweetAlert.js";
 import { computed } from "vue";
 import linePayImageSmall from "@/assets/images/LINE-Pay(h)_W119_n.png";
 import linePayImageLarge from "@/assets/images/LINE-Pay(h)_W238_n.png";
+import pendingOrderStore from "@/stores/shop/pendingOrder.js";
 
 export default {
   setup(props) {
     const cart = cartStore();
     const route = useRoute();
     const router = useRouter();
+    const pendingOrder = pendingOrderStore();
     const logoSrc = computed(() => {
       if (window.innerWidth <= 576) {
         return linePayImageSmall;
@@ -41,10 +43,13 @@ export default {
           currency: "TWD",
         });
         console.log(res);
-        if (res.status === 200) {
-          await successAlert("交易成功");
-          router.push("/eStore/userOrder");
+        if (res.status === 200 && pendingOrder.info.orderId) {
+          router.push(`/eStore/completeOrder/${pendingOrder.info.orderId}`);
+          pendingOrder.initInfo();
           cart.clearCart();
+        } else {
+          errorAlert("交易發生錯誤");
+          router.push("/eStore/home");
         }
       } catch (error) {
         console.log(error);

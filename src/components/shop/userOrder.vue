@@ -1,27 +1,74 @@
 <template>
-  <div class="card shadow my-3 p-3">
-    <h2 class="fs-title mb-3">
-      <font-awesome-icon icon="fa-file-lines" role="button" />我的訂單
-    </h2>
+  <div class="card shadow my-3 p-2 p-md-3">
+    <div class="d-between align-items-center mb-3">
+      <h2 class="fs-title mb-0">
+        <font-awesome-icon
+          icon="fa-file-lines"
+          role="button"
+          class="text-secondary me-2 ms-1"
+        />所有訂單
+      </h2>
+      <div
+        class="input-group d-center align-items-center rounded-pill border bg-white mobile-w-50 w-25"
+        style="z-index: 1"
+      >
+        <input
+          type="text"
+          class="form-control rounded-pill border-0 ps-3 fs-small"
+          placeholder="輸入訂單編號"
+        />
+        <font-awesome-icon class="px-3" icon="fa-search" role="button" />
+      </div>
+    </div>
+
     <div class="accordion" id="accordionExample">
+      <button
+        class="header accordion-button border-0 px-2 px-md-3"
+        type="button"
+      >
+        <span
+          class="border-end pe-2 pe-md-4 w-25 mobile-hide"
+          style="min-width: 220px"
+        >
+          訂單編號</span
+        >
+        <span
+          class="border-end pe-2 pe-md-4 w-15 text-center mobile-hide-border"
+          style="min-width: 120px"
+        >
+          訂單日期</span
+        >
+        <span class="border-end pe-4 ms-4 mobile-hide w-10 text-center">
+          品項</span
+        >
+      </button>
       <div
         class="accordion-item d-column align-items-end"
         v-for="order in orders"
         :key="order.id"
       >
         <button
-          class="accordion-button"
+          class="accordion-button px-2 px-md-3"
           type="button"
           data-bs-toggle="collapse"
           :data-bs-target="`#collapse${order.id}`"
           aria-expanded="true"
           :aria-controls="`collapse${order.id}`"
         >
-          <span class="border-end pe-2 pe-md-4">
-            訂單日期：{{ timestampToYMD(order.create_at) }}
+          <span
+            class="border-end pe-2 pe-md-4 w-25 mobile-hide"
+            style="min-width: 220px"
+          >
+            {{ order.id }}
           </span>
-          <span class="border-end pe-4 ms-4 mobile-hide">
-            品項：{{ Object.keys(order.products).length }}
+          <span
+            class="border-end pe-2 pe-md-4 w-15 text-center mobile-hide-border"
+            style="min-width: 120px"
+          >
+            {{ timestampToYMD(order.create_at) }}
+          </span>
+          <span class="border-end pe-4 ms-4 mobile-hide w-10 text-center">
+            {{ Object.keys(order.products).length }}
           </span>
 
           <span class="arrow-text"> 詳細資訊 </span>
@@ -32,16 +79,14 @@
           data-bs-parent="#accordionExample"
         >
           <div class="accordion-body">
-            <div class="d-between pb-2 border-bottom flex-wrap">
-              <span> 訂單編號：{{ order.id }} </span>
-              <h2 class="fs-6 text-end">
-                訂單金額：{{ order.total.toLocaleString() }}
-              </h2>
-            </div>
+            <h2 class="fs-5 text-md-end mt-2 mb-3">
+              訂單金額：{{ order.total.toLocaleString() }}
+            </h2>
+
             <div class="table-responsive">
-              <table class="table table-hover">
+              <table class="table table-hover border">
                 <thead>
-                  <tr>
+                  <tr class="table-light">
                     <th class="text-center mobile-hide">商品圖片</th>
                     <th>商品名稱</th>
                     <th class="text-end">數量</th>
@@ -69,7 +114,6 @@
                 </tbody>
               </table>
             </div>
-            <hr />
           </div>
         </div>
       </div>
@@ -124,6 +168,9 @@ export default {
 }
 .accordion-button {
   border-color: #dee2e6 !important;
+  span {
+    white-space: nowrap;
+  }
 }
 .arrow-text {
   position: absolute;
@@ -142,6 +189,18 @@ export default {
         vertical-align: middle;
       }
     }
+  }
+}
+.header {
+  &::after {
+    contain: "";
+    background-image: none;
+  }
+}
+
+.mobile-hide-border {
+  @media screen and (max-width: 576px) {
+    border-right: 0 !important;
   }
 }
 </style>

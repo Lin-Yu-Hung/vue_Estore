@@ -52,6 +52,7 @@ export const apiDeleteCoupon = (id) => api.delete(`/admin/coupon/${id}`)
 export const apiGetProductAll = () => api.get("/products/all");
 export const apiCreateCartItem = (params) => api.post("/cart", params);
 export const apiGetOrders = (page) => api.get(`/orders?page=${page}`);
+export const apiGetOrder = (orderId) => api.get(`/order/${orderId}`);
 export const apiCreateOrder = (params) => api.post("/order", params);
 // 因六角提供的建立訂單API必須要先透過API建立購物車才可建立訂單
 export const apiApplyCoupon = (params) => api.post("/coupon", params);
