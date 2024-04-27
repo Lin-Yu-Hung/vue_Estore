@@ -48,9 +48,9 @@
                         class="dropdown-title"
                         @click="toggleStatus"
                         data-bs-toggle="collapse"
-                        data-bs-target="#productSetting"
+                        data-bs-target="#productList"
                         aria-expanded="false"
-                        aria-controls="productSetting"
+                        aria-controls="productList"
                       >
                         <span class="pe-none">
                           <font-awesome-icon
@@ -64,24 +64,54 @@
                           icon="fa-chevron-right"
                         />
                       </div>
-                      <div class="collapse multi-collapse" id="productSetting">
-                        <!-- <ul>
-                            <li class="collapse-item" parentId="productSetting">
-                              <router-link class="menu-link" to="setProduct"
-                                >建立商品</router-link
-                              >
-                            </li>
-                            <li class="collapse-item" parentId="productSetting">
-                              <router-link class="menu-link" to="editProduct"
-                                >修改商品</router-link
-                              >
-                            </li>
-                            <li class="collapse-item" parentId="productSetting">
-                              <router-link class="menu-link" to="productList"
-                                >商品列表</router-link
-                              >
-                            </li>
-                          </ul> -->
+                      <div class="collapse multi-collapse" id="productList">
+                        <ul class="mt-3 ps-4">
+                          <li parentId="productList">
+                            <router-link class="menu-link" to="setProduct"
+                              >所有商品</router-link
+                            >
+                          </li>
+                          <li parentId="productList">
+                            <router-link class="menu-link" to="editProduct"
+                              >熱賣商品</router-link
+                            >
+                          </li>
+                          <li parentId="productList">
+                            <div
+                              class="dropdown-title"
+                              @click="toggleStatus"
+                              data-bs-toggle="collapse"
+                              data-bs-target="#productCategory"
+                              aria-expanded="false"
+                              aria-controls="productCategory"
+                            >
+                              <span class="pe-none">商品分類 </span>
+                              <font-awesome-icon
+                                class="dropdown-arrow pe-none"
+                                icon="fa-chevron-right"
+                              />
+                            </div>
+                            <div
+                              class="collapse multi-collapse"
+                              id="productCategory"
+                            >
+                              <ul class="mt-3 ps-3">
+                                <li
+                                  class="collapse-item"
+                                  parentId="productCategory"
+                                  v-for="item in productCategoryList"
+                                  :key="item"
+                                >
+                                  <router-link
+                                    class="menu-link text-underline-hover"
+                                    to="home"
+                                    >{{ item }}</router-link
+                                  >
+                                </li>
+                              </ul>
+                            </div>
+                          </li>
+                        </ul>
                       </div>
                     </li>
                   </ul>
