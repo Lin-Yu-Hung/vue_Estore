@@ -25,6 +25,7 @@ import {
     faImage,
     faImages,
     faChevronDown,
+    faChevronUp,
     faSearch,
     faCartArrowDown,
     faFire,
@@ -68,5 +69,5 @@ library.add(
     faCartArrowDown,
     faFire,
     faBars,
-    faXmark, faStar, faFaceFrown, faTicket, faCheckCircle, faArrowUpWideShort, faArrowDownShortWide,
+    faXmark, faStar, faFaceFrown, faTicket, faCheckCircle, faArrowUpWideShort, faArrowDownShortWide, faChevronUp,
 ); 

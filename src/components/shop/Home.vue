@@ -154,7 +154,7 @@
                 <img
                   role="button"
                   :src="product.imageUrl"
-                  class="card-img-top mb-2"
+                  class="card-img-top limit-width mb-2"
                   :alt="product.title"
                   :title="product.title"
                   @click="showDetail(product.id)"
@@ -294,6 +294,8 @@ export default {
     height: 115px;
     @media screen and (min-width: 992px) {
       height: 170px;
+    }
+    &.limit-width {
       max-width: 200px;
     }
   }

@@ -99,17 +99,77 @@
               >
             </li>
             <li>
-              <DropDownMenu>
+              <DropDownMenu :alignLeft="true">
                 <template v-slot:header>
-                  <router-link class="menu-link" to="productList"
-                    >商品列表</router-link
-                  >
+                  <span class="menu-link">商品列表</span>
                 </template>
-                <template v-slot:menu>
-                  <ul class="text-black ps-0 py-2 mb-0">
-                    <li class="border-bottom px-2 py-1 text-end">個人資料</li>
-                    <li class="border-bottom px-2 py-1 text-end">登出</li>
-                  </ul>
+                <template v-slot:menu v-if="productCategoryList.length > 0">
+                  <div class="product-menu p-4">
+                    <div class="d-column flex-grow-1">
+                      <h2
+                        class="fs-6 text-secondary pb-2 mb-2 text-underline-hover"
+                      >
+                        <font-awesome-icon
+                          icon="fa-list"
+                          class="me-2"
+                        />所有商品
+                      </h2>
+                      <h2
+                        class="fs-6 text-secondary pb-2 mb-2 text-underline-hover"
+                      >
+                        <font-awesome-icon
+                          icon="fa-fire"
+                          class="me-2"
+                        />熱賣商品
+                      </h2>
+                      <div
+                        class="accordion"
+                        id="category"
+                        style="width: max-content"
+                      >
+                        <div class="accordion-item border-0">
+                          <ToggleArrowIcon
+                            :show="true"
+                            :collapseId="'productCategory'"
+                          >
+                            <template v-slot:title>
+                              <h2
+                                class="accordion-header fs-6 pb-2 pe-2"
+                                data-bs-toggle="collapse"
+                                data-bs-target="#productCategory"
+                                aria-expanded="true"
+                                aria-controls="category"
+                                style="user-select: none"
+                              >
+                                商品分類
+                              </h2>
+                            </template>
+                          </ToggleArrowIcon>
+                          <div
+                            id="productCategory"
+                            class="accordion-collapse collapse p-0 show"
+                            data-bs-parent="#category"
+                          >
+                            <div class="accordion-body p-0 border-top">
+                              <div class="container-fluid mt-2">
+                                <div class="row row-cols-2">
+                                  <div
+                                    class="col ps-0 py-1 text-secondary text-nowrap"
+                                    v-for="item in productCategoryList"
+                                    :key="item"
+                                  >
+                                    <span class="text-underline-hover">
+                                      {{ item }}
+                                    </span>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </template>
               </DropDownMenu>
             </li>
@@ -245,11 +305,14 @@ import { storeToRefs } from "pinia";
 import cartStore from "@/stores/shop/cart.js";
 import { useRoute, useRouter } from "vue-router";
 import { hideOffcanvas } from "@/methods/bootstrap.js";
+import ToggleArrowIcon from "@/components/shared/ToggleArrowIcon.vue";
+
 export default {
   components: {
     DropDownMenu,
     MenuList,
     Footer,
+    ToggleArrowIcon,
   },
   setup(props) {
     const route = useRoute();
@@ -278,18 +341,24 @@ export default {
         return acc;
       }, {});
     });
+    const productCategoryList = computed(() => {
+      const categoryMap = {};
+      return productList.value.reduce((acc, product) => {
+        if (!categoryMap[product.category]) {
+          categoryMap[product.category] = true;
+          acc.push(product.category);
+        }
+        return acc;
+      }, []);
+    });
+
     const getAllProduct = async () => {
-      // loading.showLoading();
       try {
         const res = await apiGetProductAll();
-        // console.log(res);
+        console.log(res);
         productList.value = JSON.parse(JSON.stringify(res.data.products));
       } catch (error) {
         errorAlert("取得資料錯誤", "請重新整理網頁或聯絡客服人員");
-      } finally {
-        // setTimeout(() => {
-        //   loading.hideLoading();
-        // }, 1000);
       }
     };
     getAllProduct();
@@ -305,6 +374,7 @@ export default {
       cart,
       route,
       router,
+      productCategoryList,
     };
   },
 };
@@ -416,5 +486,8 @@ img {
       }
     }
   }
+}
+.product-menu {
+  width: 380px;
 }
 </style>

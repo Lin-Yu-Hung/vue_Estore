@@ -11,7 +11,11 @@
       enter-active-class="animate__animated animate__fadeIn"
       leave-active-class="animate__animated animate__fadeOut"
     >
-      <div class="dropdown shadow card" v-if="menuVisible">
+      <div
+        class="dropdown shadow card"
+        :class="[alignLeft ? 'start-0' : 'end-0']"
+        v-if="menuVisible"
+      >
         <slot name="menu"></slot>
       </div>
     </Transition>
@@ -22,7 +26,14 @@
 import { ref } from "vue";
 
 export default {
-  setup() {
+  props: {
+    alignLeft: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  setup(props) {
+    const alignLeft = props.alignLeft;
     const menuVisible = ref(false);
     const showMenu = () => {
       menuVisible.value = true;
@@ -36,6 +47,7 @@ export default {
       menuVisible,
       showMenu,
       hideMenu,
+      alignLeft,
     };
   },
 };
@@ -52,7 +64,6 @@ export default {
   min-width: 120px;
   position: absolute;
   top: 100%;
-  right: 0;
   @media screen and (max-width: 767px) {
     top: 120%;
   }
