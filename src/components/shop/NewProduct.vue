@@ -46,14 +46,12 @@
             </div>
           </div>
         </div>
-        <div
-          class="d-flex justify-content-end justify-content-md-between align-items-center mt-3 mt-xl-0"
-        >
-          <p class="fs-small text-secondary mb-0 mobile-hide">
-            顯示 {{ productList.length }} 筆結果中的
+        <div class="d-flex justify-content-end align-items-center mt-3 mt-xl-0">
+          <!-- <p class="fs-small text-secondary mb-0 mobile-hide">
+            顯示 9 筆結果中的
             {{ nowPage * pageItemCount - pageItemCount + 1 }} ~
             {{ nowPage * pageItemCount }} 筆
-          </p>
+          </p> -->
           <Pagination :data="productList" @changePage="changeShowData" />
         </div>
       </div>

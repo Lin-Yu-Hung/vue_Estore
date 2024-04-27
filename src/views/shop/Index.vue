@@ -137,10 +137,18 @@
               />
             </template>
             <template v-slot:menu>
-              <ul class="profile ps-0 py-2 mb-0">
-                <li class="border-bottom px-2 py-1 text-end">個人資料</li>
-                <li class="border-bottom px-2 py-1 text-end">登出</li>
-              </ul>
+              <div class="profile py-2">
+                <router-link
+                  to="/eStore/home"
+                  class="border-bottom px-2 py-1 text-end text-primary"
+                  >個人資料</router-link
+                >
+                <router-link
+                  to="/eStore/userOrder"
+                  class="border-bottom px-2 py-1 text-end text-primary"
+                  >訂單列表</router-link
+                >
+              </div>
             </template>
           </DropDownMenu>
           <DropDownMenu>
@@ -207,6 +215,10 @@
                   </button>
                 </div>
               </template>
+              <p v-else class="m-4 text-nowrap mb-0 pb-4 fs-5">
+                目前還未將商品加入購物車
+                <font-awesome-icon class="ms-1" icon="fa-face-frown" />
+              </p>
             </template>
           </DropDownMenu>
         </div>
@@ -349,9 +361,14 @@ img {
     top: -4px;
   }
   .profile {
-    li {
+    a {
+      display: block;
+      width: 100%;
       white-space: nowrap;
       &:hover {
+        background-color: rgb(245, 242, 242);
+      }
+      &.router-link-active {
         background-color: rgb(245, 242, 242);
       }
     }

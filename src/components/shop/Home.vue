@@ -150,14 +150,17 @@
         >
           <div class="card h-100 card-hover-shadow">
             <div class="card-body d-column">
-              <img
-                role="button"
-                :src="product.imageUrl"
-                class="card-img-top mb-2"
-                :alt="product.title"
-                :title="product.title"
-                @click="showDetail(product.id)"
-              />
+              <div class="d-center">
+                <img
+                  role="button"
+                  :src="product.imageUrl"
+                  class="card-img-top mb-2"
+                  :alt="product.title"
+                  :title="product.title"
+                  @click="showDetail(product.id)"
+                />
+              </div>
+
               <h5
                 class="card-title text-truncate text-underline-hover mb-0"
                 role="button"
@@ -291,6 +294,7 @@ export default {
     height: 115px;
     @media screen and (min-width: 992px) {
       height: 170px;
+      max-width: 200px;
     }
   }
   .card-text {

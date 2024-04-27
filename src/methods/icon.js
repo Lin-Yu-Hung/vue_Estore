@@ -32,7 +32,7 @@ import {
     faXmark,
     faStar,
     faFaceFrown,
-    faCoins, faTicket, faCheckCircle,
+    faCoins, faTicket, faCheckCircle, faArrowUpWideShort, faArrowDownShortWide,
 } from "@fortawesome/free-solid-svg-icons";
 
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -68,5 +68,5 @@ library.add(
     faCartArrowDown,
     faFire,
     faBars,
-    faXmark, faStar, faFaceFrown, faTicket, faCheckCircle
+    faXmark, faStar, faFaceFrown, faTicket, faCheckCircle, faArrowUpWideShort, faArrowDownShortWide,
 ); 
