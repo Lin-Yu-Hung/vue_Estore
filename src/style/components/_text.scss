@@ -1,10 +1,14 @@
 $font-size: (
+  bigger: 24px,
   1: 20px,
   2: 18px,
   3: 16px,
   4: 14px,
   5: 12px,
 );
+.fs-bigger {
+  font-size: map-get($font-size, "bigger");
+}
 .fs-title {
   font-size: map-get($font-size, 1);
 }
@@ -21,34 +25,54 @@ $font-size: (
   font-size: map-get($font-size, 5);
 }
 
+.fs-lg-bigger {
+  @include lg {
+    font-size: map-get($font-size, "bigger") !important;
+  }
+}
+.fs-md-bigger {
+  @include md {
+    font-size: map-get($font-size, "bigger") !important;
+  }
+}
+.fs-lg-title {
+  @include lg {
+    font-size: map-get($font-size, 1) !important;
+  }
+}
+.fs-md-title {
+  @include md {
+    font-size: map-get($font-size, 1) !important;
+  }
+}
 .fs-lg-large {
   @include lg {
-    font-size: map-get($font-size, 2);
+    font-size: map-get($font-size, 2) !important;
   }
 }
 .fs-lg-base {
   @include lg {
-    font-size: map-get($font-size, 3);
+    font-size: map-get($font-size, 3) !important;
   }
 }
 .fs-md-large {
   @include md {
-    font-size: map-get($font-size, 2);
+    font-size: map-get($font-size, 2) !important;
   }
 }
 .fs-md-base {
   @include md {
-    font-size: map-get($font-size, 3);
+    font-size: map-get($font-size, 3) !important;
   }
 }
 .fs-lg-small {
   @include lg {
-    font-size: map-get($font-size, 4);
+    font-size: map-get($font-size, 4) !important;
   }
 }
 .fs-md-small {
   @include md {
-    font-size: map-get($font-size, 4);
+    font-size: map-get($font-size, 4) !important;
   }
 }
 

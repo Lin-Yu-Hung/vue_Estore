@@ -301,6 +301,7 @@ $cyans: (
 
 // scss-docs-start theme-color-variables
 $primary: #181f2d !default;
+$primary-light: #405379 !default;
 $secondary: $gray-600 !default;
 $success: #ccf1db !default;
 $info: $cyan !default;
@@ -315,6 +316,7 @@ $link-color: #0062bd !default;
 // scss-docs-start theme-colors-map
 $theme-colors: (
   "primary": $primary,
+  "primary-light": $primary-light,
   "secondary": $secondary,
   "success": $success,
   "info": $info,
@@ -717,6 +719,7 @@ $table-bg-scale: -80% !default;
 // scss-docs-start table-loop
 $table-variants: (
   "primary": shift-color($primary, $table-bg-scale),
+  "primary-light": shift-color($primary-light, $table-bg-scale),
   "secondary": shift-color($secondary, $table-bg-scale),
   "success": shift-color($success, $table-bg-scale),
   "info": shift-color($info, $table-bg-scale),
