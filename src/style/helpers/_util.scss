@@ -70,6 +70,14 @@ li {
   @include fixedWidth(150px);
 }
 
+// padding
+.mobile-px-0 {
+  @media (max-width: 576px) {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+}
+
 // 高寬度
 .vh-30 {
   height: 30svh;
@@ -97,6 +105,11 @@ li {
 .lg-down-w-80 {
   @media (max-width: 992px) {
     width: 80% !important;
+  }
+}
+.lg-down-w-100 {
+  @media (max-width: 992px) {
+    width: 100% !important;
   }
 }
 .mobile-w-100 {

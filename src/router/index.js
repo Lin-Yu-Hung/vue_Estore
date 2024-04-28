@@ -40,7 +40,7 @@ const router = createRouter({
         },
         {
           path: "productList",
-          component: () => import("@/components/dashboard/ProductList.vue"),
+          component: () => import("@/components/shop/ProductList.vue"),
         },
         {
           path: "productInfo/:id",
@@ -110,6 +110,9 @@ const router = createRouter({
     },
     {
       path: "/:pathMatch(.*)*",
+      meta: {
+        title: "404 - 此頁面不存在",
+      },
       component: () => import("@/views/NotFound.vue"),
     },
   ],

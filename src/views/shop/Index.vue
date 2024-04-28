@@ -67,7 +67,9 @@
                       <div class="collapse multi-collapse" id="productList">
                         <ul class="mt-3 ps-4">
                           <li parentId="productList">
-                            <router-link class="menu-link" to="setProduct"
+                            <router-link
+                              class="menu-link"
+                              to="/eStore/productList"
                               >所有商品</router-link
                             >
                           </li>
@@ -139,10 +141,10 @@
                       <h2
                         class="fs-6 text-secondary pb-2 mb-2 text-underline-hover"
                       >
-                        <font-awesome-icon
-                          icon="fa-list"
-                          class="me-2"
-                        />所有商品
+                        <font-awesome-icon icon="fa-list" class="me-2" />
+                        <router-link to="/eStore/productList"
+                          >所有商品</router-link
+                        >
                       </h2>
                       <h2
                         class="fs-6 text-secondary pb-2 mb-2 text-underline-hover"
@@ -395,6 +397,7 @@ export default {
     provide("productList", productList);
     provide("productListMap", productListMap);
     provide("pageItemCount", pageItemCount);
+    provide("productCategoryList", productCategoryList);
     return {
       productList,
       toggleStatus,
@@ -519,5 +522,11 @@ img {
 }
 .product-menu {
   width: 380px;
+  a {
+    &.router-link-active {
+      text-decoration: underline;
+      color: black;
+    }
+  }
 }
 </style>
