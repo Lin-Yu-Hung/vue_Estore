@@ -179,7 +179,7 @@
                   </div>
 
                   <div class="card-body px-2 px-sm-3">
-                    <h5 class="card-title fs-5 line-clamp-2">
+                    <h5 class="card-title line-clamp-2">
                       {{ product.title }}
                     </h5>
                     <p
@@ -233,6 +233,36 @@
               </div>
             </div>
           </template>
+          <nav
+            aria-label="Page navigation example"
+            class="my-3 d-end"
+            v-if="pageCount > 1"
+          >
+            <ul class="pagination">
+              <li class="page-item" :class="{ 'd-none': nowPage === 1 }">
+                <a class="page-link rounded-circle" @click="--nowPage">{{
+                  "<<"
+                }}</a>
+              </li>
+              <li class="page-item" v-for="page in pageCount" :key="page">
+                <a
+                  class="page-link rounded-circle"
+                  @click="nowPage = page"
+                  :class="{ active: nowPage === page }"
+                  >{{ page }}</a
+                >
+              </li>
+
+              <li
+                class="page-item"
+                :class="{ 'd-none': nowPage === pageCount }"
+              >
+                <a class="page-link rounded-circle" @click="++nowPage">{{
+                  ">>"
+                }}</a>
+              </li>
+            </ul>
+          </nav>
         </div>
       </div>
     </div>
@@ -266,6 +296,8 @@ export default {
     const productList = inject("productList");
     const productCategoryList = inject("productCategoryList");
     const filterProductList = ref([]); // 為了不影響原資料額外儲存到的篩選用變數
+
+    const nowPage = ref(1);
     watch(
       productList,
       (value) => (filterProductList.value = JSON.parse(JSON.stringify(value)))
@@ -299,16 +331,44 @@ export default {
       });
     };
 
-    //顯示資料
+    // 顯示資料
+    const filterResult = ref([]);
     const showData = computed(() => {
-      const filterResult = filterProductList.value.filter((product) => {
+      filterResult.value = filterProductList.value.filter((product) => {
         return (
           product.title.match(productKeyWord.value) &&
           filterCategory.value.includes(product.category)
         );
       });
-      return sortProductList(filterResult, sortType.value);
+      const sortResult = sortProductList(filterResult.value, sortType.value); // 排序完再進行分頁
+      if (filterResult.value.length < maxShowQuantity.value) {
+        // 篩選結果數量小於最大顯示數量時就不進行切割陣列，因為此時不會顯示分頁元件
+        return sortResult;
+      }
+      return sortResult.slice(
+        nowPage.value * maxShowQuantity.value - maxShowQuantity.value,
+        nowPage.value * maxShowQuantity.value
+      );
     });
+
+    // 分頁功能
+    const pageCount = computed(() => {
+      return Math.ceil(filterResult.value.length / maxShowQuantity.value);
+    });
+    const getShowQuantity = () => {
+      if (window.innerWidth >= 1600) {
+        return 16;
+      } else if (window.innerWidth >= 768) {
+        return 12;
+      } else {
+        return 8;
+      }
+    };
+    const maxShowQuantity = ref(getShowQuantity());
+    window.addEventListener("resize", (event) => {
+      maxShowQuantity.value = getShowQuantity();
+    });
+
     return {
       productList,
       productCategoryList,
@@ -321,6 +381,8 @@ export default {
       maxPrice,
       filterPrice,
       filterProductList,
+      pageCount,
+      nowPage,
     };
   },
 };
@@ -333,7 +395,6 @@ export default {
   }
 }
 .product-list {
-  margin-bottom: 2rem;
   .product-img {
     object-fit: cover;
     height: 180px;
@@ -346,7 +407,26 @@ export default {
     }
   }
   .card-title {
-    height: 46px;
+    font-size: 16px;
+    height: 35px;
+    @media screen and (min-width: 576px) {
+      height: 46px;
+      font-size: 20px;
+    }
+  }
+  .pagination {
+    li {
+      cursor: pointer;
+      margin: 0 0.25rem;
+      a {
+        color: #405379;
+        &.active {
+          color: white;
+          background-color: #253047;
+          border-color: #253047;
+        }
+      }
+    }
   }
 }
 .list-move, /* apply transition to moving elements */
