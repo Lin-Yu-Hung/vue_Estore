@@ -1,1 +1,0 @@
-import{_ as o,o as s,c as t,b as e}from"./index-8643c75a.js";const n={},c=e("div",{class:"d-between w-100 flex-wrap"},[e("span",null,"Copyright © 2023 YuHung Lin"),e("span",null,"本作品僅作為個人作品使用，不含任何商業行為")],-1),r=[c];function a(_,p,l,i,d,u){return s(),t("footer",null,r)}const h=o(n,[["render",a]]);export{h as F};
