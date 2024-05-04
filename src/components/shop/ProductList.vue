@@ -20,6 +20,7 @@
               <input
                 class="form-check-input"
                 type="checkbox"
+                v-model="filterCategory"
                 :value="category"
                 :id="category"
                 name="category"
@@ -54,6 +55,7 @@
                   type="number"
                   class="form-control form-control-sm"
                   id="minPrice"
+                  v-model="minPrice"
                   placeholder="請輸入最低價格"
                 />
                 <span class="mx-1">~</span>
@@ -61,10 +63,13 @@
                   type="number"
                   class="form-control form-control-sm"
                   id="maxPrice"
+                  v-model="maxPrice"
                   placeholder="請輸入最高價格"
                 />
               </div>
-              <button class="btn btn-primary-median mt-3">篩選</button>
+              <button class="btn btn-primary-median mt-3" @click="filterPrice">
+                篩選
+              </button>
             </div>
           </template>
           <template v-else>
@@ -157,6 +162,7 @@
 
           <template v-if="productList.length > 0">
             <TransitionGroup
+              v-if="showData.length > 0"
               name="list"
               tag="div"
               class="row row-cols-2 row-cols-md-3 row-cols-xxxl-4 g-3"
@@ -192,6 +198,12 @@
                 </div>
               </div>
             </TransitionGroup>
+            <template v-else>
+              <h2 class="text-center mt-5 pt-5">
+                查無條件無結果
+                <font-awesome-icon class="ms-2" icon="fa-face-frown" />
+              </h2>
+            </template>
           </template>
           <template v-else>
             <div class="row row-cols-2 row-cols-md-3 row-cols-xxxl-4 g-3">
@@ -227,7 +239,7 @@
   </div>
 </template>
 <script>
-import { ref, computed, inject } from "vue";
+import { ref, computed, inject, watch } from "vue";
 
 export default {
   setup(props) {
@@ -250,11 +262,50 @@ export default {
       });
       return data;
     };
+    // 取得資料
     const productList = inject("productList");
     const productCategoryList = inject("productCategoryList");
+    const filterProductList = ref([]); // 為了不影響原資料額外儲存到的篩選用變數
+    watch(
+      productList,
+      (value) => (filterProductList.value = JSON.parse(JSON.stringify(value)))
+    );
+
+    // 篩選類別
+    const filterCategory = ref([]);
+    watch(
+      productCategoryList,
+      (value) => (filterCategory.value = JSON.parse(JSON.stringify(value)))
+    );
+
+    // 篩選價格
+    const minPrice = ref("");
+    const maxPrice = ref("");
+    const filterPrice = () => {
+      const min = parseInt(minPrice.value);
+      const max = parseInt(maxPrice.value);
+      if (isNaN(min) && isNaN(max)) {
+        filterProductList.value = JSON.parse(JSON.stringify(productList.value));
+        return;
+      }
+      filterProductList.value = productList.value.filter((product) => {
+        if (!isNaN(min) && !isNaN(max)) {
+          return product.price >= min && product.price <= max;
+        } else if (!isNaN(min)) {
+          return product.price >= min;
+        } else {
+          return product.price <= max;
+        }
+      });
+    };
+
+    //顯示資料
     const showData = computed(() => {
-      const filterResult = productList.value.filter((product) => {
-        return product.title.match(productKeyWord.value);
+      const filterResult = filterProductList.value.filter((product) => {
+        return (
+          product.title.match(productKeyWord.value) &&
+          filterCategory.value.includes(product.category)
+        );
       });
       return sortProductList(filterResult, sortType.value);
     });
@@ -265,6 +316,11 @@ export default {
       showType,
       productKeyWord,
       showData,
+      filterCategory,
+      minPrice,
+      maxPrice,
+      filterPrice,
+      filterProductList,
     };
   },
 };
