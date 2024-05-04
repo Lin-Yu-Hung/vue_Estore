@@ -161,43 +161,118 @@
           </div>
 
           <template v-if="productList.length > 0">
-            <TransitionGroup
-              v-if="showData.length > 0"
-              name="list"
-              tag="div"
-              class="row row-cols-2 row-cols-md-3 row-cols-xxxl-4 g-3"
-            >
-              <div class="col" v-for="product in showData" :key="product.id">
-                <div class="card">
-                  <div class="d-center">
-                    <img
-                      :src="product.imageUrl"
-                      class="card-img-top product-img"
-                      :alt="product.title"
-                      :title="product.title"
-                    />
-                  </div>
+            <template v-if="showData.length > 0">
+              <TransitionGroup
+                name="list"
+                tag="div"
+                :class="{
+                  'row row-cols-2 row-cols-md-3 row-cols-xxxl-4 g-3':
+                    showType === 'cell',
+                }"
+              >
+                <template v-if="showType === 'cell'">
+                  <div
+                    class="col"
+                    v-for="product in showData"
+                    :key="product.id"
+                  >
+                    <div class="card">
+                      <div class="d-center">
+                        <img
+                          :src="product.imageUrl"
+                          class="card-img-top product-img"
+                          :alt="product.title"
+                          :title="product.title"
+                        />
+                      </div>
 
-                  <div class="card-body px-2 px-sm-3">
-                    <h5 class="card-title line-clamp-2">
-                      {{ product.title }}
-                    </h5>
-                    <p
-                      class="card-text fs-small text-secondary line-clamp-2 mb-1"
-                    >
-                      Some quick example text to build on the card title and
-                      make up the bulk of the card's content.
-                    </p>
-                    <p class="text-end mb-2 fs-5" v-if="product.price">
-                      $ {{ product.price.toLocaleString() }}
-                    </p>
-                    <button class="btn btn-primary-median w-100">
-                      加入購物車
-                    </button>
+                      <div class="card-body p-2 p-sm-3">
+                        <h5 class="card-title line-clamp-2 fs-6 fs-md-large">
+                          {{ product.title }}
+                        </h5>
+                        <div class="d-flex mb-3">
+                          <font-awesome-icon
+                            v-for="(item, index) in 4"
+                            :key="index"
+                            class="fs-large m-0 text-warning"
+                            icon="fa-star"
+                            role="button"
+                          ></font-awesome-icon>
+                        </div>
+                        <p
+                          class="card-text card-text-cell fs-small text-secondary line-clamp-3 mb-1"
+                        >
+                          {{ product.description }}
+                        </p>
+                        <p class="text-end mb-2 fs-5" v-if="product.price">
+                          $ {{ product.price.toLocaleString() }}
+                        </p>
+                        <button class="btn btn-primary-median w-100">
+                          加入購物車
+                        </button>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
-            </TransitionGroup>
+                </template>
+                <template v-else>
+                  <div
+                    class="card mb-3"
+                    v-for="product in showData"
+                    :key="product.id"
+                  >
+                    <div class="row g-0">
+                      <div
+                        class="col-5 col-md-4 col-xl-3 col-xxxl-2 d-center flex-column border-end"
+                      >
+                        <img
+                          :src="product.imageUrl"
+                          class="card-img-top"
+                          :alt="product.title"
+                          :title="product.title"
+                        />
+                      </div>
+                      <div class="col">
+                        <div class="card-body d-between flex-column h-100">
+                          <div class="d-column">
+                            <h5
+                              class="mb-2 mb-md-3 line-clamp-2 fs-6 fs-md-large"
+                            >
+                              {{ product.title }}
+                            </h5>
+                            <div class="d-flex mb-2 mb-md-3">
+                              <font-awesome-icon
+                                v-for="(item, index) in 4"
+                                :key="index"
+                                class="fs-large m-0 text-warning"
+                                icon="fa-star"
+                                role="button"
+                              ></font-awesome-icon>
+                            </div>
+                            <p
+                              class="card-text card-text-row fs-small text-secondary line-clamp-3 mb-2 w-50 xl-down-w-100 mobile-w-100"
+                            >
+                              {{ product.description }}
+                            </p>
+                          </div>
+                          <div class="d-column align-items-end">
+                            <p class="text-end fs-4 mb-2" v-if="product.price">
+                              $ {{ product.price.toLocaleString() }}
+                            </p>
+
+                            <button
+                              class="btn btn-primary-median w-25 xl-down-w-50 mobile-w-100"
+                            >
+                              加入購物車
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </template>
+              </TransitionGroup>
+            </template>
+
             <template v-else>
               <h2 class="text-center mt-5 pt-5">
                 查無條件無結果
@@ -407,12 +482,17 @@ export default {
     }
   }
   .card-title {
-    font-size: 16px;
-    height: 35px;
+    height: 40px;
     @media screen and (min-width: 576px) {
-      height: 46px;
-      font-size: 20px;
+      height: 43px;
     }
+  }
+  .card-text-cell {
+    height: 60px;
+  }
+  .card-text-row {
+    height: max-content;
+    max-height: 60px;
   }
   .pagination {
     li {
