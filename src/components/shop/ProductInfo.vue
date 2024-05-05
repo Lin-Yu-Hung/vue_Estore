@@ -10,34 +10,16 @@
                 <router-link to="/eStore/home">首頁</router-link>
               </li>
               <li class="breadcrumb-item">
-                <router-link to="/eStore/home">{{
-                  showData.category
-                }}</router-link>
+                <router-link
+                  :to="`/eStore/productList/${translate(showData.category)}`"
+                  >{{ showData.category }}</router-link
+                >
               </li>
               <li class="breadcrumb-item active" aria-current="page">
                 {{ showData.title }}
               </li>
             </ol>
           </nav>
-          <!-- <div class="card" aria-hidden="true">
-            <img src="..." class="card-img-top" alt="..." />
-            <div class="card-body">
-              <h5 class="card-title placeholder-glow">
-                <span class="placeholder col-6"></span>
-              </h5>
-              <p class="card-text placeholder-glow">
-                <span class="placeholder col-7"></span>
-                <span class="placeholder col-4"></span>
-                <span class="placeholder col-4"></span>
-                <span class="placeholder col-6"></span>
-                <span class="placeholder col-8"></span>
-              </p>
-              <a
-                class="btn btn-primary disabled placeholder col-6"
-                aria-disabled="true"
-              ></a>
-            </div>
-          </div> -->
           <div class="d-center placeholder-glow">
             <div
               v-if="!showProductImg"
@@ -92,7 +74,7 @@
               }}</span>
               <h2>{{ showData.title }}</h2>
               <hr />
-              <p>{{ showData.description }}</p>
+              <p class="w-50 xl-down-w-100">{{ showData.description }}</p>
               <div class="d-flex mb-1">
                 <font-awesome-icon
                   v-for="(item, index) in 4"
@@ -441,6 +423,7 @@ import cartStore from "@/stores/shop/cart.js";
 import { errorAlert } from "@/methods/sweetAlert.js";
 import { Swiper, SwiperSlide } from "swiper/vue";
 import { FreeMode, Autoplay, Navigation } from "swiper/modules";
+import { translate } from "@/methods/translate.js";
 
 export default {
   components: { Pagination, Swiper, SwiperSlide },
@@ -526,6 +509,7 @@ export default {
       relatedProducts,
       changeShowData,
       modules: [FreeMode, Navigation, Autoplay],
+      translate,
     };
   },
 };

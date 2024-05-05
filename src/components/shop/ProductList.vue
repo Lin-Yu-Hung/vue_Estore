@@ -1,9 +1,12 @@
 <template>
   <nav aria-label="breadcrumb" class="mt-3 border-bottom pb-2">
     <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a href="#">Home</a></li>
-      <li class="breadcrumb-item"><a href="#">Library</a></li>
-      <li class="breadcrumb-item active" aria-current="page">Data</li>
+      <li class="breadcrumb-item">
+        <router-link to="/eStore/home" class="text-underline-hover"
+          >首頁</router-link
+        >
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">商品列表</li>
     </ol>
   </nav>
   <div class="container-fluid">

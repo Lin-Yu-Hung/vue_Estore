@@ -65,26 +65,27 @@
                       </div>
                       <div class="collapse multi-collapse" id="productList">
                         <ul class="mt-3 ps-4">
-                          <li parentId="productList">
+                          <li parentId="productList" class="collapse-item">
                             <router-link
                               class="menu-link"
                               to="/eStore/productList"
                               >所有商品</router-link
                             >
                           </li>
-                          <li parentId="productList">
-                            <router-link class="menu-link" to="editProduct"
-                              >熱賣商品</router-link
-                            >
-                          </li>
-                          <li parentId="productList">
+
+                          <li parentId="productList" class="collapse-item">
                             <div
-                              class="dropdown-title"
+                              class="dropdown-title d-inline-flex align-items-center justify-content-between w-90"
                               @click="toggleStatus"
                               data-bs-toggle="collapse"
                               data-bs-target="#productCategory"
                               aria-expanded="false"
                               aria-controls="productCategory"
+                              :class="{
+                                'router-link-active': route.fullPath.includes(
+                                  '/eStore/productList/'
+                                ),
+                              }"
                             >
                               <span class="pe-none">商品分類 </span>
                               <font-awesome-icon
@@ -105,7 +106,9 @@
                                 >
                                   <router-link
                                     class="menu-link text-underline-hover"
-                                    to="home"
+                                    :to="`/eStore/productList/${translate(
+                                      item
+                                    )}`"
                                     >{{ item }}</router-link
                                   >
                                 </li>
@@ -132,12 +135,18 @@
             <li>
               <DropDownMenu :alignLeft="true">
                 <template v-slot:header>
-                  <router-link class="menu-link" to="/eStore/productList"
+                  <span
+                    class="menu-link"
+                    :class="{
+                      'text-white': route.fullPath.includes(
+                        '/eStore/productList'
+                      ),
+                    }"
                     >商品列表<font-awesome-icon
                       class="ms-2"
                       icon="fa-chevron-down"
                       role="button"
-                  /></router-link>
+                  /></span>
                 </template>
                 <template v-slot:menu v-if="productCategoryList.length > 0">
                   <div class="product-menu p-4">
@@ -349,6 +358,7 @@ export default {
   },
   setup(props) {
     const route = useRoute();
+    console.log("🚀  route:", route.fullPath.includes("/eStore/productList"));
     const router = useRouter();
     watch(
       () => route.path,

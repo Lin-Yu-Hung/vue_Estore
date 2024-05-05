@@ -18,10 +18,10 @@ export default {
       }
     );
 
-    const setOtherCollapse = (status, targetId = null) => {
-      if (targetId) {
+    const setOtherCollapse = (status, array = []) => {
+      if (array.length > 0) {
         for (const key in collapseMap) {
-          if (key !== targetId) {
+          if (!array.includes(key)) {
             // 操作除了自身外的collapse
             collapseMap[key][status]();
           }
@@ -34,47 +34,69 @@ export default {
       }
     };
     const setActivePage = async () => {
+      const dashboardPage = route.fullPath.includes("/dashboard"); // 因商品頁面分類項目需等待api回傳時間。
       // 尋找active頁面
       await nextTick();
-      const activeElement = document.querySelector(".router-link-active");
-      if (!activeElement) return;
-      const liElement = activeElement.parentElement; // li元素
-      const removeDropdownStatus = (array) => {
-        // 移除所有dorpDown狀態
-        array.forEach((el) => {
-          el.classList.remove("show");
-          el.classList.remove("active");
-        });
-      };
-      if (liElement.classList.contains("collapse-item")) {
-        const liParentId = liElement.getAttribute("parentId");
-        if (preCollapse.value !== liParentId) {
-          preCollapse.value = liParentId;
-          // 選擇了其他下拉群組
-          const dropdownTitle = document.querySelectorAll(".dropdown-title");
-          const notCurrentDropDown = Array.from(dropdownTitle).filter(
-            (el) => el.getAttribute("aria-controls") !== liParentId
+      setTimeout(
+        async () => {
+          const activeElement = document.querySelectorAll(
+            ".router-link-active"
           );
-          removeDropdownStatus(notCurrentDropDown); // 將不是當前所選擇的下拉選單關閉狀態
-          const parentCollapse = document.querySelector(
-            // 透過parentId取得最上層的collapse元素
-            `[aria-controls=${liParentId}]`
+          if (!activeElement.length === 0) return;
+          const liElementList = Array.from(activeElement).map(
+            (el) => el.parentElement
           );
-          setOtherCollapse("hide", liParentId);
-          // 添加顯示樣式
-          await nextTick();
-          setTimeout(() => {
-            parentCollapse.classList.add("active");
-            parentCollapse.classList.add("show");
-            collapseMap[liParentId].show();
-          }, 100);
-        }
-      } else {
-        const dropdownTitle = document.querySelectorAll(".dropdown-title");
-        removeDropdownStatus(dropdownTitle);
-        setOtherCollapse("hide");
-        preCollapse.value = null;
-      }
+          const condition = liElementList.every((el) =>
+            el.classList.contains("collapse-item")
+          );
+          const removeDropdownStatus = (array) => {
+            // 移除所有dorpDown狀態
+            array.forEach((el) => {
+              el.classList.remove("show");
+              el.classList.remove("active");
+            });
+          };
+          if (condition) {
+            const liParentIdList = liElementList.map((el) =>
+              el.getAttribute("parentId")
+            );
+
+            if (preCollapse.value !== liParentIdList[0]) {
+              preCollapse.value = liParentIdList[0];
+              // 選擇了其他下拉群組
+              const dropdownTitle =
+                document.querySelectorAll(".dropdown-title");
+              const notCurrentDropDown = Array.from(dropdownTitle).filter(
+                (el) =>
+                  !liParentIdList.includes(el.getAttribute("aria-controls"))
+              );
+              removeDropdownStatus(notCurrentDropDown); // 將不是當前所選擇的下拉選單關閉狀態
+              const parentCollapseList = liParentIdList.map((id) => {
+                return document.querySelector(
+                  // 透過parentId取得最上層的collapse元素
+                  `[aria-controls=${id}]`
+                );
+              });
+              setOtherCollapse("hide", liParentIdList);
+              // 添加顯示樣式
+              await nextTick();
+              setTimeout(() => {
+                liParentIdList.forEach((id) => collapseMap[id].show());
+                parentCollapseList.forEach((el) => {
+                  el.classList.add("active");
+                  el.classList.add("show");
+                });
+              }, 100);
+            }
+          } else {
+            const dropdownTitle = document.querySelectorAll(".dropdown-title");
+            removeDropdownStatus(dropdownTitle);
+            setOtherCollapse("hide");
+            preCollapse.value = null;
+          }
+        },
+        dashboardPage ? 0 : 1000
+      );
     };
 
     onMounted(() => {

@@ -20,7 +20,6 @@ export default {
     const showStatus = ref(false);
     window.addEventListener("scroll", () => {
       const scrollPosition = window.scrollY;
-      console.log(scrollPosition);
       if (scrollPosition > 300) {
         showStatus.value = true;
       } else {
