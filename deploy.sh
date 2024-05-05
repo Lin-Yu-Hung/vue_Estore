@@ -18,7 +18,7 @@ echo > .nojekyll
 git init
 git checkout -B main
 git add -A
-git commit -m '[新增] 初步建置商品列表頁面'
+git commit -m '[新增] 新增切換顯示方式'
 
 # if you are deploying to https://4080e068.github.io
 # git push -f https://github.com/4080E68/vue_Estore.git main
