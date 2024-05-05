@@ -54,7 +54,6 @@
                       >
                         <span class="pe-none">
                           <font-awesome-icon
-                            class=""
                             icon="fa-list"
                             role="button"
                           />商品列表
@@ -133,27 +132,23 @@
             <li>
               <DropDownMenu :alignLeft="true">
                 <template v-slot:header>
-                  <span class="menu-link">商品列表</span>
+                  <router-link class="menu-link" to="/eStore/productList"
+                    >商品列表<font-awesome-icon
+                      class="ms-2"
+                      icon="fa-chevron-down"
+                      role="button"
+                  /></router-link>
                 </template>
                 <template v-slot:menu v-if="productCategoryList.length > 0">
                   <div class="product-menu p-4">
                     <div class="d-column flex-grow-1">
-                      <h2
-                        class="fs-6 text-secondary pb-2 mb-2 text-underline-hover"
+                      <router-link
+                        to="/eStore/productList"
+                        class="text-secondary fs-6 pb-2 mb-2 text-underline-hover"
+                        ><font-awesome-icon icon="fa-list" class="me-1" />
+                        所有商品</router-link
                       >
-                        <font-awesome-icon icon="fa-list" class="me-2" />
-                        <router-link to="/eStore/productList"
-                          >所有商品</router-link
-                        >
-                      </h2>
-                      <h2
-                        class="fs-6 text-secondary pb-2 mb-2 text-underline-hover"
-                      >
-                        <font-awesome-icon
-                          icon="fa-fire"
-                          class="me-2"
-                        />熱賣商品
-                      </h2>
+
                       <div
                         class="accordion"
                         id="category"
@@ -186,13 +181,18 @@
                               <div class="container-fluid mt-2">
                                 <div class="row row-cols-2">
                                   <div
-                                    class="col ps-0 py-1 text-secondary text-nowrap"
+                                    class="col ps-0 py-1"
                                     v-for="item in productCategoryList"
                                     :key="item"
                                   >
-                                    <span class="text-underline-hover">
+                                    <router-link
+                                      class="text-underline-hover text-secondary text-nowrap"
+                                      :to="`/eStore/productList/${translate(
+                                        item
+                                      )}`"
+                                    >
                                       {{ item }}
-                                    </span>
+                                    </router-link>
                                   </div>
                                 </div>
                               </div>
@@ -338,6 +338,7 @@ import cartStore from "@/stores/shop/cart.js";
 import { useRoute, useRouter } from "vue-router";
 import { hideOffcanvas } from "@/methods/bootstrap.js";
 import ToggleArrowIcon from "@/components/shared/ToggleArrowIcon.vue";
+import { translate } from "@/methods/translate.js";
 
 export default {
   components: {
@@ -393,6 +394,7 @@ export default {
         errorAlert("取得資料錯誤", "請重新整理網頁或聯絡客服人員");
       }
     };
+
     getAllProduct();
     provide("productList", productList);
     provide("productListMap", productListMap);
@@ -408,6 +410,7 @@ export default {
       route,
       router,
       productCategoryList,
+      translate,
     };
   },
 };
@@ -521,11 +524,11 @@ img {
   }
 }
 .product-menu {
-  width: 380px;
+  min-width: 380px;
   a {
     &.router-link-active {
       text-decoration: underline;
-      color: black;
+      color: black !important;
     }
   }
 }

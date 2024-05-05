@@ -29,14 +29,13 @@
             <li class="text-secondary">檢查您輸入的網址是否正確</li>
             <li class="text-secondary">聯繫我們以報告問題</li>
           </ul>
-          <div class="d-flex justify-content-center justify-content-lg-start">
-            <button
-              class="btn btn-primary px-5 mt-2 mt-md-4"
-              style="max-width: max-content"
-            >
+          <div
+            class="d-flex justify-content-center justify-content-lg-start mt-2 mt-md-4"
+          >
+            <button class="btn btn-primary p-0" style="max-width: max-content">
               <router-link
                 to="/eStore/home"
-                class="text-white text-underline-hover"
+                class="text-white text-underline-hover px-5 py-2 d-block"
                 >返回首頁</router-link
               >
             </button>

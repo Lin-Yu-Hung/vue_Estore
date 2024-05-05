@@ -39,7 +39,7 @@ const router = createRouter({
           component: () => import("@/components/shop/Home.vue"),
         },
         {
-          path: "productList",
+          path: "productList/:category?", // 選填參數
           component: () => import("@/components/shop/ProductList.vue"),
         },
         {

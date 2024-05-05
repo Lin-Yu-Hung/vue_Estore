@@ -49,6 +49,11 @@ li {
     display: none !important;
   }
 }
+.xl-up-hide {
+  @media (min-width: 1200px) {
+    display: none !important;
+  }
+}
 .lg-down-hide {
   @media (max-width: 992px) {
     display: none !important;

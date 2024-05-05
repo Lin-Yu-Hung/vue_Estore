@@ -163,10 +163,18 @@ a {
 .line-clamp-4 {
   @include line-clamp(4);
 }
+.line-clamp-5 {
+  @include line-clamp(5);
+}
 
 .line-clamp-md-1 {
   @include md {
     @include line-clamp(1);
+  }
+}
+.line-clamp-md-5 {
+  @include md {
+    @include line-clamp(5);
   }
 }
 .line-clamp-lg-2 {
