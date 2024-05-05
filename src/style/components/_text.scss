@@ -194,6 +194,7 @@ a {
 // hover
 .text-underline-hover {
   &:hover {
+    cursor: pointer;
     text-decoration: underline;
   }
 }

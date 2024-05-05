@@ -384,9 +384,13 @@
                       </div>
 
                       <div class="card-body p-2 p-sm-3">
-                        <h5 class="card-title line-clamp-2 fs-6 fs-md-large">
+                        <router-link
+                          class="card-title line-clamp-2 fs-6 fs-md-large text-underline-hover"
+                          :to="`/eStore/productInfo/${product.id}`"
+                        >
                           {{ product.title }}
-                        </h5>
+                        </router-link>
+
                         <div class="d-flex mb-3">
                           <font-awesome-icon
                             v-for="(item, index) in 4"
@@ -434,11 +438,12 @@
                             <div class="row h-100">
                               <div class="col">
                                 <div class="d-column">
-                                  <h5
-                                    class="mb-2 mb-md-3 line-clamp-2 fs-6 fs-md-large"
+                                  <router-link
+                                    class="mb-2 line-clamp-2 fs-6 fs-md-large text-underline-hover"
+                                    :to="`/eStore/productInfo/${product.id}`"
                                   >
                                     {{ product.title }}
-                                  </h5>
+                                  </router-link>
                                   <div class="d-flex mb-2 mb-md-3">
                                     <font-awesome-icon
                                       v-for="(item, index) in 4"
@@ -700,10 +705,7 @@ export default {
     }
   }
   .card-title {
-    height: 40px;
-    @media screen and (min-width: 576px) {
-      height: 43px;
-    }
+    height: 48px;
   }
   .card-text-cell {
     height: 60px;
