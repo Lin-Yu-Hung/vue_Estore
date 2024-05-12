@@ -107,16 +107,18 @@
 import DashboardContent from "@/components/dashboard/DashboardContent.vue";
 import menuStore from "@/stores/menu";
 import { storeToRefs } from "pinia";
-import { onMounted } from "vue";
+import { onMounted, provide } from "vue";
 import MenuList from "@/components/dashboard/MenuList.vue";
 import { toggleStatus } from "@/methods/util.js";
-
+import { getCookie } from "@/methods/cookie.js";
 export default {
   components: {
     DashboardContent,
     MenuList,
   },
   setup() {
+    const isVisitor = getCookie("isVisitor");
+    provide("isVisitor", isVisitor);
     const menu = menuStore();
     const { menuStatus } = storeToRefs(menu);
     if (window.innerWidth < 992) {
@@ -167,6 +169,7 @@ export default {
         }, 200);
       });
     });
+
     return {
       changeMenuStatus,
       menuStatus,

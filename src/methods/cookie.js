@@ -20,6 +20,7 @@ export const getCookie = (cookieName) => {
     ),
     "$1"
   );
-  return targetCookie;
+  const result = targetCookie === 'true' ? true : targetCookie === 'false' ? false : targetCookie
+  return result;
 };
 

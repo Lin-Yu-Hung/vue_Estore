@@ -42,6 +42,7 @@
           </div>
 
           <router-link
+            v-if="!isVisitor"
             to="setProduct"
             class="bg-primary px-3 py-2 text-center rounded text-white"
             >+ 新增</router-link
@@ -54,9 +55,9 @@
               <th scope="col" class="mobile-hide">商品分類</th>
               <!-- <th scope="col" class="mobile-hide">商品圖片</th> -->
               <th scope="col">商品名稱</th>
-              <th scope="col" class="mobile-hide">商品原價</th>
-              <th scope="col">商品價格</th>
-              <th scope="col">操作</th>
+              <th scope="col" class="mobile-hide text-end">商品原價</th>
+              <th scope="col" class="text-end">商品價格</th>
+              <th scope="col">{{ isVisitor ? "" : "操作" }}</th>
             </tr>
           </thead>
           <tbody>
@@ -82,13 +83,16 @@
                   :title="product.title"
                 />{{ product.title }}
               </td>
-              <td class="mobile-hide">
+              <td class="mobile-hide text-end">
                 {{ product.origin_price.toLocaleString() }}
               </td>
-              <td>{{ product.price.toLocaleString() }}</td>
+              <td class="text-end">{{ product.price.toLocaleString() }}</td>
 
               <td>
-                <div class="d-flex justify-content-center flex-wrap">
+                <div
+                  class="d-flex justify-content-center flex-wrap"
+                  v-if="!isVisitor"
+                >
                   <button
                     type="button"
                     class="edit-btn"
@@ -152,7 +156,7 @@
 </template>
 <script>
 import { apiGetAdminProductAll, apiDeleteProduct } from "@/api/api";
-import { ref, computed, onMounted } from "vue";
+import { ref, computed, onMounted, inject } from "vue";
 import loadingStore from "@/stores/loading";
 import SetProductModal from "../modal/SetProductModal.vue";
 import { deleteWarningAlert } from "@/methods/sweetAlert.js";
@@ -168,6 +172,8 @@ import productStore from "@/stores/product.js";
 export default {
   components: { SetProductModal, VueEcharts },
   setup() {
+    const isVisitor = inject("isVisitor");
+
     const product = productStore();
     const { productList } = storeToRefs(product);
     const bestSellerOption = { ...bestSellerChart };
@@ -287,6 +293,7 @@ export default {
       deleteProduct,
       switchpage,
       setEditData,
+      isVisitor,
     };
   },
 };
@@ -312,10 +319,6 @@ table {
     &:first-child,
     &:last-child {
       text-align: center;
-    }
-    &:nth-last-child(2),
-    &:nth-last-child(3) {
-      text-align: right;
     }
   }
   input[role="switch"] {

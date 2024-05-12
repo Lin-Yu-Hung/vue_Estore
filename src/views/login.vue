@@ -24,9 +24,14 @@
           />
         </div>
         <div class="form-check mb-3">
-          <input type="checkbox" class="form-check-input" id="exampleCheck1" />
+          <input
+            type="checkbox"
+            class="form-check-input"
+            id="exampleCheck1"
+            v-model="rememberAccount"
+          />
           <label class="form-check-label fs-small" for="exampleCheck1"
-            >保持登入狀態</label
+            >記住帳號密碼</label
           >
         </div>
         <button
@@ -39,44 +44,58 @@
       </form>
       <hr />
       <p class="text-center fs-small">或者</p>
-      <div class="container-fluid">
-        <div class="row">
-          <button class="btn border d-center col-lg mb-2 mb-lg-0 me-lg-1">
-            <img src="@/assets/images/google.png" alt="logo" />Google
-          </button>
-          <button class="btn border d-center col-lg ms-lg-1">
-            <img src="@/assets/images/github.svg" alt="logo" />Github
-          </button>
-        </div>
-      </div>
+      <button
+        type="submit"
+        class="btn btn-light w-100 border"
+        @click.prevent="login(true)"
+      >
+        訪客登入 (無需帳號密碼)
+      </button>
     </div>
   </div>
 </template>
 <script>
 import { ref } from "vue";
 import { login_api } from "@/api/api";
-import { setCookie } from "@/methods/cookie.js";
+import { setCookie, getCookie } from "@/methods/cookie.js";
 import loadingStore from "@/stores/loading";
 import { useRoute, useRouter } from "vue-router";
-
+import { errorAlert } from "@/methods/sweetAlert.js";
 export default {
   setup() {
     const router = useRouter();
     const route = useRoute();
     const loading = loadingStore();
+    const rememberAccount = ref(false);
+    const userData = getCookie("userData") ? getCookie("userData") : undefined;
     const user = ref({
       username: import.meta.env.VITE_username,
       password: import.meta.env.VITE_password,
     });
-    const login = () => {
+    if (userData !== undefined) {
+      user.value = JSON.parse(JSON.stringify(userData));
+    }
+    const login = (isVisitor = false) => {
+      setCookie("isVisitor", isVisitor);
+      const visitorInfo = {
+        username: import.meta.env.VITE_adminusername,
+        password: import.meta.env.VITE_adminpassword,
+      };
       loading.showLoading();
-      login_api(user.value)
+      login_api(isVisitor ? visitorInfo : user.value) // 如為訪客使用預設值，反之使用input
         .then((res) => {
-          setCookie("token", res.data.token);
-          if (route.query.redirect) {
-            router.push(route.query.redirect); // 跳轉先前被踢出來的頁面
+          if (res.data.success) {
+            if (rememberAccount.value && !isVisitor) {
+              setCookie("userData", user.value);
+            }
+            setCookie("token", res.data.token);
+            if (route.query.redirect) {
+              router.push(route.query.redirect); // 跳轉先前被踢出來的頁面
+            } else {
+              router.push("/dashboard/productList");
+            }
           } else {
-            router.push("/dashboard/productList");
+            errorAlert("登入失敗", "請檢查帳號或密碼是否正確");
           }
           loading.hideLoading();
         })
@@ -88,6 +107,7 @@ export default {
       user,
       login,
       loading,
+      rememberAccount,
     };
   },
 };

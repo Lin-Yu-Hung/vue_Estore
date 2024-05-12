@@ -1,7 +1,11 @@
 <template>
   <div class="container-fluid">
     <div class="d-end my-3">
-      <button class="btn btn-primary" @click="showModal('create')">
+      <button
+        v-if="!isVisitor"
+        class="btn btn-primary"
+        @click="showModal('create')"
+      >
         + 新增優惠券
       </button>
     </div>
@@ -15,7 +19,9 @@
             <th scope="col" class="mobile-hide">名稱</th>
             <th scope="col">截止日期</th>
             <th scope="col" class="text-end">折扣額</th>
-            <th scope="col" class="text-center">操作</th>
+            <th scope="col" class="text-center">
+              {{ isVisitor ? "" : "操作" }}
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -37,7 +43,10 @@
             <td>{{ timestampToYMD(item.due_date) }}</td>
             <td class="text-end">{{ item.percent }} %</td>
             <td>
-              <div class="d-flex justify-content-center flex-wrap">
+              <div
+                class="d-flex justify-content-center flex-wrap"
+                v-if="!isVisitor"
+              >
                 <button
                   type="button"
                   class="edit-btn"
@@ -89,7 +98,7 @@
 </template>
 <script>
 import SetCoupon from "@/components/dashboard/conpon/SetCoupon.vue";
-import { ref, computed } from "vue";
+import { ref, computed, inject } from "vue";
 import { bsModal } from "@/methods/bootstrap.js";
 import couponStore from "@/stores/dashboard/coupon.js";
 import loadingStore from "@/stores/loading";
@@ -104,6 +113,7 @@ import {
 export default {
   components: { SetCoupon },
   setup(props) {
+    const isVisitor = inject("isVisitor");
     const coupon = couponStore();
     const loading = loadingStore();
     const currentPage = computed(() => coupon.pagination.current_page);
@@ -152,6 +162,7 @@ export default {
       deleteCoupon,
       currentPage,
       totalPages,
+      isVisitor,
     };
   },
 };

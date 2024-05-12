@@ -68,6 +68,7 @@
               class="form-check-input"
               type="radio"
               name="is_enable"
+              :disabled="isVisitor"
               id="is_enableTrue"
               :value="1"
               v-model="data.is_enabled"
@@ -82,6 +83,7 @@
               class="form-check-input"
               type="radio"
               name="is_enable"
+              :disabled="isVisitor"
               id="is_enableFalse"
               v-model="data.is_enabled"
               :value="2"
@@ -95,6 +97,7 @@
             <Field
               id="title"
               name="商品名稱"
+              :disabled="isVisitor"
               type="text"
               rules="required"
               class="formInput form-control"
@@ -113,6 +116,7 @@
               <Field
                 as="select"
                 id="category"
+                :disabled="isVisitor"
                 name="分類"
                 rules="required"
                 class="form-select"
@@ -135,6 +139,7 @@
                 id="unit"
                 name="單位"
                 type="text"
+                :disabled="isVisitor"
                 rules="required"
                 class="formInput form-control"
                 :class="{ 'is-invalid': errors['單位'] }"
@@ -151,6 +156,7 @@
                 id="origin_price"
                 name="原價"
                 type="number"
+                :disabled="isVisitor"
                 rules="required"
                 class="formInput form-control"
                 :class="{ 'is-invalid': errors['原價'] }"
@@ -165,6 +171,7 @@
                 id="price"
                 name="售價"
                 type="number"
+                :disabled="isVisitor"
                 rules="required"
                 class="formInput form-control"
                 :class="{ 'is-invalid': errors['售價'] }"
@@ -181,6 +188,7 @@
               name="產品描述"
               type="text"
               rules="required"
+              :disabled="isVisitor"
               rows="4"
               class="form-control"
               :class="{ 'is-invalid': errors['產品描述'] }"
@@ -198,6 +206,7 @@
             <textarea
               rows="4"
               class="form-control"
+              :disabled="isVisitor"
               placeholder="請輸入產品說明內容"
               v-model="data.content"
             ></textarea>
@@ -234,6 +243,7 @@
             <input
               type="text"
               v-model="imageUrl"
+              :disabled="isVisitor"
               class="form-control rounded"
               placeholder="輸入圖片網址"
             />
@@ -289,13 +299,14 @@
               type="button"
               class="btn btn-danger text-white w-50 me-2"
               @click="deleteProduct"
-              :disabled="!selectEditProduct"
+              :disabled="!selectEditProduct || isVisitor"
               v-if="isEditStatus"
             >
               <font-awesome-icon icon="fa-trash-can" class="me-1" />刪除商品
             </button>
             <button
               type="submit"
+              :disabled="isVisitor"
               class="btn btn-primary flex-grow-1"
               :class="{ 'ms-2': isEditStatus }"
             >
@@ -322,7 +333,7 @@ import {
   deleteWarningAlert,
 } from "@/methods/sweetAlert.js";
 import loadingStore from "@/stores/loading";
-import { onMounted, nextTick } from "vue";
+import { onMounted, nextTick, inject } from "vue";
 import { Field, Form, ErrorMessage } from "vee-validate";
 import { ref, watch, computed } from "vue";
 import productStore from "@/stores/product.js";
@@ -337,6 +348,7 @@ export default {
     ErrorMessage,
   },
   setup(props, context) {
+    const isVisitor = inject("isVisitor");
     let imageUrl = ref("");
     let tempImgFile = ref(null); // 暫存上傳檔案，以便儲存時發送api儲存
     let tempImgFiles = ref([]); // 暫存上傳檔案，以便儲存時發送api儲存
@@ -597,6 +609,7 @@ export default {
       delImage,
       setEditData,
       deleteProduct,
+      isVisitor,
     };
   },
 };
