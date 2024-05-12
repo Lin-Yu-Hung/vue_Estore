@@ -217,7 +217,7 @@
           </ul>
         </div>
         <div class="col mobile-hide">
-          <div
+          <!-- <div
             class="input-group d-center align-items-center rounded-pill border bg-white"
           >
             <input
@@ -226,7 +226,7 @@
               placeholder="輸入商品關鍵字"
             />
             <font-awesome-icon class="px-3" icon="fa-search" role="button" />
-          </div>
+          </div> -->
         </div>
         <div class="col col-md-3 d-end align-items-center pe-md-5">
           <DropDownMenu>
