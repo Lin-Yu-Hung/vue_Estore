@@ -114,7 +114,7 @@
                     >
                       <span class="pe-none">
                         <font-awesome-icon
-                          icon="fa-list"
+                          icon="fa-file-lines"
                           role="button"
                         />訂單管理
                       </span>
@@ -126,12 +126,12 @@
                     <div class="collapse multi-collapse" id="orderManage">
                       <ul>
                         <li class="collapse-item" parentId="orderManage">
-                          <router-link class="menu-link" to="setProduct"
+                          <router-link class="menu-link" to="orderList"
                             >訂單列表</router-link
                           >
                         </li>
                         <li class="collapse-item" parentId="orderManage">
-                          <router-link class="menu-link" to="editProduct"
+                          <router-link class="menu-link" to="coupon"
                             >設定優惠券</router-link
                           >
                         </li>

@@ -240,9 +240,9 @@
             <template v-slot:menu>
               <div class="profile py-2">
                 <router-link
-                  to="/eStore/home"
+                  to="/dashboard/home"
                   class="border-bottom px-2 py-1 text-end text-primary"
-                  >個人資料</router-link
+                  >後臺管理</router-link
                 >
                 <router-link
                   to="/eStore/userOrder"
