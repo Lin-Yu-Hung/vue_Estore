@@ -51,5 +51,8 @@ export default {
   &:hover {
     opacity: 1;
   }
+  @media screen and (max-width: 577px) {
+    bottom: 5%;
+  }
 }
 </style>

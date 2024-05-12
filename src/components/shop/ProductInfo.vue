@@ -344,8 +344,13 @@
       </div>
       <div class="col lg-down-hide">
         <img
-          class="product-ad"
-          src="@/assets/images/gameConsoleAd.jpg"
+          class="product-ad rounded"
+          src="@/assets/images/filip-baotic-DV0mB2uJM34-unsplash.jpg"
+          alt=""
+        />
+        <img
+          class="product-ad rounded mt-4"
+          src="@/assets/images/adam-birkett-vISNAATFXlE-unsplash.jpg"
           alt=""
         />
       </div>

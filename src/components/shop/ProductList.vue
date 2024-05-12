@@ -1,5 +1,5 @@
 <template>
-  <nav aria-label="breadcrumb" class="mt-3 border-bottom pb-2">
+  <nav aria-label="breadcrumb" class="mt-3 border-bottom">
     <ol class="breadcrumb">
       <li class="breadcrumb-item">
         <router-link to="/eStore/home" class="text-underline-hover"
@@ -11,6 +11,35 @@
   </nav>
   <div class="container-fluid">
     <div class="row">
+      <div class="col-12 px-xl-0">
+        <swiper
+          :autoplay="{
+            delay: 5000,
+            disableOnInteraction: false,
+          }"
+          :modules="modules"
+          class="mainAd rounded border mt-3"
+        >
+          <swiper-slide>
+            <img
+              src="https://www.jollybuy.com/act/Apple/images/kv-pc.webp"
+              alt="product"
+              class="h-100 w-100"
+          /></swiper-slide>
+          <swiper-slide>
+            <img
+              src="https://dlcdnwebimgs.asus.com/gain/3EF9B6B3-0408-42CE-9AA2-50B46B5B35C9/fwebp"
+              alt="product"
+              class="h-100 w-100"
+          /></swiper-slide>
+          <swiper-slide>
+            <img
+              src="https://p2.bahamut.com.tw/B/2KU/22/96c1baf2e92dc1371779452e2119o8a5.JPG"
+              alt="product"
+              class="h-100 w-100"
+          /></swiper-slide>
+        </swiper>
+      </div>
       <div class="col-xl-3 pt-3 px-0 xl-down-hide">
         <div class="card shadow p-3">
           <h2 class="fs-5 border-bottom pb-2">分類</h2>
@@ -124,6 +153,16 @@
             </div>
           </template>
         </div>
+        <img
+          class="w-100 mt-3 rounded border"
+          src="@/assets/images/filip-baotic-DV0mB2uJM34-unsplash.jpg"
+          alt="product"
+        />
+        <img
+          class="w-100 mt-3 rounded border"
+          src="@/assets/images/nik-ads33nL7V4k-unsplash.jpg"
+          alt="product"
+        />
       </div>
       <div class="col-lg pt-3 mobile-px-0" :class="{ 'mb-4': pageCount <= 1 }">
         <div class="container-fluid product-list">
@@ -259,6 +298,8 @@
                     </div>
                     <button
                       class="btn btn-primary-median mt-3"
+                      data-bs-dismiss="offcanvas"
+                      aria-label="Close"
                       @click="filterPrice"
                     >
                       篩選
@@ -561,8 +602,14 @@
 import { ref, computed, inject, watch } from "vue";
 import { useRoute } from "vue-router";
 import { translate } from "@/methods/translate.js";
+import { Swiper, SwiperSlide } from "swiper/vue";
+import { Autoplay } from "swiper/modules";
 
 export default {
+  components: {
+    Swiper,
+    SwiperSlide,
+  },
   setup(props) {
     const showType = ref("cell");
     const productKeyWord = ref("");
@@ -684,6 +731,7 @@ export default {
       filterProductList,
       pageCount,
       nowPage,
+      modules: [Autoplay],
     };
   },
 };
@@ -694,6 +742,30 @@ export default {
   &:hover {
     color: black;
   }
+}
+.mainAd {
+  //pc
+  height: 65svh;
+  // 平版
+  @media screen and (min-height: 1000px) and (min-width: 1020px) {
+    height: 45svh;
+  }
+  @media screen and (min-height: 1300px) {
+    height: 30svh;
+  }
+  @media screen and (max-width: 1200px) and (max-height: 1000px) {
+    height: 50svh;
+  }
+  @media screen and (max-width: 992px) {
+    height: 30svh;
+  }
+  // 手機
+  @media screen and (max-width: 577px) {
+    height: 23svh;
+  }
+  // img {
+  //   object-fit: cover;
+  // }
 }
 .product-list {
   .product-img {
