@@ -9,7 +9,7 @@
       <li class="breadcrumb-item active" aria-current="page">商品列表</li>
     </ol>
   </nav>
-  <div class="container-fluid">
+  <div class="container-fluid mb-3">
     <div class="row">
       <div class="col-12 px-xl-0">
         <swiper

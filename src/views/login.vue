@@ -44,13 +44,20 @@
       </form>
       <hr />
       <p class="text-center fs-small">或者</p>
-      <button
-        type="submit"
-        class="btn btn-light w-100 border"
-        @click.prevent="login(true)"
-      >
-        訪客登入 (無需帳號密碼)
-      </button>
+      <div class="d-flex">
+        <button
+          type="submit"
+          class="btn btn-light w-50 border me-1"
+          @click.prevent="login(true)"
+        >
+          訪客登入 (無需帳號密碼)
+        </button>
+        <router-link to="/eStore/home" class="text-center text-black w-50">
+          <button type="submit" class="btn btn-light border ms-1 w-100">
+            回首頁
+          </button></router-link
+        >
+      </div>
     </div>
   </div>
 </template>

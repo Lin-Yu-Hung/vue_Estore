@@ -10,7 +10,9 @@
         <button
           class="btn btn-primary rounded-pill w-50 py-2 border-white fw-bold"
         >
-          立即查看
+          <router-link to="/eStore/productList" class="text-white"
+            >立即查看</router-link
+          >
         </button>
       </div>
       <div class="today-promotion animate__animated animate__backInDown">
