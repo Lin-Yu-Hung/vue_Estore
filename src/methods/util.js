@@ -36,8 +36,8 @@ export const toggleStatus = (event) => {
 export const automaticLogin = () => {
     return new Promise(async (resolve, reject) => {
         const data = {
-            username: import.meta.env.VITE_username,
-            password: import.meta.env.VITE_password,
+            username: import.meta.env.VITE_adminusername,
+            password: import.meta.env.VITE_adminpassword,
         }
         const res = await login_api(data)
         setCookie("token", res.data.token);
