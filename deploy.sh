@@ -18,7 +18,7 @@ echo > .nojekyll
 git init
 git checkout -B main
 git add -A
-git commit -m '[移除] 移除多餘圖片'
+git commit -m '[修正] 修正配送資訊驗證'
 
 # if you are deploying to https://4080e068.github.io
 # git push -f https://github.com/4080E68/vue_Estore.git main

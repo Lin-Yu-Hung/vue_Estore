@@ -211,12 +211,12 @@ export default {
   setup(props) {
     const data = ref({
       user: {
-        name: "測試人員",
-        email: "zxcv96197@gmail.com",
-        tel: "0972018771",
-        address: "testAddress",
+        name: "",
+        email: "",
+        tel: "",
+        address: "",
       },
-      message: "測試備註",
+      message: "",
     });
     const loading = loadingStore();
     const router = useRouter();
@@ -308,7 +308,10 @@ export default {
       }
     };
     const handlePayment = async (type, valid) => {
-      if (!valid) return;
+      if (!valid) {
+        errorAlert("請填寫完整配送資訊!");
+        return;
+      }
       loading.showLoading();
       try {
         // 因六角提供的建立訂單API必須要先透過API建立購物車才可建立訂單
