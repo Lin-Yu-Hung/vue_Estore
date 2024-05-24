@@ -36,7 +36,7 @@
               <DataSortIcon :sortList="orderList" :sortItem="'total'" />
             </th>
             <th scope="col" class="text-end">詳細資料</th>
-            <th scope="col" class="text-center">操作</th>
+            <th scope="col" class="text-center" v-if="!isVisitor">操作</th>
           </tr>
         </thead>
         <tbody>
@@ -68,7 +68,7 @@
                 詳細資料
               </span>
             </td>
-            <td>
+            <td v-if="!isVisitor">
               <div class="d-flex justify-content-center flex-wrap">
                 <button
                   type="button"
@@ -290,7 +290,7 @@
 </template>
 
 <script>
-import { ref, computed } from "vue";
+import { ref, computed, inject } from "vue";
 import {
   apiGetAdminOrders,
   apiUpdateAdminOrder,
@@ -309,6 +309,7 @@ import { hideModal } from "@/methods/bootstrap.js";
 export default {
   components: { DataSortIcon },
   setup() {
+    const isVisitor = inject("isVisitor");
     const loading = loadingStore();
     const orderList = ref([]);
     const orderKeyWord = ref("");
@@ -392,6 +393,7 @@ export default {
       deleteOrder,
       modalMode,
       UpdateOrder,
+      isVisitor,
     };
   },
 };
