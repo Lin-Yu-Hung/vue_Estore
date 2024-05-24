@@ -48,14 +48,15 @@ export const deleteWarningAlert = async (targetItem) => {
   const result = await Swal.fire({
     title: `是否要刪除${targetItem}`,
     icon: "warning",
+    html: '刪除後將無法復原!',
     showCancelButton: true,
     cancelButtonText: "取消",
     confirmButtonText: "確認刪除",
     buttonsStyling: false,
     customClass: {
-      title: "fs-4 fw-bold mb-3",
-      cancelButton: "btn btn-secondary px-3",
-      confirmButton: "btn btn-danger px-3 me-3",
+      title: "fs-4 fw-bold mb-2",
+      cancelButton: "btn btn-outline-light text-primary border px-3",
+      confirmButton: "btn btn-outline-danger  px-3 me-3",
       target: "rounded-3",
     },
   });

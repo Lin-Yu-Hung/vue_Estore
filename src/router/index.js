@@ -90,13 +90,10 @@ const router = createRouter({
           path: "editProduct",
           component: () => import("@/components/dashboard/SetProduct.vue"),
         },
-        {
-          path: "orderManage",
-          component: () => import("@/components/dashboard/CartSetting.vue"),
-        },
+
         {
           path: "orderList",
-          component: () => import("@/components/dashboard/CartSetting.vue"),
+          component: () => import("@/components/dashboard/OrderList.vue"),
         },
         {
           path: "coupon",

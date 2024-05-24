@@ -47,6 +47,12 @@ export const apiCreateCoupon = (params) => api.post("/admin/coupon", params)
 export const apiGetCouponList = (page) => api.get(`/admin/coupons?page=${page}`)
 export const apiUpdateCoupon = (params, id) => api.put(`/admin/coupon/${id}`, params)
 export const apiDeleteCoupon = (id) => api.delete(`/admin/coupon/${id}`)
+// orderList
+export const apiGetAdminOrders = (page) => api.get(`/admin/orders?page=${page}`);
+export const apiUpdateAdminOrder = (id, params) => api.put(`/admin/order/${id}`, params);
+export const apiDeleteAdminOrder = (id) => api.delete(`/admin/order/${id}`);
+
+
 
 // 客戶端
 export const apiGetProductAll = () => api.get("/products/all");
