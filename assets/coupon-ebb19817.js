@@ -1,0 +1,1 @@
+import{V as a}from"./index-321b284f.js";import{q as s}from"./api-631ab026.js";const c=a("couponStore",{state:()=>({coupons:[],pagination:{}}),actions:{getCoupons(t=1){return new Promise(async(n,e)=>{try{const o=await s(t);console.log(o),o.status===200&&(this.coupons=[...o.data.coupons],this.pagination={...o.data.pagination})}catch(o){console.log(o)}finally{n()}})}}});export{c};
