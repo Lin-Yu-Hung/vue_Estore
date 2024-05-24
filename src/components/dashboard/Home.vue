@@ -121,42 +121,48 @@
           <table class="table table-striped">
             <thead>
               <tr>
-                <th scope="col">#</th>
-                <th scope="col">First</th>
-                <th scope="col">Last</th>
-                <th scope="col">Handle</th>
+                <th scope="col">排名</th>
+                <th scope="col">類別</th>
+                <th scope="col">商品名稱</th>
+                <th scope="col" class="text-end">銷售額</th>
+                <th scope="col"></th>
               </tr>
             </thead>
             <tbody>
               <tr>
                 <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
+                <td>手機</td>
+                <td>IPhone 15 Pro</td>
+                <td class="text-end">{{ (200000).toLocaleString() }}</td>
+                <td></td>
               </tr>
               <tr>
                 <th scope="row">2</th>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
+                <td>3C配件</td>
+                <td>Game Console Controller</td>
+                <td class="text-end">{{ (160000).toLocaleString() }}</td>
+                <td></td>
               </tr>
               <tr>
                 <th scope="row">3</th>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
+                <td>筆記型電腦</td>
+                <td>MacBook Pro</td>
+                <td class="text-end">{{ (140000).toLocaleString() }}</td>
+                <td></td>
               </tr>
               <tr>
                 <th scope="row">4</th>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
+                <td>平板</td>
+                <td>iPad Pro</td>
+                <td class="text-end">{{ (100000).toLocaleString() }}</td>
+                <td></td>
               </tr>
               <tr>
                 <th scope="row">5</th>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
+                <td>智慧型手表</td>
+                <td>Apple Watch</td>
+                <td class="text-end">{{ (80000).toLocaleString() }}</td>
+                <td></td>
               </tr>
             </tbody>
           </table>

@@ -47,13 +47,16 @@
       <div class="d-flex">
         <button
           type="submit"
-          class="btn btn-light w-50 border me-1"
+          class="btn btn-light border me-1 flex-grow-1"
           @click.prevent="login(true)"
         >
           訪客登入 (無需帳號密碼)
         </button>
-        <router-link to="/eStore/home" class="text-center text-black w-50">
-          <button type="submit" class="btn btn-light border ms-1 w-100">
+        <router-link
+          to="/eStore/home"
+          class="text-center text-black flex-grow-1 ms-1"
+        >
+          <button type="submit" class="btn btn-light border w-100">
             回首頁
           </button></router-link
         >
@@ -64,7 +67,7 @@
 <script>
 import { ref } from "vue";
 import { login_api } from "@/api/api";
-import { setCookie, getCookie } from "@/methods/cookie.js";
+import { setCookie, getCookie, deleteCookie } from "@/methods/cookie.js";
 import loadingStore from "@/stores/loading";
 import { useRoute, useRouter } from "vue-router";
 import { errorAlert } from "@/methods/sweetAlert.js";
@@ -80,7 +83,7 @@ export default {
       password: import.meta.env.VITE_password,
     });
     if (userData !== undefined) {
-      user.value = JSON.parse(JSON.stringify(userData));
+      user.value = JSON.parse(userData);
     }
     const login = (isVisitor = false) => {
       setCookie("isVisitor", isVisitor);
@@ -93,7 +96,9 @@ export default {
         .then((res) => {
           if (res.data.success) {
             if (rememberAccount.value && !isVisitor) {
-              setCookie("userData", user.value);
+              setCookie("userData", JSON.stringify(user.value));
+            } else if (!rememberAccount.value) {
+              deleteCookie("userData");
             }
             setCookie("token", res.data.token);
             if (route.query.redirect) {

@@ -3,7 +3,15 @@ export const bestSellerChart = {
         trigger: 'axis',
         axisPointer: {
             type: 'shadow'
+        },
+        formatter: (params) => {
+            const info = params[0];
+            return `
+            ${info.marker}<span class="fw-bold">${info.seriesName}</span><br /> 
+            ${info.name} : <span class="fw-bold">${(info.value).toLocaleString()} 元</span>
+            `
         }
+
     },
     legend: {
         show: false
@@ -21,13 +29,15 @@ export const bestSellerChart = {
     },
     yAxis: {
         type: 'category',
-        data: ['Brazil', 'Indonesia', 'USA', 'India', 'China', 'World']
+        data: ['Game Console', 'Smartphone', 'Computer', 'Smartwatch', 'Headphones', 'MacBook']
     },
     series: [
         {
-            name: '2011',
+
+            name: '2024',
             type: 'bar',
-            data: [18203, 23489, 29034, 104970, 131744, 50230]
+            data: [18203, 23489, 29034, 50230, 104970, 131744],
+
         },
 
     ]
@@ -35,7 +45,13 @@ export const bestSellerChart = {
 }
 export const proportionOfSalesChart = {
     tooltip: {
-        trigger: 'item'
+        trigger: 'item',
+        formatter: (params) => {
+            return `
+            ${params.marker}<span class="fw-bold">${params.seriesName}</span><br /> 
+            ${params.name} : <span class="fw-bold">${(params.percent)} %</span>
+            `
+        }
     },
     legend: {
         bottom: "center",
@@ -45,16 +61,16 @@ export const proportionOfSalesChart = {
     },
     series: [
         {
-            name: 'Access From',
+            name: '銷售額占比',
             type: 'pie',
             radius: '60%',
             center: ['35%', '50%'], // 調整這裡的數值來改變圓餅圖的位置
             data: [
-                { value: 1048, name: 'Search Engine' },
-                { value: 735, name: 'Direct' },
-                { value: 580, name: 'Email' },
-                { value: 484, name: 'Union Ads' },
-                { value: 300, name: 'Video Ads' }
+                { value: 1048, name: '手機' },
+                { value: 735, name: '平板' },
+                { value: 580, name: '筆記型電腦' },
+                { value: 484, name: '3C產品' },
+                { value: 300, name: '智慧手錶' }
             ],
             emphasis: {
                 itemStyle: {

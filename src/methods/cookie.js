@@ -24,3 +24,7 @@ export const getCookie = (cookieName) => {
   return result;
 };
 
+export const deleteCookie = (name) => {
+  // 設定 cookie 的過期時間為過去的時間，即可刪除 cookie
+  document.cookie = name + '=; Max-Age=0; path=/';
+}
