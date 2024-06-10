@@ -452,7 +452,10 @@
                         <p class="text-end mb-2 fs-5" v-if="product.price">
                           $ {{ product.price.toLocaleString() }}
                         </p>
-                        <button class="btn btn-primary-median w-100">
+                        <button
+                          class="btn btn-primary-median w-100"
+                          @click="addToCart(product)"
+                        >
                           加入購物車
                         </button>
                       </div>
@@ -513,7 +516,10 @@
                                     $ {{ product.price.toLocaleString() }}
                                   </p>
 
-                                  <button class="btn btn-primary-median w-100">
+                                  <button
+                                    class="btn btn-primary-median w-100"
+                                    @click="addToCart(product)"
+                                  >
                                     加入購物車
                                   </button>
                                 </div>
@@ -604,6 +610,7 @@ import { useRoute } from "vue-router";
 import { translate } from "@/methods/translate.js";
 import { Swiper, SwiperSlide } from "swiper/vue";
 import { Autoplay } from "swiper/modules";
+import cartStore from "@/stores/shop/cart.js";
 
 export default {
   components: {
@@ -629,6 +636,10 @@ export default {
         }
       });
       return data;
+    };
+    const cart = cartStore();
+    const addToCart = (item) => {
+      cart.addItem(item);
     };
     // 取得資料
     const productList = inject("productList");
@@ -731,6 +742,7 @@ export default {
       filterProductList,
       pageCount,
       nowPage,
+      addToCart,
       modules: [Autoplay],
     };
   },
