@@ -211,10 +211,10 @@ export default {
   setup(props) {
     const data = ref({
       user: {
-        name: "gergege",
-        email: "grege@dgdfsg.gdfgds",
-        tel: "0912345678",
-        address: "gdagdsgsaga",
+        name: "",
+        email: "",
+        tel: "",
+        address: "",
       },
       message: "",
     });
