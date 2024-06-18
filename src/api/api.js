@@ -65,5 +65,5 @@ export const apiApplyCoupon = (params) => api.post("/coupon", params);
 
 
 // linePay
-export const sendLinePayReq = (params) => api.post("https://express-4080e68s-projects.vercel.app/linepay/request", params)
-export const sendLinePayConfirm = (params) => api.post("https://express-4080e68s-projects.vercel.app/payments/confirm", params)
+export const sendLinePayReq = (params) => api.post("https://express-hello-world-wllx.onrender.com/linepay/request", params)
+export const sendLinePayConfirm = (params) => api.post("https://express-hello-world-wllx.onrender.com/payments/confirm", params)
