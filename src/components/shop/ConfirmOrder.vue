@@ -211,10 +211,10 @@ export default {
   setup(props) {
     const data = ref({
       user: {
-        name: "",
-        email: "",
-        tel: "",
-        address: "",
+        name: "gergege",
+        email: "grege@dgdfsg.gdfgds",
+        tel: "0912345678",
+        address: "gdagdsgsaga",
       },
       message: "",
     });
@@ -324,8 +324,10 @@ export default {
           });
         });
         const res = await Promise.all(allRequest);
+        console.log("🚀  res:", res);
         const result = res.every((item) => item.data.success); // 所有加入購物車api狀態
         if (!result) {
+          errorAlert("發生例外錯誤!請重整畫面重新再試");
           loading.hideLoading();
           return;
         } else if (availableCoupon) {
@@ -342,6 +344,7 @@ export default {
           }
         }
       } catch (error) {
+        console.log(error);
         loading.hideLoading();
         return;
       }
